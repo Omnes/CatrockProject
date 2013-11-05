@@ -74,6 +74,11 @@ public class Network_Manager : MonoBehaviour {
 					ConnectToServer();
 					
 				}
+				if(GUI.Button(new Rect(100, 580, 200,50), "193.11.160.242")){
+					NameIP = "193.11.160.242";
+					ConnectToServer();
+					
+				}
 			
 			//NameIP = GUI.TextField(new Rect(100, 400, 200, 20), NameIP.ToString());
 			
