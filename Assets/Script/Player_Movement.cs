@@ -24,6 +24,21 @@ public class Player_Movement : MonoBehaviour {
 	
 	private int raycastCounter = 0;
 	
+	//*****CAMERA******
+		//camerashake
+		private float shakeCount;
+		public float shakeTime;
+		public float shakeMultiplier;
+		public float shakeStrenght;
+		
+		private bool isShaking;
+		public Camera mainCam;
+		public float camSpeed;
+		
+		//camera from screen
+		public float cameraDepth;
+		public float cameraHeight;
+
 	// Use this for initialization
 	void Start () {
 		//lastPos = transform.position;
@@ -32,7 +47,6 @@ public class Player_Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 		
 		if(isLocal){
 			raycastCounter++;
@@ -47,17 +61,21 @@ public class Player_Movement : MonoBehaviour {
                         moveVec += Vector3.left * MovementSpeed;
 					}
 				}
-				
-				if(Input.GetKey(KeyCode.Space)){
-					
-					
-					//well.. this doesnt work atm. The main camera is prob not the camera we want to use
-					Vector2 mp = Input.mousePosition;
-					Vector3 tempPos = Camera.main.ScreenToWorldPoint(new Vector3(mp.x,mp.y,transform.position.z));
-					transform.position = new Vector3(tempPos.x,tempPos.y, transform.position.z);
 
-					slide = false;
+						//fire shoot
+				if(Input.GetMouseButtonDown(0)){
+				
+					isShaking = true;
+					
+					RaycastHit hit;
+					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					
+					if(Physics.Raycast(ray, out hit)){
+						//Vector3 fireVec = transform.position - new Vector3(hit.point.x, hit.point.y, transform.position.z);
+						//Instantiate(bulletPrefab, new Vector3(0,3,0) + transform.position - (fireVec.normalized * 2), Quaternion.LookRotation(fireVec));
+					}
 				}
+
 				if(Input.GetKey(KeyCode.B)){
                     moveVec = new Vector3(500, 100, 0);
 					
@@ -97,6 +115,8 @@ public class Player_Movement : MonoBehaviour {
 
 			theNetwork.SendPlayer(viewID, transform.position, transform.rotation, rigidbody.velocity);
 			
+			HandleCamera();
+			
 		}
 		
 	}
@@ -105,6 +125,38 @@ public class Player_Movement : MonoBehaviour {
         rigidbody.velocity = move;
         transform.position = pos;
 		transform.rotation = rot;
+	}
+	
+	
+	void HandleCamera(){
+		//player - camera
+		Vector2 dirVec = (((cameraHeight * Vector3.up) + transform.position)-mainCam.transform.position)/2;
+		Vector3 camPos = mainCam.transform.position;
+		
+		if(isShaking){
+			//shakeTime starts
+			shakeCount++;
+			//the shake
+			camPos.x += (Mathf.Sin(Time.time * shakeMultiplier) * 0.1f) * shakeStrenght * Time.deltaTime;
+			//camPos.y += (Mathf.Sin(Time.time * shakeMultiplier) * 0.1f) * shakeStrenght * Time.deltaTime;
+			
+			//if time is up then stop shake
+			if(shakeCount >= shakeTime){	
+				isShaking = false;
+				shakeCount = 0;
+			}
+		}
+		
+		if(dirVec.magnitude > 0.1){
+			//bestämmer riktningen och hastigheten
+			dirVec = dirVec.normalized * camSpeed * dirVec.magnitude * Time.deltaTime;
+			//sätter grundvärden för kameran så som höjd och djup
+			camPos = new Vector3(camPos.x, camPos.y, cameraDepth);
+			camPos += new Vector3(dirVec.x, dirVec.y, 0);
+		}
+		
+		//final cameraposition
+		mainCam.transform.position = camPos;
 	}
 	
 }

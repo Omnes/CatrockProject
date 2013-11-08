@@ -2,7 +2,12 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Player_Movement.cs">
     <Files>
+<<<<<<< HEAD
       <File FileName="Assets\Script\Player_Movement.cs" Line="86" Column="5" />
+=======
+      <File FileName="Assets\Script\Player_Movement.cs" Line="75" Column="9" />
+      <File FileName="Assets\Script\CameraScripts_Sean\Player_movement.cs" Line="62" Column="1" />
+>>>>>>> f6dab070bb63219eaff3f3dd760a0c36f683853c
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

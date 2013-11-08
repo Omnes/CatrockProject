@@ -104,6 +104,7 @@ public class Network_Manager : MonoBehaviour {
 		Player_Movement entity = newEntity.GetComponent<Player_Movement>();
 		//ger network
 		entity.theNetwork = this;
+		entity.mainCam = Camera.main;
 		
 		
 		if (isLocal){
