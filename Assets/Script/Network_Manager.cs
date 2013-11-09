@@ -154,6 +154,7 @@ public class Network_Manager : MonoBehaviour {
 	private void StartServer(){
 		//!Network.HavePublicAddress() = I don't know
 		Network.InitializeServer(5, 7777, !Network.HavePublicAddress());
+		OnConnectedToServer();
 		
 	}
 	
