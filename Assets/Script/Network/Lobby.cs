@@ -10,19 +10,24 @@ public class Lobby : MonoBehaviour {
 	public bool isServer = false;
 	
 	private Player localPlayer = new Player();
-	private List<Player> playerList = new List<Player>();
+	private List<Player> connectedPlayers = new List<Player>();
+	public string[] levels = {"Robins_funland"};
+	public int levelToLoad = 0;
+	private NetworkView netView;
 
 	// Use this for initialization
 	void Start () {
 		localPlayer.playerName = "Player";
 		localPlayer.netPlayer = Network.player;
-		
+		//netView = GameObject.Find("Mastermind").GetComponent<NetworkView>();
+		//netView = networkView;
+		DontDestroyOnLoad(gameObject);
 		//Debug.Log (localPlayer.netPlayer.ipAddress);
 		
 	}
 	
-	private Vector2 size = new Vector2(75,50);
-	private Vector2 startPos = new Vector2(100,100);
+	//private Vector2 size = new Vector2(75,50);
+	//private Vector2 startPos = new Vector2(100,100);
 	string tempPlayerName = "Player";
 	void OnGUI(){
 
@@ -32,34 +37,50 @@ public class Lobby : MonoBehaviour {
 			if(GUI.Button(new Rect(500, 130, 40, 40), "Ok")){
 				localPlayer.playerName = tempPlayerName;
 			}
-			//start a server
-			if(GUI.Button(new Rect(100, 100, 250, 75), "Host game")){
+			
+			GUILayout.BeginArea(new Rect(50,30,200,Screen.height - 30));
+			GUILayout.BeginVertical();
+
+			
+			if(GUILayout.Button("Host game")){
 				StartServer();
 			}
-			//join server buttons
-			string fieldIP = GUI.TextField(new Rect(100, 300, 200, 20), "localhost");
-			if(GUI.Button(new Rect(100, 200, 250,75), "Join lobby")){
+			string fieldIP = GUILayout.TextField("localhost");
+			if(GUILayout.Button("Join lobby")){
 				ConnectToServer(fieldIP,defaultPort);
 			}
-			if(GUI.Button(new Rect(100, 400, 200,50), "localhost")){
+			if(GUILayout.Button("localhost")){
 				ConnectToServer("127.0.0.1",defaultPort);
 			}
-			if(GUI.Button(new Rect(100, 460, 200,50), "Sean")){
+			if(GUILayout.Button("Sean")){
 				ConnectToServer("192.168.0.106",defaultPort);
 			}
-			if(GUI.Button(new Rect(100, 580, 200,50), "Robin")){
+			if(GUILayout.Button("Robin")){
 				ConnectToServer("193.11.160.242",defaultPort);
 			}
+			GUILayout.FlexibleSpace();
+			GUILayout.EndVertical();
+			GUILayout.EndArea();
 		}else{
-			Vector2 offset = Vector2.zero;
-			for(int i = 0;i < playerList.Count; i++){
-				GUI.Box(new Rect(startPos.x+offset.x,startPos.y+offset.y,size.x,size.y),playerList[i].playerName);
-				string ip = playerList[i].netPlayer.ipAddress;
-				GUI.Label(new Rect(startPos.x+offset.x + size.x + 10,startPos.y+offset.y,150,size.y),"ip: " + ip);
-				offset.y += size.y+5;
+			//Vector2 offset = Vector2.zero;
+			for(int i = 0;i < connectedPlayers.Count; i++){
+				GUILayout.BeginArea(new Rect(50,30,250,Screen.height - 30));
+				GUILayout.BeginVertical();
+				
+				GUILayout.BeginHorizontal();
+				GUILayout.Box(connectedPlayers[i].playerName);
+				int ping = Network.GetAveragePing(connectedPlayers[i].netPlayer);
+				GUILayout.Label("ping: " + ping);
+				GUILayout.EndHorizontal();
+				//offset.y += size.y+5;
+				
+				GUILayout.FlexibleSpace();
+				GUILayout.EndVertical();
+				GUILayout.EndArea();
 			}
 			if(GUI.Button(new Rect(400,400, 100,50), "Start Game")){
-				ConnectToServer("193.11.160.242",defaultPort);
+				Network.RemoveRPCsInGroup(0);
+				networkView.RPC("StartGame",RPCMode.All,levelToLoad);
 			}
 			
 		}
@@ -70,10 +91,6 @@ public class Lobby : MonoBehaviour {
 		//!Network.HavePublicAddress() = om NAT behövs eller inte
 		Network.InitializeServer(maxPlayers, defaultPort, !Network.HavePublicAddress());
 		Debug.Log("Server initializing");
-		//OnConnectedToServer();
-		//connected = true;
-		//localPlayer.viewID = Network.AllocateViewID();
-		//playerList.Add(localPlayer);
 		isServer = true;
 		OnConnectedToServer();
 		
@@ -85,14 +102,14 @@ public class Lobby : MonoBehaviour {
 	}
 	
 	void OnFailedToConnect(){
-		Debug.Log("Failed connecting to server");
 	}
 	
 	void OnConnectedToServer(){
+		//startServer kallar denaa också, glöm ej!
 		Debug.Log ("Connection sucess!");
 		connected = true;
 		localPlayer.viewID = Network.AllocateViewID();
-		//playerList.Add(localPlayer);
+		//connectedPlayers.Add(localPlayer);
 		networkView.RPC("NewPlayer",RPCMode.AllBuffered,localPlayer.playerName,localPlayer.viewID,localPlayer.netPlayer);
 	}
 	
@@ -105,7 +122,32 @@ public class Lobby : MonoBehaviour {
 		newPlayer.netPlayer = netplayer;
 		newPlayer.local = (id == localPlayer.viewID);
 		
-		playerList.Add(newPlayer);
+		connectedPlayers.Add(newPlayer);
+	}
+	
+	[RPC]
+	private void StartGame(int levelNr){
+		Network.SetSendingEnabled(0,false);
+		Network.isMessageQueueRunning = false;
+		Network.SetLevelPrefix(levelToLoad);
+		Application.LoadLevel(levels[levelNr]);
+
+		Network.isMessageQueueRunning = true;
+		Network.SetSendingEnabled(0,true);
+		SendMessage("OnNetworkLevelLoaded");
+		this.enabled = false;
+		
+	}
+	
+	public List<Player> getPlayers(){
+		return connectedPlayers;
+	}
+	
+	public NetworkViewID getLocalID(){
+		return localPlayer.viewID;
+	}
+	public Player getLocalPlayer(){
+		return localPlayer;
 	}
 	
 	
