@@ -1,13 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Player_Movement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Network_Manager.cs">
     <Files>
-<<<<<<< HEAD
-      <File FileName="Assets\Script\Player_Movement.cs" Line="86" Column="5" />
-=======
-      <File FileName="Assets\Script\Player_Movement.cs" Line="75" Column="9" />
-      <File FileName="Assets\Script\CameraScripts_Sean\Player_movement.cs" Line="62" Column="1" />
->>>>>>> f6dab070bb63219eaff3f3dd760a0c36f683853c
+      <File FileName="Assets\Script\Player_animation_thingy.cs" Line="18" Column="1" />
+      <File FileName="Assets\Script\Network_Manager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Network\Lobby.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Player_Movement.cs" Line="116" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
