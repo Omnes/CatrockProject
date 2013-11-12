@@ -19,6 +19,7 @@ public class Lobby : MonoBehaviour {
 	void Start () {
 		localPlayer.playerName = "Player";
 		localPlayer.netPlayer = Network.player;
+		localPlayer.local = true;
 		//netView = GameObject.Find("Mastermind").GetComponent<NetworkView>();
 		//netView = networkView;
 		DontDestroyOnLoad(gameObject);
@@ -63,21 +64,20 @@ public class Lobby : MonoBehaviour {
 			GUILayout.EndArea();
 		}else{
 			//Vector2 offset = Vector2.zero;
+			
+			GUILayout.BeginArea(new Rect(50,30,250,Screen.height - 30));
+			GUILayout.BeginVertical();
 			for(int i = 0;i < connectedPlayers.Count; i++){
-				GUILayout.BeginArea(new Rect(50,30,250,Screen.height - 30));
-				GUILayout.BeginVertical();
 				
 				GUILayout.BeginHorizontal();
 				GUILayout.Box(connectedPlayers[i].playerName);
 				int ping = Network.GetAveragePing(connectedPlayers[i].netPlayer);
 				GUILayout.Label("ping: " + ping);
 				GUILayout.EndHorizontal();
-				//offset.y += size.y+5;
-				
-				GUILayout.FlexibleSpace();
-				GUILayout.EndVertical();
-				GUILayout.EndArea();
 			}
+			GUILayout.FlexibleSpace();
+			GUILayout.EndVertical();
+			GUILayout.EndArea();
 			if(GUI.Button(new Rect(400,400, 100,50), "Start Game")){
 				Network.RemoveRPCsInGroup(0);
 				networkView.RPC("StartGame",RPCMode.All,levelToLoad);
@@ -109,8 +109,9 @@ public class Lobby : MonoBehaviour {
 		Debug.Log ("Connection sucess!");
 		connected = true;
 		localPlayer.viewID = Network.AllocateViewID();
-		//connectedPlayers.Add(localPlayer);
-		networkView.RPC("NewPlayer",RPCMode.AllBuffered,localPlayer.playerName,localPlayer.viewID,localPlayer.netPlayer);
+		connectedPlayers.Add(localPlayer);
+		
+		networkView.RPC("NewPlayer",RPCMode.OthersBuffered,localPlayer.playerName,localPlayer.viewID,localPlayer.netPlayer);
 	}
 	
 	[RPC]
@@ -120,7 +121,7 @@ public class Lobby : MonoBehaviour {
 		newPlayer.playerName = name;
 		newPlayer.viewID = id;
 		newPlayer.netPlayer = netplayer;
-		newPlayer.local = (id == localPlayer.viewID);
+		newPlayer.local = false;
 		
 		connectedPlayers.Add(newPlayer);
 	}
