@@ -30,21 +30,6 @@ public class Player_Movement : MonoBehaviour {
 	
 	//*****CAMERA******
 		//camerashake
-<<<<<<< HEAD
-		private float shakeCount;
-		public float shakeTime = 15f;
-		public float shakeMultiplier = 15f;
-		public float shakeStrenght = 200f;
-		
-		private bool isShaking = false;
-		public Camera mainCam;
-		public float camSpeed = 15f;
-		
-		//camera from screen
-		public float cameraDepth = -45f;
-		public float cameraHeight = 15f;
-
-=======
 	private float shakeCount;
 	public float shakeTime;
 	public float shakeMultiplier;
@@ -61,19 +46,14 @@ public class Player_Movement : MonoBehaviour {
 	//character controller
 	private CharacterController cc;
 	
-	
->>>>>>> 62b9554b003853500c2bcba461b9c676b9a860b6
 	// Use this for initialization
 	void Start () {
-		//lastPos = transform.position;
-//		delayCounter = Time.time;
-<<<<<<< HEAD
-	
+		
 		teleCurrentTime = Time.time;
-=======
 		cc = GetComponent<CharacterController>();
->>>>>>> 62b9554b003853500c2bcba461b9c676b9a860b6
+		
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -116,7 +96,7 @@ public class Player_Movement : MonoBehaviour {
 						Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 						if(Physics.Raycast(ray, out hit)){
 							transform.position = new Vector3(hit.point.x, hit.point.y, transform.position.z);
-							rigidbody.velocity = new Vector3(0,0,0);
+							//rigidbody.velocity = new Vector3(0,0,0);
 							
 						}
 						teleCurrentTime = Time.time;
@@ -160,6 +140,7 @@ public class Player_Movement : MonoBehaviour {
 			//måste fixa häär	#===================#
 			//rigidbody.velocity = moveVec; // att modifiera rigidbody.velocity direkt hela tiden blir väldigt tungt
 			moveVec.y -= 20/*gravity*/ * Time.deltaTime;
+			
 			cc.Move(moveVec * Time.deltaTime);
 			
 			int n = 1;
