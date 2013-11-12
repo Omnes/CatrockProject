@@ -1,4 +1,8 @@
 ﻿<Properties>
+<<<<<<< HEAD
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench />
+=======
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 <<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Network\Lobby.cs">
@@ -40,6 +44,7 @@
 >>>>>>> 62b9554b003853500c2bcba461b9c676b9a860b6
     </Files>
   </MonoDevelop.Ide.Workbench>
+>>>>>>> 62b9554b003853500c2bcba461b9c676b9a860b6
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

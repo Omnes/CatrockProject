@@ -24,8 +24,27 @@ public class Player_Movement : MonoBehaviour {
 	
 	private int raycastCounter = 0;
 	
+	//teleport
+	private float teleCurrentTime;
+	public float teleDelayTime = 2f;
+	
 	//*****CAMERA******
 		//camerashake
+<<<<<<< HEAD
+		private float shakeCount;
+		public float shakeTime = 15f;
+		public float shakeMultiplier = 15f;
+		public float shakeStrenght = 200f;
+		
+		private bool isShaking = false;
+		public Camera mainCam;
+		public float camSpeed = 15f;
+		
+		//camera from screen
+		public float cameraDepth = -45f;
+		public float cameraHeight = 15f;
+
+=======
 	private float shakeCount;
 	public float shakeTime;
 	public float shakeMultiplier;
@@ -43,11 +62,17 @@ public class Player_Movement : MonoBehaviour {
 	private CharacterController cc;
 	
 	
+>>>>>>> 62b9554b003853500c2bcba461b9c676b9a860b6
 	// Use this for initialization
 	void Start () {
 		//lastPos = transform.position;
 //		delayCounter = Time.time;
+<<<<<<< HEAD
+	
+		teleCurrentTime = Time.time;
+=======
 		cc = GetComponent<CharacterController>();
+>>>>>>> 62b9554b003853500c2bcba461b9c676b9a860b6
 	}
 	
 	// Update is called once per frame
@@ -82,6 +107,23 @@ public class Player_Movement : MonoBehaviour {
 						//Instantiate(bulletPrefab, new Vector3(0,3,0) + transform.position - (fireVec.normalized * 2), Quaternion.LookRotation(fireVec));
 					}
 				}
+				
+				
+				//Teleport
+				if(Input.GetKey(KeyCode.Space)){
+					if(teleCurrentTime + teleDelayTime < Time.time){
+						RaycastHit hit;
+						Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+						if(Physics.Raycast(ray, out hit)){
+							transform.position = new Vector3(hit.point.x, hit.point.y, transform.position.z);
+							rigidbody.velocity = new Vector3(0,0,0);
+							
+						}
+						teleCurrentTime = Time.time;
+					}
+				}
+				
+				
 
 				if(Input.GetKey(KeyCode.B)){
                     moveVec = new Vector3(500, 100, 0);
