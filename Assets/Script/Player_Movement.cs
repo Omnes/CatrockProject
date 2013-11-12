@@ -26,23 +26,28 @@ public class Player_Movement : MonoBehaviour {
 	
 	//*****CAMERA******
 		//camerashake
-		private float shakeCount;
-		public float shakeTime;
-		public float shakeMultiplier;
-		public float shakeStrenght;
-		
-		private bool isShaking;
-		public Camera mainCam;
-		public float camSpeed;
-		
-		//camera from screen
-		public float cameraDepth;
-		public float cameraHeight;
-
+	private float shakeCount;
+	public float shakeTime;
+	public float shakeMultiplier;
+	public float shakeStrenght;
+	
+	private bool isShaking;
+	public Camera mainCam;
+	public float camSpeed;
+	
+	//camera from screen
+	public float cameraDepth;
+	public float cameraHeight;
+	
+	//character controller
+	private CharacterController cc;
+	
+	
 	// Use this for initialization
 	void Start () {
 		//lastPos = transform.position;
 //		delayCounter = Time.time;
+		cc = GetComponent<CharacterController>();
 	}
 	
 	// Update is called once per frame
@@ -50,7 +55,9 @@ public class Player_Movement : MonoBehaviour {
 		
 		if(isLocal){
 			raycastCounter++;
-			moveVec = new Vector3(0,rigidbody.velocity.y,0);
+			
+			//movevec här måste fixas	#===================#
+			//moveVec = new Vector3(0, rigidbody.velocity.y, 0);
 			if(playerControl){
 				if(!slide){
 					if(Input.GetKey(KeyCode.D)){
@@ -108,12 +115,17 @@ public class Player_Movement : MonoBehaviour {
 			moveVec.x = Mathf.Clamp(moveVec.x,-maxVelocity.x,maxVelocity.x);
 			moveVec.y = Mathf.Clamp(moveVec.y,-maxVelocity.y,maxVelocity.y);
 			
-			rigidbody.velocity = moveVec; // att modifiera rigidbody.velocity direkt hela tiden blir väldigt tungt
+			//måste fixa häär	#===================#
+			//rigidbody.velocity = moveVec; // att modifiera rigidbody.velocity direkt hela tiden blir väldigt tungt
+			moveVec.y -= 20/*gravity*/ * Time.deltaTime;
+			cc.Move(moveVec * Time.deltaTime);
+			
 			int n = 1;
 
             //rigidbody.AddForce(moveVec);
-
-			theNetwork.SendPlayer(viewID, transform.position, transform.rotation, rigidbody.velocity);
+			
+			//måste fixa här	#===================#
+			//theNetwork.SendPlayer(viewID, transform.position, transform.rotation, rigidbody.velocity);
 			
 			HandleCamera();
 			
@@ -122,7 +134,8 @@ public class Player_Movement : MonoBehaviour {
 	}
 	
 	public void UpdatePlayer(Vector3 pos, Quaternion rot, Vector3 move){
-        rigidbody.velocity = move;
+		//måste fixa här	#===================#
+       // rigidbody.velocity = move;
         transform.position = pos;
 		transform.rotation = rot;
 	}
@@ -159,4 +172,9 @@ public class Player_Movement : MonoBehaviour {
 		mainCam.transform.position = camPos;
 	}
 	
+	void Jump(){
+		
+		
+		
+	}
 }
