@@ -28,7 +28,11 @@ public class Movement : MonoBehaviour {
 	private float syncDelay = 0f;
 	private float syncTime = 0f;
 	
+	private Vector3 syncPosition = Vector3.zero;
+	private Vector3 syncVelocity = Vector3.zero;
+	
 	private int raycastCounter = 0;
+	
 	
 	//*****CAMERA******
 		//camerashake
@@ -50,6 +54,8 @@ public class Movement : MonoBehaviour {
 		//lastPos = transform.position;
 //		delayCounter = Time.time;
 		mainCam = Camera.main;
+		isLocal = networkView.isMine;
+		lastSyncTime = Time.time;
 		//robNet = GameObject.Find("Mastermind").GetComponent<RobNet>();
 	}
 	
@@ -63,11 +69,11 @@ public class Movement : MonoBehaviour {
 			if(playerControl){
 				if(!slide){
 					if(Input.GetKey(KeyCode.D)){
-                        moveVec += Vector3.right * MovementSpeed;
+                        moveVec += Vector3.right * MovementSpeed*Time.time;
 					}
 					
 					if(Input.GetKey(KeyCode.A)){
-                        moveVec += Vector3.left * MovementSpeed;
+                        moveVec += Vector3.left * MovementSpeed*Time.time;
 					}
 				}
 
@@ -92,13 +98,12 @@ public class Movement : MonoBehaviour {
 	
 	void nonLocalUpdate(){
 		syncTime += Time.deltaTime;
-		rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncDelay/syncTime);
+		rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
 	}
 	
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info){
-		Vector3 syncPosition = Vector3.zero;
-		Vector3 syncVelocity = Vector3.zero;
-		if(stream.isWriting){
+		
+		if(stream.isWriting && isLocal){
 			
 			syncPosition = rigidbody.position;
 			syncVelocity = rigidbody.velocity;
