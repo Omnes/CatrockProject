@@ -140,7 +140,7 @@ public class Player_Movement : MonoBehaviour {
 			//måste fixa häär	#===================#
 			//rigidbody.velocity = moveVec; // att modifiera rigidbody.velocity direkt hela tiden blir väldigt tungt
 			moveVec.y -= 20/*gravity*/ * Time.deltaTime;
-			
+			//moveVec.x *= 0.98f;
 			cc.Move(moveVec * Time.deltaTime);
 			
 			int n = 1;

@@ -21,30 +21,36 @@ public class Movement : MonoBehaviour {
 	public float slideLimit = 10;
 	public float slideSpeed = 10;
 	public bool slide = false;
+	//network stuff
+	private float lastSyncTime = 0f;
+	private Vector3 startSyncPosition = Vector3.zero;
+	private Vector3 endSyncPosition = Vector3.zero;
+	private float syncDelay = 0f;
+	private float syncTime = 0f;
 	
 	private int raycastCounter = 0;
 	
 	//*****CAMERA******
 		//camerashake
-		private float shakeCount;
-		public float shakeTime;
-		public float shakeMultiplier;
-		public float shakeStrenght;
+		private float shakeCount = 10;
+		public float shakeTime = 100;
+		public float shakeMultiplier = 10;
+		public float shakeStrenght = 200;
 		
-		private bool isShaking;
+		private bool isShaking = false;
 		public Camera mainCam;
-		public float camSpeed;
+		public float camSpeed = 5;
 		
 		//camera from screen
-		public float cameraDepth;
-		public float cameraHeight;
+		public float cameraDepth = -45;
+		public float cameraHeight = 15;
 
 	// Use this for initialization
 	void Start () {
 		//lastPos = transform.position;
 //		delayCounter = Time.time;
 		mainCam = Camera.main;
-		robNet = GameObject.Find("Mastermind").GetComponent<RobNet>();
+		//robNet = GameObject.Find("Mastermind").GetComponent<RobNet>();
 	}
 	
 	// Update is called once per frame
@@ -52,7 +58,8 @@ public class Movement : MonoBehaviour {
 		
 		if(isLocal){
 			raycastCounter++;
-			moveVec = new Vector3(0,rigidbody.velocity.y,0);
+			moveVec = rigidbody.velocity;
+			
 			if(playerControl){
 				if(!slide){
 					if(Input.GetKey(KeyCode.D)){
@@ -64,70 +71,58 @@ public class Movement : MonoBehaviour {
 					}
 				}
 
-						//fire shoot
-				if(Input.GetMouseButtonDown(0)){
-				
-					isShaking = true;
-					
-					RaycastHit hit;
-					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-					
-					if(Physics.Raycast(ray, out hit)){
-						//Vector3 fireVec = transform.position - new Vector3(hit.point.x, hit.point.y, transform.position.z);
-						//Instantiate(bulletPrefab, new Vector3(0,3,0) + transform.position - (fireVec.normalized * 2), Quaternion.LookRotation(fireVec));
-					}
-				}
 
-				if(Input.GetKey(KeyCode.B)){
-                    moveVec = new Vector3(500, 100, 0);
-					
-				}if(Input.GetKey(KeyCode.R)){
-                    moveVec = new Vector3(0, 0, 0);
-					transform.position = new Vector3(0,5,0);
-				}
 			}
-
-			if(raycastCounter % 10 == 0){
-				slide = false;
-				RaycastHit hit;
-				float rayDist = (transform.localScale.y/2f)+0.1f; //ändras beroende på hur modellerna blir sen
-				if(Physics.Raycast(transform.position,-Vector3.up,out hit,rayDist)){
-					if(Vector3.Angle(hit.normal,Vector3.up) > slideLimit){
-						slide = true;
-						playerControl = false;
-					}
-				}
-				if(slide){
-					Vector3 hitNormal = hit.normal;
-					moveVec += new Vector3(hitNormal.x,-hitNormal.y,hitNormal.z)*slideSpeed;
-				}else{
-					playerControl = true; //får ändra detta sen
-				}
-			}
-			
-			//make sure the rigidbody won't exceed maxVelocity
-			//lite finare kod om vi clampar :)
 			moveVec.x = Mathf.Clamp(moveVec.x,-maxVelocity.x,maxVelocity.x);
 			moveVec.y = Mathf.Clamp(moveVec.y,-maxVelocity.y,maxVelocity.y);
+
+			//make sure the rigidbody won't exceed maxVelocity
+			//lite finare kod om vi clampar :)
+			
 			
 			rigidbody.velocity = moveVec; // att modifiera rigidbody.velocity direkt hela tiden blir väldigt tungt
-			int n = 1;
 
-            //rigidbody.AddForce(moveVec);
-
-			//robNet.SendPlayer(viewID, transform.position, transform.rotation, rigidbody.velocity);
-			
 			HandleCamera();
+			
+		}else{
+			nonLocalUpdate();
+		}
+		
+	}
+	
+	void nonLocalUpdate(){
+		syncTime += Time.deltaTime;
+		rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncDelay/syncTime);
+	}
+	
+	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info){
+		Vector3 syncPosition = Vector3.zero;
+		Vector3 syncVelocity = Vector3.zero;
+		if(stream.isWriting){
+			
+			syncPosition = rigidbody.position;
+			syncVelocity = rigidbody.velocity;
+			stream.Serialize(ref syncPosition);
+			stream.Serialize(ref syncVelocity);
+		}else{
+			
+			stream.Serialize(ref syncPosition);
+			stream.Serialize(ref syncVelocity);
+			
+			syncTime = 0f; 
+			syncDelay = Time.time - lastSyncTime;
+			lastSyncTime = Time.time;
+			startSyncPosition = rigidbody.position;
+			endSyncPosition = syncPosition + syncVelocity * syncDelay;
 			
 		}
 		
 	}
 	
-	public void UpdatePlayer(Vector3 pos, Quaternion rot, Vector3 move){
-        rigidbody.velocity = move;
-        transform.position = pos;
-		transform.rotation = rot;
-	}
+	
+	
+	
+	
 	
 	
 	void HandleCamera(){
@@ -161,4 +156,27 @@ public class Movement : MonoBehaviour {
 		mainCam.transform.position = camPos;
 	}
 	
+	
+	void SlideCheck(){
+	
+		if(raycastCounter % 10 == 0){
+			slide = false;
+			RaycastHit hit;
+			float rayDist = (transform.localScale.y/2f)+0.1f; //ändras beroende på hur modellerna blir sen
+			if(Physics.Raycast(transform.position,-Vector3.up,out hit,rayDist)){
+				if(Vector3.Angle(hit.normal,Vector3.up) > slideLimit){
+					slide = true;
+					playerControl = false;
+				}
+			}
+			if(slide){
+				Vector3 hitNormal = hit.normal;
+				moveVec += new Vector3(hitNormal.x,-hitNormal.y,hitNormal.z)*slideSpeed;
+			}else{
+				playerControl = true; //får ändra detta sen
+			}
+		}
+	}
 }
+
+

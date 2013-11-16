@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
-
-
-//vatvat ? for List
 using System.Collections.Generic;
+
+
+
 
 public class RobNet : MonoBehaviour {
 	
@@ -41,15 +41,7 @@ public class RobNet : MonoBehaviour {
 		//networkView.RPC("SendPlayerRPC", RPCMode.Others, viewID, pos, rot, moveVec);
 	}
 	
-	[RPC]
-	void SendPlayerRPC(NetworkViewID viewID, Vector3 pos, Quaternion rot, Vector3 moveVec){
-		for (int i=0; i<playerList.Count; i++){
-			if (viewID == playerList[i].viewID){
-				//ouch fick göra en fuling här fixa senare!
-				playerList[i].entity.GetComponent<Movement>().UpdatePlayer(pos, rot, moveVec);
-			}
-		}
-	}
+	
 	
 	[RPC]
 	void SpawnPlayer(NetworkViewID id){
@@ -59,6 +51,51 @@ public class RobNet : MonoBehaviour {
 			}
 		}
 	}
-	
-	
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
