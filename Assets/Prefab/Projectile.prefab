@@ -94,8 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5cbc0721b6dcc44e8cb03e9cecee155, type: 3}
   m_Name: 
   dirVec: {x: 0, y: 0, z: 0}
-  Speed: 500
-  force: 1
+  Speed: 1200
+  force: 100
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

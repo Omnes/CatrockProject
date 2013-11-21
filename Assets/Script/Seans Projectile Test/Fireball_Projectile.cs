@@ -7,6 +7,7 @@ public class Fireball_Projectile : MonoBehaviour {
 	public Vector3 dirVec;
 	public float Speed = 5.0f;
 	public float force = 5.0f;
+	//public mesh eller animation här 
 	
 	// Use this for initialization
 	void Start () {
@@ -24,14 +25,16 @@ public class Fireball_Projectile : MonoBehaviour {
 	
 	
 	void OnCollisionEnter(Collision other){
-		
-		//vi måste sätta eller bestämma hur stor forceVec behöver vara
-		//deltatime?
-		other.rigidbody.AddForce(dirVec * force, ForceMode.VelocityChange);
-		
-		//destroy projectile
-		Destroy(gameObject);
-		
+		if(other.rigidbody){
+			//rigidbody.velocity = Vector3.zero;
+			
+			//vi måste sätta eller bestämma hur stor forceVec behöver vara
+			//deltatime?
+			other.rigidbody.AddForce(dirVec * force, ForceMode.VelocityChange);
+			
+			//destroy projectile
+			//Destroy(gameObject, 2.0f);
+			Destroy(gameObject);
+		}	
 	}
-	
 }
