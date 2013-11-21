@@ -67,7 +67,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: .0500000007
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
@@ -94,21 +94,15 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 970bebad3eae1b148bc49b8b051f9834, type: 3}
   m_Name: 
+  acceleration: 1
+  maxMovementSpeed: 8
+  maxMovSpeedChange: 1
   maxVelocity: {x: 10, y: 10}
-  MovementSpeed: 6
+  jumpForce: 5
+  gravity: {x: 0, y: 9.81999969}
+  grounded: 0
   playerControl: 1
-  robNet: {fileID: 0}
   isLocal: 1
-  slideLimit: 10
-  slideSpeed: 10
-  slide: 0
-  shakeTime: 100
-  shakeMultiplier: 10
-  shakeStrenght: 200
-  mainCam: {fileID: 0}
-  camSpeed: 5
-  cameraDepth: -45
-  cameraHeight: 15
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1
