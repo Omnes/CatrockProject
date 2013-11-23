@@ -83,10 +83,7 @@ MonoBehaviour:
   m_Name: 
   dirVec: {x: 0, y: 0, z: 0}
   Speed: 1200
-  force: 100
-  exploIncrSpeed: .800000012
-  isExploding: 0
-  exploLifeTime: .100000001
+  ExploPrefab: {fileID: 100000, guid: 7400524356b6975438398e0e900d8df6, type: 2}
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
