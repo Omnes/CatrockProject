@@ -18,8 +18,8 @@ public class Movement : MonoBehaviour {
 	public NetworkViewID viewID;
 	public bool isLocal = true;
 	private float lastSyncTime = 0f;
-	private Vector3 startSyncPosition = Vector3.zero;
-	private Vector3 endSyncPosition = Vector3.zero;
+	public Vector3 startSyncPosition = Vector3.zero;
+	public Vector3 endSyncPosition = Vector3.zero;
 	private float syncDelay = 0f;
 	private float syncTime = 0f;
 	
@@ -40,6 +40,7 @@ public class Movement : MonoBehaviour {
 	void Start () {
 		rigidbody.useGravity = false;
 		isLocal = networkView.isMine;
+		//rigidbody.isKinematic = !isLocal;
 		lastSyncTime = Time.time;
 		//robNet = GameObject.Find("Mastermind").GetComponent<RobNet>();
 	}
@@ -68,7 +69,7 @@ public class Movement : MonoBehaviour {
 				targetVelocity.x = Mathf.Clamp(targetVelocity.x,-maxMovementSpeed,maxMovementSpeed);
 				
 				if(Input.GetButton("Jump") && grounded){
-                	//rigidbody.AddForce(Vector3.up*jumpForce,ForceMode.VelocityChange);
+                	
 					rigidbody.velocity = new Vector3(velocity.x,jumpForce,0);
 					grounded = false;
 				}
@@ -92,11 +93,12 @@ public class Movement : MonoBehaviour {
 	}
 	
 	bool isGrounded(){
-		float rayDist = collider.bounds.extents.y + 0.1f;
+		float rayDist = collider.bounds.extents.y + 0.2f;
 		RaycastHit hit;
 		float radius = collider.bounds.size.x/3f*2f;
 		//Behöver specifiera layermasks så det funkar korrect
-		if(Physics.SphereCast(rigidbody.position,radius,-Vector3.up,out hit,rayDist)){
+		Vector3 pos = rigidbody.position;
+		if(Physics.SphereCast(pos,radius,-Vector3.up,out hit,rayDist)){
 			return true;
 		}
 		return false;
@@ -109,9 +111,7 @@ public class Movement : MonoBehaviour {
 	
 	void nonLocalUpdate(){
 		syncTime += Time.deltaTime;
-		if(Vector3.Distance(startSyncPosition,endSyncPosition) > 0.5){
-			rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
-		}
+		rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
 	}
 	
 	
@@ -128,13 +128,26 @@ public class Movement : MonoBehaviour {
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
 			
-			Vector3 velocityDelta = syncVelocity - lastVelocity;
+			Vector3 velocityDelta = lastVelocity - syncVelocity;
 			syncTime = 0f; 
 			syncDelay = Time.time - lastSyncTime;
 			lastSyncTime = Time.time;
-			startSyncPosition = rigidbody.position;
-			//endSyncPosition = syncPosition + syncVelocity * syncDelay;
+			
+
 			endSyncPosition = syncPosition + (syncVelocity + velocityDelta) * syncDelay;
+			startSyncPosition = rigidbody.position;
+
+			if(Vector3.Distance (startSyncPosition,endSyncPosition) < 0.05){
+				endSyncPosition = startSyncPosition;
+			}
+			
+				/*// bör nog använda något liknande senare
+			RaycastHit hit;
+			if(Physics.Linecast(startSyncPosition,endSyncPosition,out hit)){
+				endSyncPosition = hit.point;
+			}*/
+			
+			
 		}
 		
 	}

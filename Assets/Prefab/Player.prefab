@@ -96,13 +96,15 @@ MonoBehaviour:
   m_Name: 
   acceleration: 1
   maxMovementSpeed: 8
-  maxMovSpeedChange: 1
+  maxMovSpeedChange: 1.5
   maxVelocity: {x: 10, y: 10}
-  jumpForce: 5
+  jumpForce: 12
   gravity: {x: 0, y: 9.81999969}
   grounded: 0
   playerControl: 1
   isLocal: 1
+  startSyncPosition: {x: 0, y: 0, z: 0}
+  endSyncPosition: {x: 0, y: 0, z: 0}
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1
