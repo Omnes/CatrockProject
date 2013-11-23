@@ -109,7 +109,9 @@ public class Movement : MonoBehaviour {
 	
 	void nonLocalUpdate(){
 		syncTime += Time.deltaTime;
-		rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
+		if(Vector3.Distance(startSyncPosition,endSyncPosition) > 0.5){
+			rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
+		}
 	}
 	
 	
@@ -122,16 +124,17 @@ public class Movement : MonoBehaviour {
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
 		}else{
-			
+			Vector3 lastVelocity = syncVelocity;
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
 			
+			Vector3 velocityDelta = syncVelocity - lastVelocity;
 			syncTime = 0f; 
 			syncDelay = Time.time - lastSyncTime;
 			lastSyncTime = Time.time;
 			startSyncPosition = rigidbody.position;
-			endSyncPosition = syncPosition + syncVelocity * syncDelay;
-			
+			//endSyncPosition = syncPosition + syncVelocity * syncDelay;
+			endSyncPosition = syncPosition + (syncVelocity + velocityDelta) * syncDelay;
 		}
 		
 	}
