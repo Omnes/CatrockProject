@@ -10,15 +10,9 @@ public class Player : System.Object {
 	public GameObject entity;
 	public bool local = false;
 	
-	public GameObject Instantiate(GameObject prefab, Vector3 pos){
-		Debug.Log("OOOOGABOOGAGO");
-		GameObject e = (GameObject) GameObject.Instantiate(prefab,pos,Quaternion.identity);
-		Debug.Log(e);
-		Movement movement = e.GetComponent<Movement>();
-		movement.isLocal = local;
-		movement.viewID = viewID;
-		entity = e;
-		return e;
+	public void Instantiate(GameObject prefab, Vector3 pos){
+		entity = Network.Instantiate(prefab,pos,Quaternion.identity,0) as GameObject;
+		
 	}
 	
 }

@@ -14,13 +14,15 @@ public class Lobby : MonoBehaviour {
 	public string[] levels = {"Robins_funland"};
 	public int levelToLoad = 0;
 	private NetworkView netView;
+	private RobNet robNet;
 
 	// Use this for initialization
 	void Start () {
-		localPlayer.playerName = "Player";
-		localPlayer.netPlayer = Network.player;
-		localPlayer.local = true;
+		
+		robNet = GetComponent<RobNet>();
+		localPlayer = robNet.localPlayer;
 		//netView = GameObject.Find("Mastermind").GetComponent<NetworkView>();
+		//netView = GetComponent<NetworkView>();
 		//netView = networkView;
 		DontDestroyOnLoad(gameObject);
 		//Debug.Log (localPlayer.netPlayer.ipAddress);
@@ -36,7 +38,7 @@ public class Lobby : MonoBehaviour {
 			//set player name
 			tempPlayerName = GUI.TextField(new Rect(500, 100, 200, 20), tempPlayerName.ToString());
 			if(GUI.Button(new Rect(500, 130, 40, 40), "Ok")){
-				localPlayer.playerName = tempPlayerName;
+				robNet.localPlayer.playerName = tempPlayerName;
 			}
 			
 			GUILayout.BeginArea(new Rect(50,30,200,Screen.height - 30));
@@ -88,8 +90,8 @@ public class Lobby : MonoBehaviour {
 	}
 	
 	private void StartServer(){
-		//!Network.HavePublicAddress() = om NAT behövs eller inte
-		Network.InitializeServer(maxPlayers, defaultPort, !Network.HavePublicAddress());
+		bool useNAT = !Network.HavePublicAddress();
+		Network.InitializeServer(maxPlayers, defaultPort, useNAT);
 		Debug.Log("Server initializing");
 		isServer = true;
 		OnConnectedToServer();
@@ -102,14 +104,16 @@ public class Lobby : MonoBehaviour {
 	}
 	
 	void OnFailedToConnect(){
+		Debug.Log("Failed Connection");
 	}
 	
 	void OnConnectedToServer(){
 		//startServer kallar denaa också, glöm ej!
 		Debug.Log ("Connection sucess!");
 		connected = true;
-		localPlayer.viewID = Network.AllocateViewID();
+		robNet.localPlayer.viewID = Network.AllocateViewID();
 		connectedPlayers.Add(localPlayer);
+		robNet.addPlayer(localPlayer);
 		
 		networkView.RPC("NewPlayer",RPCMode.OthersBuffered,localPlayer.playerName,localPlayer.viewID,localPlayer.netPlayer);
 	}
@@ -124,6 +128,7 @@ public class Lobby : MonoBehaviour {
 		newPlayer.local = false;
 		
 		connectedPlayers.Add(newPlayer);
+		robNet.addPlayer(newPlayer);
 	}
 	
 	[RPC]
@@ -140,20 +145,6 @@ public class Lobby : MonoBehaviour {
 		
 	}
 	
-	public List<Player> getPlayers(){
-		return connectedPlayers;
-	}
-	
-	public NetworkViewID getLocalID(){
-		return localPlayer.viewID;
-	}
-	public Player getLocalPlayer(){
-		return localPlayer;
-	}
 	
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

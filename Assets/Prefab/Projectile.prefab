@@ -9,12 +9,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 33: {fileID: 3300000}
-  - 65: {fileID: 6500000}
   - 23: {fileID: 2300000}
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400000}
+  - 135: {fileID: 13500000}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .842942238, y: -2.86606979, z: -.231124878}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +43,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 2100000, guid: 034135fecbce1e54cb9f26f025b1f86a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -55,7 +55,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -69,20 +69,8 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &6500000
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,44 +79,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 970bebad3eae1b148bc49b8b051f9834, type: 3}
+  m_Script: {fileID: 11500000, guid: e5cbc0721b6dcc44e8cb03e9cecee155, type: 3}
   m_Name: 
-  acceleration: 1
-  maxMovementSpeed: 8
-  maxMovSpeedChange: 1.5
-  maxVelocity: {x: 10, y: 10}
-  jumpForce: 12
-  gravity: {x: 0, y: 9.81999969}
-  grounded: 0
-  playerControl: 1
-  isLocal: 1
-<<<<<<< HEAD
-  startSyncPosition: {x: 0, y: 0, z: 0}
-  endSyncPosition: {x: 0, y: 0, z: 0}
---- !u!148 &14800000
-NetworkView:
+  dirVec: {x: 0, y: 0, z: 0}
+  Speed: 1200
+  ExploPrefab: {fileID: 100000, guid: 7400524356b6975438398e0e900d8df6, type: 2}
+--- !u!135 &13500000
+SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_StateSynchronization: 2
-  m_Observed: {fileID: 11400000}
-  m_ViewID:
-    m_ID: 0
-    m_Type: 0
-=======
-  slideLimit: 10
-  slideSpeed: 10
-  slide: 0
-  shakeTime: 100
-  shakeMultiplier: 10
-  shakeStrenght: 200
-  mainCam: {fileID: 0}
-  camSpeed: 5
-  cameraDepth: -45
-  cameraHeight: 15
->>>>>>> sean
+  serializedVersion: 2
+  m_Radius: .500000119
+  m_Center: {x: 5.96046448e-08, y: 0, z: -8.94069672e-08}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
