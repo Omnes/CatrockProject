@@ -6,7 +6,7 @@ public class Player : System.Object {
 	public string playerName;
 	public NetworkViewID viewID;
 	public NetworkPlayer netPlayer;
-	//public Transform playerPrefab;
+	public Transform playerPrefab;
 	public GameObject entity;
 	public bool local = false;
 	

@@ -15,51 +15,55 @@ public class ManageItems : MonoBehaviour {
 	}
 	
 	void Update () {
-		if(Input.GetButtonDown("Weapon0")) {
-			Debug.Log ("use weapon 0");
-			if(items[(int)Slot.Weapon0])
+		
+		if(networkView.isMine) {
+			if(Input.GetButtonDown("Weapon0")) {
+				Debug.Log ("use weapon 0");
 				items[(int)Slot.Weapon0].use(this);
-		}
-		if(Input.GetButtonDown("Weapon1")) {
-			Debug.Log ("use weapon 1");
-			if(items[(int)Slot.Weapon1])
+			}
+			if(Input.GetButtonDown("Weapon1")) {
+				Debug.Log ("use weapon 1");
 				items[(int)Slot.Weapon1].use(this);
-		}
-		if(Input.GetButtonDown ("Hat")) {
-			Debug.Log ("use hat");
-			if(items[(int)Slot.Hat])
+			}
+			if(Input.GetButtonDown ("Hat")) {
+				Debug.Log ("use hat");
 				items[(int)Slot.Hat].use(this);
+			}
 		}
 	}
 	 
 	void OnTriggerStay(Collider other) {
-		Debug.Log("every day im triggerin");
 		
-		if(other.CompareTag("PickupItem")) {
-			Debug.Log ("every day im pickuping");
-			var pih = other.GetComponent<PickupItemHolder>();
-			var item = pih.item;
+		if(networkView.isMine) {
+			Debug.Log("every day im triggerin");
 			
-			var slot = Slot.NoSlot;
-			
-			if(item.type == Item.SlotType.Weapon && Input.GetButtonDown("PickUpWeapon0")) {
-				Debug.Log ("attach weapon 0");
-				slot = Slot.Weapon0;
-			} else if(item.type == Item.SlotType.Weapon && Input.GetButtonDown("PickUpWeapon1")) {
-				Debug.Log ("attach weapon 1");
-				slot = Slot.Weapon1;
+			if(other.CompareTag("PickupItem")) {
+				Debug.Log ("every day im pickuping");
+				var pih = other.GetComponent<PickupItemHolder>();
+				var item = pih.item;
+				
+				var slot = Slot.NoSlot;
+				
+				if(item.type == Item.SlotType.Weapon && Input.GetButtonDown("PickUpWeapon0")) {
+					Debug.Log ("attach weapon 0");
+					slot = Slot.Weapon0;
+				} else if(item.type == Item.SlotType.Weapon && Input.GetButtonDown("PickUpWeapon1")) {
+					Debug.Log ("attach weapon 1");
+					slot = Slot.Weapon1;
+				}
+				
+				if(item.type == Item.SlotType.Hat && Input.GetButtonDown("PickUpHat")) {
+					Debug.Log ("attach hat");
+					slot = Slot.Hat;
+				}
+				
+				if(slot != Slot.NoSlot) {
+					var oldItem = getItem(slot);
+					assignNewItem(item, slot);
+					pih.assignNewItem(oldItem);
+				}
 			}
 			
-			if(item.type == Item.SlotType.Hat && Input.GetButtonDown("PickUpHat")) {
-				Debug.Log ("attach hat");
-				slot = Slot.Hat;
-			}
-			
-			if(slot != Slot.NoSlot) {
-				var oldItem = getItem(slot);
-				assignNewItem(item, slot);
-				pih.assignNewItem(oldItem);
-			}
 		}
 	}
 	

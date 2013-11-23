@@ -24,6 +24,6 @@ public class Item : MonoBehaviour {
 	
 	public void use(Component owner) {
 		Debug.Log("player does an animation " + castAnimation);
-		spell.cast();
+		spell.cast(owner.gameObject);
 	}
 }

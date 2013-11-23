@@ -45,7 +45,7 @@ public class Player_movement : MonoBehaviour {
 			
 		}
 		
-		if(Input.GetKey(KeyCode.Space)){
+		/*if(Input.GetKey(KeyCode.Space)){
 			
 			if(currentTime + delayTime < Time.time){
 				RaycastHit hit;
@@ -57,10 +57,10 @@ public class Player_movement : MonoBehaviour {
 				}
 				currentTime = Time.time;
 			}
-		}
+		}*/
 		
 		//fire shoot
-		if(Input.GetMouseButtonDown(0)){
+		/*if(Input.GetMouseButtonDown(0)){
 		
 			isShaking = true;
 			
@@ -71,7 +71,7 @@ public class Player_movement : MonoBehaviour {
 				Vector3 fireVec = transform.position - new Vector3(hit.point.x, hit.point.y, transform.position.z);
 				Instantiate(bulletPrefab, new Vector3(0,3,0) + transform.position - (fireVec.normalized * 2), Quaternion.LookRotation(fireVec));
 			}
-		}
+		}*/
 		
 		//clamp and such. mveoment things
 		Vector3 moveVec = transform.rigidbody.velocity;
