@@ -13,9 +13,7 @@ public class PickupItemHolder : MonoBehaviour {
 	private NetworkItems networkItems;
 	
 	void Start() {
-		var g = GameObject.Find("NetworkItems");
-		if(g == null)
-			Debug.Log ("could not find gameobject NetworkItems");
+		var g = GameObject.Find("Mastermind");
 		networkItems = g.GetComponent<NetworkItems>();
 		if(networkItems == null)
 			Debug.Log ("could not find component NetworkItems on gameobject NetworkItems");

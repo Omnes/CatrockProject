@@ -14,7 +14,6 @@ GameObject:
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400000}
   - 148: {fileID: 14800000}
-  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -29,7 +28,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .842942238, y: -3.85544395, z: 0}
+  m_LocalPosition: {x: .842942238, y: -2.86606979, z: -.231124878}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -68,7 +67,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: .0500000007
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
@@ -95,31 +94,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 970bebad3eae1b148bc49b8b051f9834, type: 3}
   m_Name: 
-  acceleration: 1
-  maxMovementSpeed: 8
-  maxMovSpeedChange: 1.5
   maxVelocity: {x: 10, y: 10}
-  jumpForce: 12
-  gravity: {x: 0, y: 9.81999969}
-  grounded: 0
+  MovementSpeed: 6
   playerControl: 1
+  robNet: {fileID: 0}
   isLocal: 1
-  startSyncPosition: {x: 0, y: 0, z: 0}
-  endSyncPosition: {x: 0, y: 0, z: 0}
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ce7b6bb1a9af634894a7ee46b8db14c, type: 3}
-  m_Name: 
-  items:
-  - {fileID: 11400000, guid: fc0e2317fdfa1f94a8ed2f2603316c63, type: 2}
-  - {fileID: 11400000, guid: 5490a3f506479384faa3884b6d870274, type: 2}
-  - {fileID: 0}
+  slideLimit: 10
+  slideSpeed: 10
+  slide: 0
+  shakeTime: 100
+  shakeMultiplier: 10
+  shakeStrenght: 200
+  mainCam: {fileID: 0}
+  camSpeed: 5
+  cameraDepth: -45
+  cameraHeight: 15
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1

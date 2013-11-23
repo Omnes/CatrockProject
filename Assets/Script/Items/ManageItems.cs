@@ -6,7 +6,7 @@ public class ManageItems : MonoBehaviour {
 	public Item[] items;
 	
 	void Start() {
-		var g = GameObject.Find("NetworkItems");
+		var g = GameObject.Find("Mastermind");
 		if(g == null)
 			Debug.Log ("could not find gameobject NetworkItems");
 		networkItems = g.GetComponent<NetworkItems>();
@@ -77,12 +77,12 @@ public class ManageItems : MonoBehaviour {
 	}
 	
 	void assignNewItem(Item i, Slot slot) {
-		networkView.RPC("AssignNewItemRPC", RPCMode.All, i.id, slot);
+		networkView.RPC("assignNewItemRPC", RPCMode.All, i.id, (int)slot);
 	}
 	
 	[RPC]
-	void assignNewItemRPC(int t, Slot slot) {
-		items[(int)slot] = networkItems.getItem(t);
+	void assignNewItemRPC(int t, int slot) {
+		items[slot] = networkItems.getItem(t);
 	}
 
 }

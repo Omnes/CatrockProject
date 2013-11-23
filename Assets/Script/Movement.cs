@@ -3,86 +3,88 @@ using System.Collections;
 
 public class Movement : MonoBehaviour {
 	
-	//private float delayMax = 0.5f;
-	//private float delayCounter;
-	
-	
+	public float acceleration = 1;
+	public float maxMovementSpeed = 6;
+	public float maxMovSpeedChange = 1;
 	public Vector2 maxVelocity = new Vector2(10,10);
-	private Vector3 tempVec;
-	public float MovementSpeed = 6;
+	public float jumpForce = 5;
+	public Vector2 gravity = new Vector2(0f, 9.82f);
+	public bool grounded;
 
 	public bool playerControl = true;
-	
-	//NYTT
-	private Vector3 moveVec = Vector3.zero;
-	public RobNet robNet;
+
+	//network stuff
+	private RobNet robNet;
 	public NetworkViewID viewID;
 	public bool isLocal = true;
-	public float slideLimit = 10;
-	public float slideSpeed = 10;
-	public bool slide = false;
-	//network stuff
 	private float lastSyncTime = 0f;
-	private Vector3 startSyncPosition = Vector3.zero;
-	private Vector3 endSyncPosition = Vector3.zero;
+	public Vector3 startSyncPosition = Vector3.zero;
+	public Vector3 endSyncPosition = Vector3.zero;
 	private float syncDelay = 0f;
 	private float syncTime = 0f;
 	
-	private int raycastCounter = 0;
+	private Vector3 syncPosition = Vector3.zero;
+	private Vector3 syncVelocity = Vector3.zero;
 	
-	//*****CAMERA******
-		//camerashake
-		private float shakeCount = 10;
-		public float shakeTime = 100;
-		public float shakeMultiplier = 10;
-		public float shakeStrenght = 200;
-		
-		private bool isShaking = false;
-		public Camera mainCam;
-		public float camSpeed = 5;
-		
-		//camera from screen
-		public float cameraDepth = -45;
-		public float cameraHeight = 15;
+	/*
+	private int raycastCounter = 0;
+	public float slideLimit = 10;
+	public float slideSpeed = 10;
+	public bool slide = false;
+	*/
+	
+	
+
 
 	// Use this for initialization
 	void Start () {
-		//lastPos = transform.position;
-//		delayCounter = Time.time;
-		mainCam = Camera.main;
+		rigidbody.useGravity = false;
+		isLocal = networkView.isMine;
+		//rigidbody.isKinematic = !isLocal;
+		lastSyncTime = Time.time;
 		//robNet = GameObject.Find("Mastermind").GetComponent<RobNet>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		
 		if(isLocal){
-			raycastCounter++;
-			moveVec = rigidbody.velocity;
 			
-			if(playerControl){
-				if(!slide){
-					if(Input.GetKey(KeyCode.D)){
-                        moveVec += Vector3.right * MovementSpeed;
-					}
-					
-					if(Input.GetKey(KeyCode.A)){
-                        moveVec += Vector3.left * MovementSpeed;
-					}
+			grounded = isGrounded();
+			Vector3 targetVelocity = Vector3.zero;
+			bool control = isPlayerInControl();
+			if(control){
+				Vector3 velocity = rigidbody.velocity;
+				/* //movement med knappar, kan ha kvar den så länge
+				if(Input.GetKey(KeyCode.D) || Input.GetButton("Right")){
+                	targetVelocity += velocity + (Vector3.right * acceleration);
+				}
+				if(Input.GetKey(KeyCode.A) || Input.GetButton("Left")){
+                	targetVelocity += velocity + (Vector3.left * acceleration);
+				}*/
+				float horizontal = Input.GetAxis("Horizontal");
+				targetVelocity += velocity + (new Vector3(horizontal,0,0) * acceleration);
+				
+				
+				targetVelocity.x = Mathf.Clamp(targetVelocity.x,-maxMovementSpeed,maxMovementSpeed);
+				
+				if(Input.GetButton("Jump") && grounded){
+                	
+					rigidbody.velocity = new Vector3(velocity.x,jumpForce,0);
+					grounded = false;
 				}
 
-
 			}
-			moveVec.x = Mathf.Clamp(moveVec.x,-maxVelocity.x,maxVelocity.x);
-			moveVec.y = Mathf.Clamp(moveVec.y,-maxVelocity.y,maxVelocity.y);
-
-			//make sure the rigidbody won't exceed maxVelocity
-			//lite finare kod om vi clampar :)
 			
+			Vector3 velocityChange = targetVelocity - rigidbody.velocity;
+			velocityChange.x = Mathf.Clamp(velocityChange.x,-maxMovSpeedChange,maxMovSpeedChange);
+			velocityChange.y = 0;//Mathf.Clamp(velocityChange.y,-maxVelocityChange.y,maxVelocityChange.y);
+			velocityChange.z = 0; //bara för att vara säker
 			
-			rigidbody.velocity = moveVec; // att modifiera rigidbody.velocity direkt hela tiden blir väldigt tungt
-
-			HandleCamera();
+			rigidbody.AddForce(velocityChange,ForceMode.VelocityChange);
+			if(!grounded){
+				rigidbody.AddForce(new Vector3(gravity.x*rigidbody.mass,-gravity.y*rigidbody.mass,0));
+			}
 			
 		}else{
 			nonLocalUpdate();
@@ -90,14 +92,31 @@ public class Movement : MonoBehaviour {
 		
 	}
 	
-	void nonLocalUpdate(){
-		syncTime += Time.deltaTime;
-		rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncDelay/syncTime);
+	bool isGrounded(){
+		float rayDist = collider.bounds.extents.y + 0.2f;
+		RaycastHit hit;
+		float radius = collider.bounds.size.x/3f*2f;
+		//Behöver specifiera layermasks så det funkar korrect
+		Vector3 pos = rigidbody.position;
+		if(Physics.SphereCast(pos,radius,-Vector3.up,out hit,rayDist)){
+			return true;
+		}
+		return false;
 	}
 	
+	bool isPlayerInControl(){
+		//gör kollar om tex spelaren är stunnad osv
+		return playerControl; //&& !slide;
+	}
+	
+	void nonLocalUpdate(){
+		syncTime += Time.deltaTime;
+		rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
+	}
+	
+	
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info){
-		Vector3 syncPosition = Vector3.zero;
-		Vector3 syncVelocity = Vector3.zero;
+		
 		if(stream.isWriting){
 			
 			syncPosition = rigidbody.position;
@@ -105,60 +124,37 @@ public class Movement : MonoBehaviour {
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
 		}else{
-			
+			Vector3 lastVelocity = syncVelocity;
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
 			
+			Vector3 velocityDelta = lastVelocity - syncVelocity;
 			syncTime = 0f; 
 			syncDelay = Time.time - lastSyncTime;
 			lastSyncTime = Time.time;
+			
+
+			endSyncPosition = syncPosition + (syncVelocity + velocityDelta) * syncDelay;
 			startSyncPosition = rigidbody.position;
-			endSyncPosition = syncPosition + syncVelocity * syncDelay;
-			
-		}
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	void HandleCamera(){
-		//player - camera
-		Vector2 dirVec = (((cameraHeight * Vector3.up) + transform.position)-mainCam.transform.position)/2;
-		Vector3 camPos = mainCam.transform.position;
-		
-		if(isShaking){
-			//shakeTime starts
-			shakeCount++;
-			//the shake
-			camPos.x += (Mathf.Sin(Time.time * shakeMultiplier) * 0.1f) * shakeStrenght * Time.deltaTime;
-			//camPos.y += (Mathf.Sin(Time.time * shakeMultiplier) * 0.1f) * shakeStrenght * Time.deltaTime;
-			
-			//if time is up then stop shake
-			if(shakeCount >= shakeTime){	
-				isShaking = false;
-				shakeCount = 0;
+
+			if(Vector3.Distance (startSyncPosition,endSyncPosition) < 0.05){
+				endSyncPosition = startSyncPosition;
 			}
+			
+				/*// bör nog använda något liknande senare
+			RaycastHit hit;
+			if(Physics.Linecast(startSyncPosition,endSyncPosition,out hit)){
+				endSyncPosition = hit.point;
+			}*/
+			
+			
 		}
 		
-		if(dirVec.magnitude > 0.1){
-			//bestämmer riktningen och hastigheten
-			dirVec = dirVec.normalized * camSpeed * dirVec.magnitude * Time.deltaTime;
-			//sätter grundvärden för kameran så som höjd och djup
-			camPos = new Vector3(camPos.x, camPos.y, cameraDepth);
-			camPos += new Vector3(dirVec.x, dirVec.y, 0);
-		}
-		
-		//final cameraposition
-		mainCam.transform.position = camPos;
 	}
 	
-	
+	/*
 	void SlideCheck(){
-	
+		raycastCounter++;
 		if(raycastCounter % 10 == 0){
 			slide = false;
 			RaycastHit hit;
@@ -171,12 +167,13 @@ public class Movement : MonoBehaviour {
 			}
 			if(slide){
 				Vector3 hitNormal = hit.normal;
-				moveVec += new Vector3(hitNormal.x,-hitNormal.y,hitNormal.z)*slideSpeed;
+				velocityChange += new Vector3(hitNormal.x,-hitNormal.y,hitNormal.z)*slideSpeed;
 			}else{
 				playerControl = true; //får ändra detta sen
 			}
 		}
 	}
+	*/
 }
 
 
