@@ -82,8 +82,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5cbc0721b6dcc44e8cb03e9cecee155, type: 3}
   m_Name: 
   dirVec: {x: 0, y: 0, z: 0}
+  playerPrefab: {fileID: 0}
   Speed: 1200
   ExploPrefab: {fileID: 100000, guid: 7400524356b6975438398e0e900d8df6, type: 2}
+  lifeTime: 2.5
+  ignorePlayerTime: .5
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -91,7 +94,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: .500000119
