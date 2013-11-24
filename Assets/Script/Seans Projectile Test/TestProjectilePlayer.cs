@@ -31,6 +31,7 @@ public class TestProjectilePlayer : MonoBehaviour {
 					GameObject newProj = (GameObject) Instantiate(projectilePrefab, transform.position, transform.rotation);
 					Fireball_Projectile proj = newProj.GetComponent<Fireball_Projectile>();
 					proj.dirVec = dirVector.normalized;
+					proj.playerPrefab = gameObject;
 					
 				}
 				currentTime = Time.time;

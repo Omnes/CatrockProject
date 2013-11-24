@@ -7,6 +7,8 @@ public class Fireball_Projectile : MonoBehaviour {
 	public Vector3 dirVec;
 	public float Speed = 5.0f;
 	public GameObject ExploPrefab;
+	public GameObject playerPrefab;
+
 	
 	// Use this for initialization
 	void Start () {
@@ -20,12 +22,16 @@ public class Fireball_Projectile : MonoBehaviour {
 	}
 	
 	
-	void OnCollisionEnter(Collision other){
-		//instansiate explosion
-		Instantiate(ExploPrefab, transform.position, transform.rotation);
+	void OnTriggerEnter(Collider collisions){
+		
+		//if(collisions.gameObject.networkView.viewID != playerPrefab.networkView.viewID){
+		if(collisions.gameObject != playerPrefab){
+			//instansiate explosion
+			Instantiate(ExploPrefab, transform.position, transform.rotation);
 
-		//destroy projectile
-		Destroy(gameObject);
+			//destroy projectile
+			Destroy(gameObject);
+		}
 	}
 }
 
