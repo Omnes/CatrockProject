@@ -468,6 +468,7 @@ MonoBehaviour:
   m_Name: 
   delayTime: 2
   projectilePrefab: {fileID: 100000, guid: f0ac3d1a7f353354e8f0d915700ff1f0, type: 2}
+  meleeProjectile: {fileID: 100000, guid: 0678030896e1bfc4aa1cfb38ba56ce44, type: 2}
 --- !u!1 &169891847
 GameObject:
   m_ObjectHideFlags: 0
