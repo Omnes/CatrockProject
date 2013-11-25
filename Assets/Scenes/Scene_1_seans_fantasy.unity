@@ -484,7 +484,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda5a9c8cdb47e0459e2b3e64df0a725, type: 3}
   m_Name: 
   delayTime: .5
-  projectilePrefab: {fileID: 100000, guid: f0ac3d1a7f353354e8f0d915700ff1f0, type: 2}
+  fireballProjectile: {fileID: 100000, guid: f0ac3d1a7f353354e8f0d915700ff1f0, type: 2}
+  thunderProjectile: {fileID: 100000, guid: 69725e17888afa54eba0e103d581dc42, type: 2}
 --- !u!65 &137607292
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -2,10 +2,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Seans Projectile Test\TestProjectilePlayer.cs">
     <Files>
-      <File FileName="Assets\Script\Seans Projectile Test\Fireball_Explosion.cs" Line="7" Column="36" />
-      <File FileName="Assets\Script\Seans Projectile Test\Fireball_Projectile.cs" Line="12" Column="69" />
-      <File FileName="Assets\Script\Seans Projectile Test\TestProjectilePlayer.cs" Line="6" Column="28" />
-      <File FileName="Assets\Script\CameraScripts_Sean\Player_movement.cs" Line="14" Column="25" />
+      <File FileName="Assets\Script\Seans Projectile Test\TestProjectilePlayer.cs" Line="59" Column="52" />
+      <File FileName="Assets\Script\CameraScripts_Sean\Player_movement.cs" Line="17" Column="2" />
+      <File FileName="Assets\Script\Seans Projectile Test\Thunder_Projectile.cs" Line="74" Column="3" />
+      <File FileName="Assets\Script\Seans Projectile Test\Fireball_Projectile.cs" Line="18" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
