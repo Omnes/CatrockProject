@@ -19,15 +19,15 @@ public class ManageItems : MonoBehaviour {
 		if(networkView.isMine) {
 			if(Input.GetButtonDown("Weapon0")) {
 				Debug.Log ("use weapon 0");
-				items[(int)Slot.Weapon0].use(this);
+				useItem(Slot.Weapon0);
 			}
 			if(Input.GetButtonDown("Weapon1")) {
 				Debug.Log ("use weapon 1");
-				items[(int)Slot.Weapon1].use(this);
+				useItem(Slot.Weapon1);
 			}
 			if(Input.GetButtonDown ("Hat")) {
 				Debug.Log ("use hat");
-				items[(int)Slot.Hat].use(this);
+				useItem(Slot.Hat);
 			}
 		}
 	}
@@ -84,9 +84,17 @@ public class ManageItems : MonoBehaviour {
 		networkView.RPC("assignNewItemRPC", RPCMode.All, i.id, (int)slot);
 	}
 	
+	void useItem(Slot slot) {
+		networkView.RPC("useItemRPC", RPCMode.All, (int)slot);
+	}
+	
 	[RPC]
 	void assignNewItemRPC(int t, int slot) {
 		items[slot] = networkItems.getItem(t);
 	}
-
+	
+	[RPC]
+	void useItemRPC(int slot) {
+		items[slot].use(gameObject);
+	}
 }

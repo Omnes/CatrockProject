@@ -109,11 +109,11 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 14800000, guid: fc0e2317fdfa1f94a8ed2f2603316c63, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_ViewID.m_ID
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 14800000, guid: fc0e2317fdfa1f94a8ed2f2603316c63, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_ViewID.m_Type
       value: 1
       objectReference: {fileID: 0}
@@ -185,7 +185,6 @@ GameObject:
   - 4: {fileID: 224360763}
   - 114: {fileID: 224360761}
   - 114: {fileID: 224360762}
-  - 148: {fileID: 224360764}
   m_Layer: 0
   m_Name: WaterItem
   m_TagString: Untagged
@@ -232,19 +231,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 966248683}
---- !u!148 &224360764
-NetworkView:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 14800000, guid: e76b9aed2ef5565429552baad296b359,
-    type: 2}
-  m_PrefabInternal: {fileID: 2083068586}
-  m_GameObject: {fileID: 224360760}
-  m_Enabled: 1
-  m_StateSynchronization: 2
-  m_Observed: {fileID: 0}
-  m_ViewID:
-    m_ID: 9
-    m_Type: 1
 --- !u!1 &258672314
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,7 +279,6 @@ GameObject:
   - 4: {fileID: 268117880}
   - 114: {fileID: 268117878}
   - 114: {fileID: 268117879}
-  - 148: {fileID: 268117881}
   m_Layer: 0
   m_Name: IceItem
   m_TagString: Untagged
@@ -340,19 +325,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 966248683}
---- !u!148 &268117881
-NetworkView:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 14800000, guid: 5490a3f506479384faa3884b6d870274,
-    type: 2}
-  m_PrefabInternal: {fileID: 1843105367}
-  m_GameObject: {fileID: 268117877}
-  m_Enabled: 1
-  m_StateSynchronization: 2
-  m_Observed: {fileID: 0}
-  m_ViewID:
-    m_ID: 6
-    m_Type: 1
 --- !u!1 &318887269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1296,11 +1268,11 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 14800000, guid: 5490a3f506479384faa3884b6d870274, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_ViewID.m_ID
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 14800000, guid: 5490a3f506479384faa3884b6d870274, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_ViewID.m_Type
       value: 1
       objectReference: {fileID: 0}
@@ -1400,11 +1372,11 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 14800000, guid: a14e41fb6f4535d46901513f740173c8, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_ViewID.m_ID
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 14800000, guid: a14e41fb6f4535d46901513f740173c8, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_ViewID.m_Type
       value: 1
       objectReference: {fileID: 0}
@@ -1539,7 +1511,6 @@ GameObject:
   - 4: {fileID: 2061851717}
   - 114: {fileID: 2061851715}
   - 114: {fileID: 2061851716}
-  - 148: {fileID: 2061851718}
   m_Layer: 0
   m_Name: ThunderItem
   m_TagString: Untagged
@@ -1586,19 +1557,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 966248683}
---- !u!148 &2061851718
-NetworkView:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 14800000, guid: a14e41fb6f4535d46901513f740173c8,
-    type: 2}
-  m_PrefabInternal: {fileID: 1924006175}
-  m_GameObject: {fileID: 2061851714}
-  m_Enabled: 1
-  m_StateSynchronization: 2
-  m_Observed: {fileID: 0}
-  m_ViewID:
-    m_ID: 8
-    m_Type: 1
 --- !u!1 &2076495312
 GameObject:
   m_ObjectHideFlags: 0
@@ -1730,11 +1688,11 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 14800000, guid: e76b9aed2ef5565429552baad296b359, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_ViewID.m_ID
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 14800000, guid: e76b9aed2ef5565429552baad296b359, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_ViewID.m_Type
       value: 1
       objectReference: {fileID: 0}
@@ -1753,7 +1711,6 @@ GameObject:
   - 4: {fileID: 2108820361}
   - 114: {fileID: 2108820359}
   - 114: {fileID: 2108820360}
-  - 148: {fileID: 2108820362}
   m_Layer: 0
   m_Name: FireItem
   m_TagString: Untagged
@@ -1801,16 +1758,3 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 966248683}
---- !u!148 &2108820362
-NetworkView:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 14800000, guid: fc0e2317fdfa1f94a8ed2f2603316c63,
-    type: 2}
-  m_PrefabInternal: {fileID: 143607450}
-  m_GameObject: {fileID: 2108820358}
-  m_Enabled: 1
-  m_StateSynchronization: 2
-  m_Observed: {fileID: 0}
-  m_ViewID:
-    m_ID: 7
-    m_Type: 1
