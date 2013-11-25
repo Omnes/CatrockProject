@@ -24,15 +24,15 @@ public class Movement : MonoBehaviour {
 	private float syncDelay = 0f;
 	private float syncTime = 0f;
 	public int nrSavedStates = 2;
-	private List<State> prevSyncs = new List<State>();
+	public List<State> prevSyncs = new List<State>();
 	
 	private Vector3 syncPosition = Vector3.zero;
 	private Vector3 syncVelocity = Vector3.zero;
-	public State lastState;
+	private State lastState = new State();
 	
 
 	[System.Serializable]
-	public struct State{
+	public class State{
 		public float timestamp;
 		public Vector3 pos;
 		public Vector3 velocity;
@@ -48,7 +48,7 @@ public class Movement : MonoBehaviour {
 		rigidbody.isKinematic = !isLocal;
 		lastSyncTime = Time.time;
 
-		State state;
+		State state = new State();
 		state.pos = rigidbody.position;
 		state.velocity = rigidbody.velocity;
 		state.timestamp = Time.time;
@@ -145,7 +145,7 @@ public class Movement : MonoBehaviour {
 				lastState = prevSyncs[prevSyncs.Count-1];
 			}
 
-			State state;
+			State state = new State();
 			state.pos = syncPosition;
 			state.velocity = syncVelocity;
 			state.timestamp = Time.time;
