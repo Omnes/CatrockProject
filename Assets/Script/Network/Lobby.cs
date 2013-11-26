@@ -11,32 +11,25 @@ public class Lobby : MonoBehaviour {
 	
 	private Player localPlayer = new Player();
 	private List<Player> connectedPlayers = new List<Player>();
-	public string[] levels = {"Robins_funland"};
+	public string[] levels = {"Johannes_funland", "Robins_funland"};
 	public int levelToLoad = 0;
 	private NetworkView netView;
 	private RobNet robNet;
 
 	// Use this for initialization
 	void Start () {
-		
 		robNet = GetComponent<RobNet>();
 		localPlayer = robNet.localPlayer;
-		//netView = GameObject.Find("Mastermind").GetComponent<NetworkView>();
-		//netView = GetComponent<NetworkView>();
-		//netView = networkView;
 		DontDestroyOnLoad(gameObject);
-		//Debug.Log (localPlayer.netPlayer.ipAddress);
 		
 	}
 	
-	//private Vector2 size = new Vector2(75,50);
-	//private Vector2 startPos = new Vector2(100,100);
 	string tempPlayerName = "Player";
 	void OnGUI(){
 
 		if(!connected){
 			//set player name
-			tempPlayerName = GUI.TextField(new Rect(500, 100, 200, 20), tempPlayerName.ToString());
+			tempPlayerName = GUI.TextField(new Rect(500, 100, 200, 20), tempPlayerName);
 			if(GUI.Button(new Rect(500, 130, 40, 40), "Ok")){
 				robNet.localPlayer.playerName = tempPlayerName;
 			}
@@ -65,7 +58,6 @@ public class Lobby : MonoBehaviour {
 			GUILayout.EndVertical();
 			GUILayout.EndArea();
 		}else{
-			//Vector2 offset = Vector2.zero;
 			
 			GUILayout.BeginArea(new Rect(50,30,250,Screen.height - 30));
 			GUILayout.BeginVertical();
@@ -136,11 +128,10 @@ public class Lobby : MonoBehaviour {
 		Network.SetSendingEnabled(0,false);
 		Network.isMessageQueueRunning = false;
 		Network.SetLevelPrefix(levelToLoad);
+		
 		Application.LoadLevel(levels[levelNr]);
-
 		Network.isMessageQueueRunning = true;
 		Network.SetSendingEnabled(0,true);
-		SendMessage("OnNetworkLevelLoaded");
 		this.enabled = false;
 		
 	}

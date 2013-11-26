@@ -8,48 +8,49 @@ using System.Collections.Generic;
 public class RobNet : MonoBehaviour {
 	
 	public GameObject playerPrefab;
-	public Transform spawnPoint;
+	private Transform spawnPoint;
 	
 	
 	//new
 	public List<Player> connectedPlayers = new List<Player>();
 	public NetworkViewID netviewID;
 	public Player localPlayer = new Player();
-
 	
 	// Use this for initialization
 	void Start () {
-		//netviewID = Network.AllocateViewID();
+		Debug.Log ("starting robnet");
 		localPlayer.playerName = "Player";
 		localPlayer.netPlayer = Network.player;
 		localPlayer.local = true;
 	
 	}
+
 	void OnNetworkLevelLoaded(){
-		spawnPoint = GameObject.Find("Spawnpoint").transform;
-		//connectedPlayers = GetComponent<Lobby>().getPlayers();
-		//netviewID = Network.aAllocateViewID();
-		netviewID = getLocalID();
-		Debug.Log("ID OF THIS IS " + netviewID);
-		//localPlayer = GetComponent<Lobby>().getLocalPlayer();
-		
-		localPlayer.Instantiate(playerPrefab,spawnPoint.position);
-		//networkView.RPC("SpawnPlayer",RPCMode.OthersBuffered,netviewID);
-		//localPlayer.entity = Network.Instantiate(playerPrefab,spawnPoint.position,Quaternion.identity,0) as GameObject;
+		var spawnObject = GameObject.Find("Spawnpoint");
+		if(spawnObject == null) {
+			Debug.Log ("could not find a spawnpoint in the level " + Application.loadedLevelName);
+		} else {
+			spawnPoint = spawnObject.transform;
+			netviewID = getLocalID();
+			Debug.Log("ID OF THIS IS " + netviewID);
+			localPlayer.Instantiate(playerPrefab, spawnPoint.position);
+		}
 		
 	}
 	
 	
-	
+	/*
 	[RPC]
 	void SpawnPlayer(NetworkViewID id){
+		Debug.Log ("Player spawned"); //does this ever happen?
+		
 		foreach(Player p in connectedPlayers){
 			if(p.viewID == id){
 				p.Instantiate(playerPrefab,spawnPoint.position);
 			}
 		}
 	}
-	
+	*/
 	public void addPlayer(Player p){
 		connectedPlayers.Add(p);
 	}
