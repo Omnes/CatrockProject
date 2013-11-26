@@ -65,9 +65,36 @@ public class RobNet : MonoBehaviour {
 	public Player getLocalPlayer(){
 		return localPlayer;
 	}
+	/*
+	void OnDisconnectedFromServer(){
+		
+	}
+	
+	void OnPlayerDisconnected(NetworkPlayer netPlayer){
+		networkView.RPC ("disconnectPlayer",RPCMode.AllBuffered,netPlayer);
+	}
+	
+	Player findPlayerWithNetID(NetworkViewID id){
+		foreach(Player p in connectedPlayers){
+			if(p.viewID == id){
+				return p;
+			}
+		}
+		return null; // we didnt find it
+	}
+	
+	[RPC]
+	public void disconnectPlayer(NetworkPlayer netPlayer){
+		Network.RemoveRPCs(netPlayer);
+		Network.DestroyPlayerObjects(netPlayer);
+		
+		Player player = findPlayerWithNetID(id);
+		if(player == null) return; //abort!
+		connectedPlayers.Remove(player);
+	}
+	*/
 
 }
-
 
 
 
