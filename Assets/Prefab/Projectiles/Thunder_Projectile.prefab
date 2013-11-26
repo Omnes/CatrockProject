@@ -83,11 +83,11 @@ MonoBehaviour:
   m_Name: 
   dirVec: {x: 0, y: 0, z: 0}
   playerPrefab: {fileID: 0}
-  Speed: 1200
-  ExploPrefab: {fileID: 100000, guid: 7400524356b6975438398e0e900d8df6, type: 2}
+  exploPrefab: {fileID: 100000, guid: 7400524356b6975438398e0e900d8df6, type: 2}
+  Speed: 0
   lifeTime: 2.5
   ignorePlayerTime: .5
-  multi: {x: 200, y: 40}
+  multi: {x: 100, y: 20}
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

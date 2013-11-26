@@ -3,13 +3,12 @@ using System.Collections;
 
 public class Fireball_Explosion : MonoBehaviour {
 	
-	
+	private Vector3 dirVec;					//the direction that other objects will travel if hit	
 	public float exploLifeTime = 0.2f;
 	public float exploForce = 5.0f;
 	public float exploDamage = 1.0f;
-	
-	private Vector3 dirVec;					//the direction that other objects will travel if hit
-	
+
+	public GameObject playerPrefab;
 	
 	// Use this for initialization
 	void Start () {
