@@ -25,7 +25,7 @@ public class RobNet : MonoBehaviour {
 	
 	}
 
-	void OnNetworkLevelLoaded(){
+	void OnLevelWasLoaded(){
 		var spawnObject = GameObject.Find("Spawnpoint");
 		if(spawnObject == null) {
 			Debug.Log ("could not find a spawnpoint in the level " + Application.loadedLevelName);

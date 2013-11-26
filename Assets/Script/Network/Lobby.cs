@@ -13,7 +13,6 @@ public class Lobby : MonoBehaviour {
 	private List<Player> connectedPlayers = new List<Player>();
 	public string[] levels = {"Johannes_funland", "Robins_funland"};
 	public int levelToLoad = 0;
-	private NetworkView netView;
 	private RobNet robNet;
 
 	// Use this for initialization
@@ -58,20 +57,10 @@ public class Lobby : MonoBehaviour {
 			GUILayout.EndVertical();
 			GUILayout.EndArea();
 		}else{
+			drawConnectedPlayers();
+			levelChooser();
 			
-			GUILayout.BeginArea(new Rect(50,30,250,Screen.height - 30));
-			GUILayout.BeginVertical();
-			for(int i = 0;i < connectedPlayers.Count; i++){
-				
-				GUILayout.BeginHorizontal();
-				GUILayout.Box(connectedPlayers[i].playerName);
-				int ping = Network.GetAveragePing(connectedPlayers[i].netPlayer);
-				GUILayout.Label("ping: " + ping);
-				GUILayout.EndHorizontal();
-			}
-			GUILayout.FlexibleSpace();
-			GUILayout.EndVertical();
-			GUILayout.EndArea();
+			GUI.Label(new Rect(400,370, 200,30),levels[levelToLoad]);
 			if(GUI.Button(new Rect(400,400, 100,50), "Start Game")){
 				Network.RemoveRPCsInGroup(0);
 				networkView.RPC("StartGame",RPCMode.All,levelToLoad);
@@ -79,6 +68,43 @@ public class Lobby : MonoBehaviour {
 			
 		}
 
+	}
+	
+	private void drawConnectedPlayers(){
+		
+		GUILayout.BeginArea(new Rect(50,30,250,Screen.height - 30));
+		GUILayout.BeginVertical();
+		for(int i = 0;i < connectedPlayers.Count; i++){
+				
+			GUILayout.BeginHorizontal();
+			GUILayout.Box(connectedPlayers[i].playerName);
+			int ping = Network.GetAveragePing(connectedPlayers[i].netPlayer);
+			GUILayout.Label("ping: " + ping);
+			GUILayout.EndHorizontal();
+		}
+		GUILayout.FlexibleSpace();
+		GUILayout.EndVertical();
+		GUILayout.EndArea();
+	}
+	
+	[RPC]
+	public void changeLevelToLoad(int level){
+		levelToLoad = level;
+	}
+	
+	private void levelChooser(){
+		GUILayout.BeginArea(new Rect(400,30,250,Screen.height - 30));
+		GUILayout.BeginVertical();
+		for(int i = 0;i < levels.Length; i++){
+	
+			if(GUILayout.Button(levels[i])){
+				levelToLoad = i;
+				networkView.RPC("changeLevelToLoad",RPCMode.OthersBuffered,i);
+			}
+		}
+		GUILayout.FlexibleSpace();
+		GUILayout.EndVertical();
+		GUILayout.EndArea();
 	}
 	
 	private void StartServer(){
