@@ -25,7 +25,7 @@ public class RobNet : MonoBehaviour {
 		localPlayer.local = true;
 	
 	}
-	void OnLevelWasLoaded(){
+	void OnNetworkLevelLoaded(){
 		spawnPoint = GameObject.Find("Spawnpoint").transform;
 		//connectedPlayers = GetComponent<Lobby>().getPlayers();
 		//netviewID = Network.aAllocateViewID();
