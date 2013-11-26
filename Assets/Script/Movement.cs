@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Movement : MonoBehaviour {
 	
@@ -18,30 +19,40 @@ public class Movement : MonoBehaviour {
 	public NetworkViewID viewID;
 	public bool isLocal = true;
 	private float lastSyncTime = 0f;
-	public Vector3 startSyncPosition = Vector3.zero;
-	public Vector3 endSyncPosition = Vector3.zero;
+	Vector3 startSyncPosition = Vector3.zero;
+	Vector3 endSyncPosition = Vector3.zero;
 	private float syncDelay = 0f;
 	private float syncTime = 0f;
+	public int nrSavedStates = 2;
+	public List<State> prevSyncs = new List<State>();
 	
 	private Vector3 syncPosition = Vector3.zero;
 	private Vector3 syncVelocity = Vector3.zero;
+	private State lastState = new State();
 	
-	/*
-	private int raycastCounter = 0;
-	public float slideLimit = 10;
-	public float slideSpeed = 10;
-	public bool slide = false;
-	*/
-	
-	
+
+	[System.Serializable]
+	public class State{
+		public float timestamp;
+		public Vector3 pos;
+		public Vector3 velocity;
+
+
+	};
 
 
 	// Use this for initialization
 	void Start () {
 		rigidbody.useGravity = false;
 		isLocal = networkView.isMine;
-		//rigidbody.isKinematic = !isLocal;
+		rigidbody.isKinematic = !isLocal;
 		lastSyncTime = Time.time;
+
+		State state = new State();
+		state.pos = rigidbody.position;
+		state.velocity = rigidbody.velocity;
+		state.timestamp = Time.time;
+		prevSyncs.Add(state);
 		//robNet = GameObject.Find("Mastermind").GetComponent<RobNet>();
 	}
 	
@@ -111,12 +122,14 @@ public class Movement : MonoBehaviour {
 	
 	void nonLocalUpdate(){
 		syncTime += Time.deltaTime;
-		rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
+		//if(Vector3.Distance(startSyncPosition,endSyncPosition) > 0.1f){
+			rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
+		//}
 	}
 	
 	
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info){
-		
+
 		if(stream.isWriting){
 			
 			syncPosition = rigidbody.position;
@@ -124,20 +137,34 @@ public class Movement : MonoBehaviour {
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
 		}else{
-			Vector3 lastVelocity = syncVelocity;
+
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
+
+			if(prevSyncs.Count > 0){
+				lastState = prevSyncs[prevSyncs.Count-1];
+			}
+
+			State state = new State();
+			state.pos = syncPosition;
+			state.velocity = syncVelocity;
+			state.timestamp = Time.time;
+			prevSyncs.Add(state);
+
+			if(prevSyncs.Count > nrSavedStates){
+				prevSyncs.RemoveAt(0);
+			}
 			
-			Vector3 velocityDelta = lastVelocity - syncVelocity;
-			syncTime = 0f; 
-			syncDelay = Time.time - lastSyncTime;
-			lastSyncTime = Time.time;
+			Vector3 velocityDelta = lastState.velocity - state.velocity;
+			syncTime = 0f;   				//reset the value, used for interpolation
+			syncDelay = state.timestamp - lastState.timestamp;
+			Vector3 acceleration = velocityDelta/syncDelay;
 			
 
-			endSyncPosition = syncPosition + (syncVelocity + velocityDelta) * syncDelay;
+			endSyncPosition = syncPosition + syncVelocity * syncDelay + 0.5f*acceleration*Mathf.Pow(syncDelay,2f); // Pt = P0+V0*T + 1/2*A*T^2
 			startSyncPosition = rigidbody.position;
 
-			if(Vector3.Distance (startSyncPosition,endSyncPosition) < 0.05){
+			if(syncVelocity.magnitude < 0.1){
 				endSyncPosition = startSyncPosition;
 			}
 			
