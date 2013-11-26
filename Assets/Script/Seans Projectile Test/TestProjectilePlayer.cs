@@ -34,6 +34,7 @@ public class TestProjectilePlayer : MonoBehaviour {
 					Fireball_Projectile proj = newProj.GetComponent<Fireball_Projectile>();
 					proj.dirVec = dirVector.normalized;
 					proj.playerPrefab = gameObject;
+					proj.Speed = 1200.0f;
 					
 				}
 				currentTime = Time.time;
@@ -55,18 +56,7 @@ public class TestProjectilePlayer : MonoBehaviour {
 					Thunder_Projectile proj1 = newProj1.GetComponent<Thunder_Projectile>();
 					proj1.dirVec = dirVector.normalized;
 					proj1.playerPrefab = gameObject;
-					
-					GameObject newProj2 = (GameObject) Instantiate(thunderProjectile, transform.position, transform.rotation);
-					Thunder_Projectile proj2 = newProj2.GetComponent<Thunder_Projectile>();
-					dirVector = new Vector3(dirVector.x,dirVector.y * 10,dirVector.z);
-					proj2.dirVec = dirVector.normalized;
-					proj2.playerPrefab = gameObject;
-					
-					GameObject newProj3 = (GameObject) Instantiate(thunderProjectile, transform.position, transform.rotation);
-					Thunder_Projectile proj3 = newProj3.GetComponent<Thunder_Projectile>();
-					dirVector = new Vector3(dirVector.x,dirVector.y * 20,dirVector.z);
-					proj3.dirVec = dirVector.normalized;
-					proj3.playerPrefab = gameObject;
+					proj1.Speed = 5.0f;
 					
 				}
 				currentTime = Time.time;
@@ -88,6 +78,7 @@ public class TestProjectilePlayer : MonoBehaviour {
 					GameObject newProj = (GameObject) Instantiate(meleeProjectile, transform.position, transform.rotation);
 					Melee_Projectile proj = newProj.GetComponent<Melee_Projectile>();
 					proj.dirVec = dirVector.normalized;
+					proj.playerPrefab = gameObject;
 					
 				}
 				currentTime = Time.time;
