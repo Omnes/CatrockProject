@@ -5,14 +5,10 @@ public class TestProjectilePlayer : MonoBehaviour {
 	
 	private float currentTime;
 	public float delayTime = 2.0f;
-<<<<<<< HEAD
-	public GameObject projectilePrefab;
+
 	public GameObject meleeProjectile;
-=======
 	public GameObject fireballProjectile;
 	public GameObject thunderProjectile;
-	
->>>>>>> f234ce632af3f4388cc27fb0c01deeabeafccffb
 	// Use this for initialization
 	void Start () {
 	
