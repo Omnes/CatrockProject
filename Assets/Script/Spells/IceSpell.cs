@@ -3,7 +3,6 @@ using System.Collections;
 
 public class IceSpell : Spell {
 
-	public override void cast(GameObject g) {
-		Debug.Log ("ice lol");
+	public override void cast(GameObject g, Vector3 mousePos) {
 	}
 }

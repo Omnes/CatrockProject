@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+using Utility;
+
 public class ManageItems : MonoBehaviour {
 	
 	public Item[] items;
@@ -85,7 +87,11 @@ public class ManageItems : MonoBehaviour {
 	}
 	
 	void useItem(Slot slot) {
-		networkView.RPC("useItemRPC", RPCMode.All, (int)slot);
+		RaycastHit hit;
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		if(Physics.Raycast(ray, out hit)) {
+			networkView.RPC("useItemRPC", RPCMode.All, (int)slot, hit.point);
+		}
 	}
 	
 	[RPC]
@@ -93,8 +99,9 @@ public class ManageItems : MonoBehaviour {
 		items[slot] = networkItems.getItem(t);
 	}
 	
+	//takes mouse collision point
 	[RPC]
-	void useItemRPC(int slot) {
-		items[slot].use(gameObject);
+	void useItemRPC(int slot, Vector3 colMousePos) {
+		items[slot].use(gameObject, colMousePos);
 	}
 }

@@ -3,7 +3,6 @@ using System.Collections;
 
 public class WaterSpell : Spell {
 
-	public override void cast(GameObject g) {
-		Debug.Log("water lol");
+	public override void cast(GameObject g, Vector3 mousePos) {
 	}
 }
