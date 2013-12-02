@@ -33,6 +33,7 @@ public class Fireball_Explosion : MonoBehaviour {
 				//if object is an enityt
 				//change this to fit for only entities
 				//collisions.gameObject.GetComponent<Script>().SendMessage("DoDamage", exploDamage);
+				collisions.gameObject.SendMessage("TryDoDamage", exploDamage);
 			}
 		}
 		Destroy(gameObject);

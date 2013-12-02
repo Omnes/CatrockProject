@@ -15,8 +15,9 @@ public class FireSpell : Spell {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		if(Physics.Raycast(ray, out hit)) {
 			var posXY = g.transform.position.XY();
-			var dirVector = new Vector2(-1.0f, 0.5f);
-			fireProjectile(Vec.vector3(posXY + dirVector * distMul), dirVector);
+			var dirVector = new Vector2(-1.0f, 0.0f);
+			//fireProjectile(Vec.vector3(posXY + dirVector * distMul), dirVector);
+			fireProjectile(g.transform.position, new Vector3(-1.0f, 0.0f, 0.0f));
 		}
 	}
 	

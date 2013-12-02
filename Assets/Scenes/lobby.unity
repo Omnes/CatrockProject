@@ -204,6 +204,7 @@ MonoBehaviour:
   levels:
   - Johannes_funland
   - Robins_funland
+  - Scene_1_seans_SECOND_fantasy
   levelToLoad: 0
 --- !u!114 &402385052
 MonoBehaviour:
@@ -326,6 +327,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400002, guid: 1872dedd54688634892eb67328d70791, type: 2}
+      propertyPath: levels.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1872dedd54688634892eb67328d70791, type: 2}
       propertyPath: m_LocalPosition.x
       value: 6.49437523
@@ -361,6 +366,10 @@ Prefab:
     - target: {fileID: 14800000, guid: 1872dedd54688634892eb67328d70791, type: 2}
       propertyPath: m_ViewID.m_Type
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 1872dedd54688634892eb67328d70791, type: 2}
+      propertyPath: levels.Array.data[2]
+      value: Scene_1_seans_SECOND_fantasy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1872dedd54688634892eb67328d70791, type: 2}
