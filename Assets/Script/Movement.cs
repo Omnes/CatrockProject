@@ -19,24 +19,33 @@ public class Movement : MonoBehaviour {
 	public NetworkViewID viewID;
 	public bool isLocal = true;
 	private float lastSyncTime = 0f;
-	Vector3 startSyncPosition = Vector3.zero;
-	Vector3 endSyncPosition = Vector3.zero;
+	public Vector3 startSyncPosition = Vector3.zero;
+	public Vector3 endSyncPosition = Vector3.zero;
 	private float syncDelay = 0f;
 	private float syncTime = 0f;
-	public int nrSavedStates = 2;
-	public List<State> prevSyncs = new List<State>();
+	
+	//public int nrSavedStates = 2;
+	//public List<State> prevSyncs = new List<State>();
+	private State currentState = new State();
+	private State lastState = new State();
+	//private Vector3 lastVelocity = Vector3.zero;
 	
 	private Vector3 syncPosition = Vector3.zero;
 	private Vector3 syncVelocity = Vector3.zero;
-	private State lastState = new State();
 	
 
 	[System.Serializable]
 	public class State{
+		
 		public float timestamp;
 		public Vector3 pos;
 		public Vector3 velocity;
-
+		
+		public void copy(State s){
+			this.timestamp = s.timestamp;
+			this.pos = s.pos;
+			this.velocity = s.velocity;
+		}
 
 	};
 
@@ -48,11 +57,11 @@ public class Movement : MonoBehaviour {
 		rigidbody.isKinematic = !isLocal;
 		lastSyncTime = Time.time;
 
-		State state = new State();
-		state.pos = rigidbody.position;
-		state.velocity = rigidbody.velocity;
-		state.timestamp = Time.time;
-		prevSyncs.Add(state);
+		//State state = new State();
+		//state.pos = rigidbody.position;
+		//state.velocity = rigidbody.velocity;
+		//state.timestamp = Time.time;
+		//prevSyncs.Add(state);
 		//robNet = GameObject.Find("Mastermind").GetComponent<RobNet>();
 	}
 	
@@ -93,9 +102,9 @@ public class Movement : MonoBehaviour {
 			velocityChange.z = 0; //bara för att vara säker
 			
 			rigidbody.AddForce(velocityChange,ForceMode.VelocityChange);
-			if(!grounded){
+			//if(!grounded){
 				rigidbody.AddForce(new Vector3(gravity.x*rigidbody.mass,-gravity.y*rigidbody.mass,0));
-			}
+			//}
 			
 		}else{
 			nonLocalUpdate();
@@ -104,12 +113,16 @@ public class Movement : MonoBehaviour {
 	}
 	
 	bool isGrounded(){
-		float rayDist = collider.bounds.extents.y + 0.2f;
+		float rayDist = collider.bounds.extents.y + 0.1f;
 		RaycastHit hit;
-		float radius = collider.bounds.size.x/3f*2f;
-		//Behöver specifiera layermasks så det funkar korrect
 		Vector3 pos = rigidbody.position;
-		if(Physics.SphereCast(pos,radius,-Vector3.up,out hit,rayDist)){
+		//Behöver specifiera layermasks så det funkar korrect
+		/* //håll kvar den här ifall vi behöver byta cast om raycast inte duger
+		float radius = collider.bounds.size.x/3f*2f;
+		if(Physics.SphereCast(pos,radius,-Vector3.up,out hit,rayDist)){ 
+			return true;
+		}*/
+		if(Physics.Raycast(pos,-Vector3.up,out hit,rayDist)){
 			return true;
 		}
 		return false;
@@ -122,9 +135,14 @@ public class Movement : MonoBehaviour {
 	
 	void nonLocalUpdate(){
 		syncTime += Time.deltaTime;
-		//if(Vector3.Distance(startSyncPosition,endSyncPosition) > 0.1f){
-			rigidbody.position = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
-		//}
+
+		Vector3 newPosition = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
+		rigidbody.position = newPosition;
+		if(Input.GetKeyUp(KeyCode.Z)){
+			Debug.Log ("ST " + syncTime + "SD " + syncDelay + "ST/SD " + syncTime/syncDelay);
+		}
+		
+
 	}
 	
 	
@@ -137,43 +155,37 @@ public class Movement : MonoBehaviour {
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
 		}else{
-
+			
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
 
-			if(prevSyncs.Count > 0){
-				lastState = prevSyncs[prevSyncs.Count-1];
-			}
+			lastState.copy (currentState); //save the previous state
 
-			State state = new State();
-			state.pos = syncPosition;
-			state.velocity = syncVelocity;
-			state.timestamp = Time.time;
-			prevSyncs.Add(state);
+			currentState.pos = syncPosition;
+			currentState.velocity = syncVelocity;
+			currentState.timestamp = Time.time;
 
-			if(prevSyncs.Count > nrSavedStates){
-				prevSyncs.RemoveAt(0);
-			}
+			//if(prevSyncs.Count > nrSavedStates){
+			//	prevSyncs.RemoveAt(0);
+			//}
 			
-			Vector3 velocityDelta = lastState.velocity - state.velocity;
+			syncDelay = syncTime;//Time.time - lastState.timestamp;
 			syncTime = 0f;   				//reset the value, used for interpolation
-			syncDelay = state.timestamp - lastState.timestamp;
-			Vector3 acceleration = velocityDelta/syncDelay;
 			
+			if(syncDelay == 0){
+				Debug.LogError("syncDelay == 0!");
+				syncDelay = 1;
+			}
+			
+			Vector3 velocityDelta = lastState.velocity - syncVelocity;
+			Vector3 acceleration = velocityDelta/syncDelay;
 
 			endSyncPosition = syncPosition + syncVelocity * syncDelay + 0.5f*acceleration*Mathf.Pow(syncDelay,2f); // Pt = P0+V0*T + 1/2*A*T^2
 			startSyncPosition = rigidbody.position;
 
-			if(syncVelocity.magnitude < 0.1){
+			if(syncVelocity.magnitude < 0.05){
 				endSyncPosition = startSyncPosition;
 			}
-			
-				/*// bör nog använda något liknande senare
-			RaycastHit hit;
-			if(Physics.Linecast(startSyncPosition,endSyncPosition,out hit)){
-				endSyncPosition = hit.point;
-			}*/
-			
 			
 		}
 		
