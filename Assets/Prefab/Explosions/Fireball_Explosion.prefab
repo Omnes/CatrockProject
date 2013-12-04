@@ -82,8 +82,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7200209d45913e54a9ef478fea110b60, type: 3}
   m_Name: 
   exploLifeTime: .100000001
-  exploForce: 50
-  exploDamage: 1
+  exploForce: 5
+  exploDamage: 10
   playerPrefab: {fileID: 0}
 --- !u!135 &13500000
 SphereCollider:

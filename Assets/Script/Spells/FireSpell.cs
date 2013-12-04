@@ -17,13 +17,14 @@ public class FireSpell : Spell {
 			var posXY = g.transform.position.XY();
 			var dirVector = new Vector2(-1.0f, 0.0f);
 			//fireProjectile(Vec.vector3(posXY + dirVector * distMul), dirVector);
-			fireProjectile(g.transform.position, new Vector3(-1.0f, 0.0f, 0.0f));
+			fireProjectile(g, new Vector3(-1.0f, 0.0f, 0.0f));
 		}
 	}
 	
-	void fireProjectile(Vector3 position, Vector3 direction) {
-		var g = (GameObject)Instantiate(projectilePrefab, position, transform.rotation);
+	void fireProjectile(GameObject player, Vector3 direction) {
+		var g = (GameObject)Instantiate(projectilePrefab, player.transform.position, transform.rotation);
 		var proj = g.GetComponent<Fireball_Projectile>();
 		proj.dirVec = direction;
+		proj.playerPrefab = player;
 	}
 }
