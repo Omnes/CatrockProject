@@ -54,7 +54,7 @@ public class SpellcasterAI : MonoBehaviour {
 		float dist = Vector3.Distance(transform.position,target.rigidbody.position);
 		spellBehaviour spellToCast = chooseSpell(dist);
 		Debug.Log(gameObject.name + " casts " + spellToCast.name);
-		spellToCast.spell.cast(gameObject);
+		spellToCast.spell.cast(gameObject, gameObject.transform.position); //aim spell towards target?
 		//spela animationen
 		//spela ljudet
 		

@@ -10,6 +10,7 @@ public class FireSpell : Spell {
 	
 	public GameObject projectilePrefab;
 	
+/*<<<<<<<OVERHEAD
 	public override void cast(GameObject g) {
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -19,6 +20,13 @@ public class FireSpell : Spell {
 			//fireProjectile(Vec.vector3(posXY + dirVector * distMul), dirVector);
 			fireProjectile(g, new Vector3(-1.0f, 0.0f, 0.0f));
 		}
+*/
+	//colMousePos is the position in the world that a ray cast from casters mouse position hits
+	public override void cast(GameObject g, Vector3 colMousePos) {
+		var posXY = g.transform.position.XY();
+		var dirVector = (colMousePos.XY() - posXY).normalized;
+		//fireProjectile(Vec.vector3(posXY + dirVector * distMul), dirVector);
+        fireProjectile(g, new Vector3(-1.0f, 0.0f, 0.0f));
 	}
 	
 	void fireProjectile(GameObject player, Vector3 direction) {
