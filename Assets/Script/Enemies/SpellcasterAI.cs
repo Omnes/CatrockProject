@@ -38,6 +38,10 @@ public class SpellcasterAI : MonoBehaviour {
 				castableSpells.Add(sb);
 			}
 		}
+		if(castableSpells.Count < 1){
+			return null;
+		}
+		
 		//hitta den med högst prio
 		spellBehaviour highestPrio = castableSpells[0];
 		foreach(spellBehaviour s in castableSpells){
@@ -53,6 +57,11 @@ public class SpellcasterAI : MonoBehaviour {
 	public void castSpell(GameObject target){
 		float dist = Vector3.Distance(transform.position,target.rigidbody.position);
 		spellBehaviour spellToCast = chooseSpell(dist);
+		
+		if(spellToCast == null){
+			return;
+		}
+		
 		Debug.Log(gameObject.name + " casts " + spellToCast.name);
 		spellToCast.spell.cast(gameObject, gameObject.transform.position); //aim spell towards target?
 		//spela animationen
