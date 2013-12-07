@@ -134,7 +134,7 @@ public class Movement : MonoBehaviour {
 	}
 	
 	void nonLocalUpdate(){
-		syncTime += Time.deltaTime;
+		syncTime = Time.time - currentState.timestamp;
 
 		Vector3 newPosition = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
 		rigidbody.position = newPosition;
@@ -169,13 +169,10 @@ public class Movement : MonoBehaviour {
 			//	prevSyncs.RemoveAt(0);
 			//}
 			
-			syncDelay = syncTime;//Time.time - lastState.timestamp;
+			syncDelay = Time.time - lastState.timestamp;
 			syncTime = 0f;   				//reset the value, used for interpolation
 			
-			if(syncDelay == 0){
-				Debug.LogError("syncDelay == 0!");
-				syncDelay = 1;
-			}
+			syncDelay = Mathf.Clamp(syncDelay,0.001f,30f);
 			
 			Vector3 velocityDelta = lastState.velocity - syncVelocity;
 			Vector3 acceleration = velocityDelta/syncDelay;
@@ -183,7 +180,7 @@ public class Movement : MonoBehaviour {
 			endSyncPosition = syncPosition + syncVelocity * syncDelay + 0.5f*acceleration*Mathf.Pow(syncDelay,2f); // Pt = P0+V0*T + 1/2*A*T^2
 			startSyncPosition = rigidbody.position;
 
-			if(syncVelocity.magnitude < 0.05){
+			if(syncVelocity.magnitude < 0.05f){
 				endSyncPosition = startSyncPosition;
 			}
 			

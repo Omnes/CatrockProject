@@ -15,6 +15,7 @@ UnityGenerated/
 Library/
 *_Data/
 *.exe
+*.pdb
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
