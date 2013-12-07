@@ -311,6 +311,7 @@ GameObject:
   - 114: {fileID: 1017310441}
   - 114: {fileID: 1017310442}
   - 114: {fileID: 1017310443}
+  - 114: {fileID: 1017310444}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -427,6 +428,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4363b4ae087ce43a6794e1e36c1865, type: 3}
   m_Name: 
   projectilePrefab: {fileID: 0}
+--- !u!114 &1017310444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1017310435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d26cf9aef0a454699e589c137d6fc1, type: 3}
+  m_Name: 
+  targetMode: 0
+  ignoreLineOfSight: 0
+  losLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  alertState: 0
+  aggroDistance: 3
+  checkForEnemesInterval: 30
+  currentTarget: {fileID: 0}
+  playerArray: []
 --- !u!1 &1245224276
 GameObject:
   m_ObjectHideFlags: 0
