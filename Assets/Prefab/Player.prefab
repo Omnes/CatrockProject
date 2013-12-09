@@ -133,8 +133,11 @@ MonoBehaviour:
   m_Name: 
   isLocal: 1
   playerHealth: 100
+  maxHealth: 100
   healthTexture: {fileID: 2800000, guid: 0e8e9c251d43d974089c4e2014d1ad91, type: 3}
   healthPosOffset: {x: 0, y: 0}
+  healthBarSize: {x: 1, y: 20}
+  isDisabled: 0
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1

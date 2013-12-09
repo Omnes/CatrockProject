@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
+using Utility;
+
 public class PlayerHealth : MonoBehaviour {
 	
 	public bool isLocal = true;
 	public float playerHealth = 100.0f;
+	public float maxHealth = 100.0f;
 	public Texture healthTexture;
 	
 	private Vector2 healthPos;
@@ -13,25 +16,54 @@ public class PlayerHealth : MonoBehaviour {
 	
 	public bool isDisabled = false;
 	
+	//		this will get changed later on. fastfix
+	private Vector3 locationOfDeath;
+	
+	//private float respawnTime = 2.0f;
+	//private float currentTime;
+	
+	public GameObject[] playerArray;
+	
 	// Use this for initialization
 	void Start () {
 		isLocal = networkView.isMine;
 		//hårdkodat ohyeahahea
-		healthPosOffset = new Vector2(-50,-15);
+		healthPosOffset = new Vector2(-50,-15);	
+		playerArray = GameObject.FindGameObjectsWithTag("Player");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+		//show Health
 		healthPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, -transform.position.y, transform.position.z));
 		healthPos += healthPosOffset;
 		
 		//Kill player
-		// is this supposed to be local or not ? 
 		if(playerHealth <= 0 && isDisabled == false){
+			Debug.Log("trying to kill");
 			TryDisablePlayer();
 		}
+		
+		//resurrect all players atm?
+		if(isLocal){
+			if(Input.GetKey(KeyCode.LeftControl)){
+				//forstätt med detta...
+				//sök igenom alla playerobjekt och kör message
+				
+				foreach(GameObject g in playerArray){
+					g.SendMessage("TryEnablePlayer");
+				}
+			}	
+		}
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	//if it is local player, do damage.
 	//This function will be executed from elsewhere by SendMessage()
@@ -41,22 +73,27 @@ public class PlayerHealth : MonoBehaviour {
 		}
 	}
 	
+	//tries to disable player. gameObject.SetActive(false)
 	void TryDisablePlayer(){
 		if(isLocal){
 			networkView.RPC("Kill", RPCMode.All);
 		}
 	}
 	
-	//tryenableplayer ? should try to bring back player to life ? if it is castingtime then maybe player wont be resurrecte4d ?
+	//tries to enable player. gameObject.SetActive(true)
 	void TryEnablePlayer(){
-		//networkview.RPC("Resurrect", RPCMode.All);
+		Debug.Log("trying");
+		if(isDisabled == true){
+			Debug.Log("success");
+			networkView.RPC("Resurrect", RPCMode.All);
+		}
 	}
 	
 	void OnGUI() {
 		GUI.DrawTexture(new Rect(healthPos.x,healthPos.y, playerHealth, healthBarSize.y), healthTexture); //playerHealth as WIDTH IS A BAD THING: CHANGE THIS LATER
 	}
 
-	
+	//do damage to playerHealth
 	[RPC]
 	void DoDmg(float damage){
 		playerHealth -= damage;
@@ -65,19 +102,27 @@ public class PlayerHealth : MonoBehaviour {
 		}
 	}
 	
-	//skicka ut namnet på spelaren
+	//disable Player
 	[RPC]
 	void Kill(){
 		isDisabled = true;
+		locationOfDeath = transform.position;
 		gameObject.SetActive(false);
 		if(Application.isEditor){
 			Debug.Log("A player has been killed");
 		}
 	}
 	
-	/*[RPC]
+	//enable Player
+	[RPC]
 	void Resurrect(){
-		Debug.Log("A player has been ressurected");
-	}*/
-	
+		gameObject.SetActive(true);
+		isDisabled = false;
+		playerHealth = maxHealth;
+		transform.position = locationOfDeath;
+		
+		if(Application.isEditor){
+			Debug.Log("A player has been ressurected");
+		}
+	}	
 }

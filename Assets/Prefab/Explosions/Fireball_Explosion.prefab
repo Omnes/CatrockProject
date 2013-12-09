@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   exploLifeTime: .100000001
   exploForce: 5
-  exploDamage: 10
+  exploDamage: 56
   playerPrefab: {fileID: 0}
 --- !u!135 &13500000
 SphereCollider:
