@@ -11,6 +11,8 @@ public class PlayerHealth : MonoBehaviour {
 	public Vector2 healthPosOffset;
 	public Vector2 healthBarSize = new Vector2(1.0f,20.0f);
 	
+	public bool isDisabled = false;
+	
 	// Use this for initialization
 	void Start () {
 		isLocal = networkView.isMine;
@@ -24,14 +26,30 @@ public class PlayerHealth : MonoBehaviour {
 		healthPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, -transform.position.y, transform.position.z));
 		healthPos += healthPosOffset;
 		
+		//Kill player
+		// is this supposed to be local or not ? 
+		if(playerHealth <= 0 && isDisabled == false){
+			TryDisablePlayer();
+		}
 	}
 	
 	//if it is local player, do damage.
 	//This function will be executed from elsewhere by SendMessage()
 	void TryDoDamage(float damage){
 		if(isLocal){//												Är osäker på vilket RPCMode det ska vara här
-			networkView.RPC("DoDamage", RPCMode.All, damage);
+			networkView.RPC("DoDmg", RPCMode.All, damage);
 		}
+	}
+	
+	void TryDisablePlayer(){
+		if(isLocal){
+			networkView.RPC("Kill", RPCMode.All);
+		}
+	}
+	
+	//tryenableplayer ? should try to bring back player to life ? if it is castingtime then maybe player wont be resurrecte4d ?
+	void TryEnablePlayer(){
+		//networkview.RPC("Resurrect", RPCMode.All);
 	}
 	
 	void OnGUI() {
@@ -40,9 +58,26 @@ public class PlayerHealth : MonoBehaviour {
 
 	
 	[RPC]
-	void DoDamage(float damage){
+	void DoDmg(float damage){
 		playerHealth -= damage;
-		Debug.Log("A player has been hit with: "+damage+" damage");
+		if(Application.isEditor){
+			Debug.Log("A player has been hit with: "+damage+" damage");
+		}
 	}
+	
+	//skicka ut namnet på spelaren
+	[RPC]
+	void Kill(){
+		isDisabled = true;
+		gameObject.SetActive(false);
+		if(Application.isEditor){
+			Debug.Log("A player has been killed");
+		}
+	}
+	
+	/*[RPC]
+	void Resurrect(){
+		Debug.Log("A player has been ressurected");
+	}*/
 	
 }
