@@ -29,7 +29,7 @@ public class PlayerHealth : MonoBehaviour {
 		isLocal = networkView.isMine;
 		//hårdkodat ohyeahahea
 		healthPosOffset = new Vector2(-50,-15);	
-		playerArray = GameObject.FindGameObjectsWithTag("Player");
+		//playerArray = GameObject.FindGameObjectsWithTag("Player");
 	}
 	
 	// Update is called once per frame
@@ -45,6 +45,12 @@ public class PlayerHealth : MonoBehaviour {
 			TryDisablePlayer();
 		}
 		
+		
+		//hårdkodat
+		if(playerArray.Length < 2){
+			playerArray = GameObject.FindGameObjectsWithTag("Player");
+		}
+			
 		//resurrect all players atm?
 		if(isLocal){
 			if(Input.GetKey(KeyCode.LeftControl)){
@@ -52,10 +58,12 @@ public class PlayerHealth : MonoBehaviour {
 				//sök igenom alla playerobjekt och kör message
 				
 				foreach(GameObject g in playerArray){
+					g.SetActive(true);
 					g.SendMessage("TryEnablePlayer");
 				}
 			}	
 		}
+		
 	}
 	
 	
@@ -82,11 +90,15 @@ public class PlayerHealth : MonoBehaviour {
 	
 	//tries to enable player. gameObject.SetActive(true)
 	void TryEnablePlayer(){
-		Debug.Log("trying");
-		if(isDisabled == true){
-			Debug.Log("success");
-			networkView.RPC("Resurrect", RPCMode.All);
+		if(Application.isEditor){
+			Debug.Log("trying");
 		}
+		//if(isDisabled == true){
+		//	if(Application.isEditor){
+		//		Debug.Log("success");
+		//	}
+			networkView.RPC("Resurrect", RPCMode.All);
+		//}
 	}
 	
 	void OnGUI() {
@@ -105,6 +117,9 @@ public class PlayerHealth : MonoBehaviour {
 	//disable Player
 	[RPC]
 	void Kill(){
+		//kanske itne ska vara här också. kanske ska ta bort denna
+		gameObject.SetActive(true);
+		
 		isDisabled = true;
 		locationOfDeath = transform.position;
 		gameObject.SetActive(false);
@@ -116,6 +131,17 @@ public class PlayerHealth : MonoBehaviour {
 	//enable Player
 	[RPC]
 	void Resurrect(){
+		foreach(GameObject g in playerArray){
+			g.SetActive(true);	
+		}
+		if(Application.isEditor){
+			Debug.Log("ACTIVATED");
+		}
+	}
+	
+	
+	
+	/*void Resurrect(){
 		gameObject.SetActive(true);
 		isDisabled = false;
 		playerHealth = maxHealth;
@@ -124,5 +150,5 @@ public class PlayerHealth : MonoBehaviour {
 		if(Application.isEditor){
 			Debug.Log("A player has been ressurected");
 		}
-	}	
+	}*/	
 }
