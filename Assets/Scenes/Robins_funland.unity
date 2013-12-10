@@ -312,6 +312,7 @@ GameObject:
   - 114: {fileID: 1017310442}
   - 114: {fileID: 1017310443}
   - 114: {fileID: 1017310444}
+  - 114: {fileID: 1017310445}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -380,7 +381,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 8
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!114 &1017310441
 MonoBehaviour:
@@ -395,16 +396,16 @@ MonoBehaviour:
   avaliableSpells:
   - spell: {fileID: 1017310442}
     minDistance: 0
-    maxDistance: 10
+    maxDistance: 8
     priority: 1
     name: Ice!
     animation: 
     soundEffect: 
   - spell: {fileID: 1017310443}
-    minDistance: 0
-    maxDistance: 10
-    priority: 1
-    name: Ice!
+    minDistance: 8
+    maxDistance: 20
+    priority: 2
+    name: Fire
     animation: 
     soundEffect: 
 --- !u!114 &1017310442
@@ -427,7 +428,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd4363b4ae087ce43a6794e1e36c1865, type: 3}
   m_Name: 
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 100000, guid: f0ac3d1a7f353354e8f0d915700ff1f0, type: 2}
 --- !u!114 &1017310444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,6 +449,20 @@ MonoBehaviour:
   checkForEnemesInterval: 30
   currentTarget: {fileID: 0}
   playerArray: []
+--- !u!114 &1017310445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1017310435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3ced4ba864f8c4992aebf165551587, type: 3}
+  m_Name: 
+  acceleration: .100000001
+  maxSpeed: 10
+  minDistance: 5
+  maxDistance: 20
 --- !u!1 &1245224276
 GameObject:
   m_ObjectHideFlags: 0
