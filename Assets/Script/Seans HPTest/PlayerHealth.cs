@@ -6,38 +6,34 @@ using Utility;
 public class PlayerHealth : MonoBehaviour {
 	
 	public bool isLocal = true;
-	public float playerHealth = 100.0f;
+    //### healthbar ###
+    public float playerHealth = 100.0f;
 	public float maxHealth = 100.0f;
 	public Texture healthTexture;
-	
 	private Vector2 healthPos;
-	public Vector2 healthPosOffset;
+	
+	//                                                          hårdkodat!!!
+    public Vector2 healthPosOffset = new Vector2(-50.0f, -15.0f);
+    //public Vector2 healthPosOffset = new Vector2(0.0f, 0.0f);
 	public Vector2 healthBarSize = new Vector2(1.0f,20.0f);
-	
+
+    //### kill and resurrect player ###
 	public bool isDisabled = false;
-	
-	//		this will get changed later on. fastfix
+    public GameObject[] playerArray;
+	//		                                            this will get changed later on. fastfix!!!
 	private Vector3 locationOfDeath;
-	
-	//private float respawnTime = 2.0f;
-	//private float currentTime;
-	
-	public GameObject[] playerArray;
 	
 	// Use this for initialization
 	void Start () {
 		isLocal = networkView.isMine;
-		//hårdkodat ohyeahahea
-		healthPosOffset = new Vector2(-50,-15);	
-		//playerArray = GameObject.FindGameObjectsWithTag("Player");
+        //playerArray = GameObject.FindGameObjectsWithTag("Player");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 		//show Health
-		healthPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, -transform.position.y, transform.position.z));
-		healthPos += healthPosOffset;
+		healthPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, -transform.position.y, 0.0f));
 		
 		//Kill player
 		if(playerHealth <= 0 && isDisabled == false){
@@ -45,38 +41,29 @@ public class PlayerHealth : MonoBehaviour {
 			TryDisablePlayer();
 		}
 		
-		
-		//hårdkodat
+		//                                                      hårdkodat!!!
 		if(playerArray.Length < 2){
 			playerArray = GameObject.FindGameObjectsWithTag("Player");
 		}
 			
-		//resurrect all players atm?
+		//														resurrect all players atm, need to fix this later
 		if(isLocal){
 			if(Input.GetKey(KeyCode.LeftControl)){
-				//forstätt med detta...
-				//sök igenom alla playerobjekt och kör message
-				
-				foreach(GameObject g in playerArray){
+				//activate players on this client
+				foreach (GameObject g in playerArray){
 					g.SetActive(true);
-					g.SendMessage("TryEnablePlayer");
 				}
+				//activate player on other clients
+				TryEnablePlayer();
 			}	
 		}
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	//if it is local player, do damage.
 	//This function will be executed from elsewhere by SendMessage()
 	void TryDoDamage(float damage){
-		if(isLocal){//												Är osäker på vilket RPCMode det ska vara här
+		if(isLocal){
 			networkView.RPC("DoDmg", RPCMode.All, damage);
 		}
 	}
@@ -90,15 +77,10 @@ public class PlayerHealth : MonoBehaviour {
 	
 	//tries to enable player. gameObject.SetActive(true)
 	void TryEnablePlayer(){
+		networkView.RPC("Resurrect", RPCMode.Others);
 		if(Application.isEditor){
-			Debug.Log("trying");
+			Debug.Log("Trying to resurrect");
 		}
-		//if(isDisabled == true){
-		//	if(Application.isEditor){
-		//		Debug.Log("success");
-		//	}
-			networkView.RPC("Resurrect", RPCMode.All);
-		//}
 	}
 	
 	void OnGUI() {
@@ -109,46 +91,44 @@ public class PlayerHealth : MonoBehaviour {
 	[RPC]
 	void DoDmg(float damage){
 		playerHealth -= damage;
-		if(Application.isEditor){
-			Debug.Log("A player has been hit with: "+damage+" damage");
-		}
 	}
 	
 	//disable Player
 	[RPC]
 	void Kill(){
-		//kanske itne ska vara här också. kanske ska ta bort denna
-		gameObject.SetActive(true);
-		
 		isDisabled = true;
 		locationOfDeath = transform.position;
 		gameObject.SetActive(false);
+		
 		if(Application.isEditor){
-			Debug.Log("A player has been killed");
+			Debug.Log("RPC : Killing");
 		}
 	}
 	
 	//enable Player
 	[RPC]
 	void Resurrect(){
-		foreach(GameObject g in playerArray){
-			g.SetActive(true);	
+		foreach(GameObject g in playerArray){	
+			g.SetActive(true);
+			if(g.GetComponent<PlayerHealth>().isDisabled){
+				g.networkView.RPC("WakeUp", RPCMode.All);
+			}
 		}
 		if(Application.isEditor){
-			Debug.Log("ACTIVATED");
+			Debug.Log("RPC : Resurrecting");
 		}
 	}
 	
-	
-	
-	/*void Resurrect(){
-		gameObject.SetActive(true);
+	//Måste detta vara ett RPC ?
+	//väcker spelaren och säger till alla att han har fullt liv. kanske ska ligga i [RPC]Resurrect
+	[RPC]
+	void WakeUp(){
 		isDisabled = false;
 		playerHealth = maxHealth;
 		transform.position = locationOfDeath;
 		
 		if(Application.isEditor){
-			Debug.Log("A player has been ressurected");
+			Debug.Log("IMALIVE");
 		}
-	}*/	
+    }
 }
