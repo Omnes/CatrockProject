@@ -13,7 +13,7 @@ public class Movement : MonoBehaviour {
 	public bool grounded;
 
 	public bool playerControl = true;
-
+	
 	//network stuff
 	private RobNet robNet;
 	public NetworkViewID viewID;
@@ -109,6 +109,7 @@ public class Movement : MonoBehaviour {
 		}else{
 			nonLocalUpdate();
 		}
+		
 		
 	}
 	
