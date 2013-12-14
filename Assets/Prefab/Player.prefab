@@ -287,6 +287,7 @@ GameObject:
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400006}
   - 136: {fileID: 13600000}
+  - 114: {fileID: 11400008}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -669,6 +670,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9213e89ca44fd428fcbb89f2a7cbc9, type: 3}
   m_Name: 
   rotSpeed: .0500000007
+--- !u!114 &11400008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e8f7b4511852344e8dda18d6c7dce56, type: 3}
+  m_Name: 
+  shakeTime: 100
+  shakeMultiplier: 10
+  shakeStrenght: 200
+  camSpeed: 5
+  cameraDepth: -45
+  cameraHeight: 15
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
