@@ -1,30 +1,34 @@
 using UnityEngine;
 using System.Collections;
 
-public class CameraControll : MonoBehaviour {
-	/*
+public class CameraControl : MonoBehaviour {
 	
-		//*****CAMERA******
-		//camerashake
-		private float shakeCount = 10;
-		public float shakeTime = 100;
-		public float shakeMultiplier = 10;
-		public float shakeStrenght = 200;
-		
-		private bool isShaking = false;
-		public Camera mainCam;
-		public float camSpeed = 5;
-		
-		//camera from screen
-		public float cameraDepth = -45;
-		public float cameraHeight = 15;
-	 */
 
-	/*
+	//*****CAMERA******
+	//camerashake
+	private float shakeCount = 10;
+	public float shakeTime = 100;
+	public float shakeMultiplier = 10;
+	public float shakeStrenght = 200;
+	
+	private bool isShaking = false;
+	public float camSpeed = 5;
+	
+	//camera from screen
+	public float cameraDepth = -45;
+	public float cameraHeight = 15;
+
+	//player.					 MasterMind should assign the correct player to the camera
+	public Transform player;
+	 
+	void Update(){
+		HandleCamera();
+	}
+	
 	void HandleCamera(){
 		//player - camera
-		Vector2 dirVec = (((cameraHeight * Vector3.up) + transform.position)-mainCam.transform.position)/2;
-		Vector3 camPos = mainCam.transform.position;
+		Vector2 dirVec = (((cameraHeight * Vector3.up) + player.position)-transform.position)/2;
+		Vector3 camPos = transform.position;
 		
 		if(isShaking){
 			//shakeTime starts
@@ -49,7 +53,7 @@ public class CameraControll : MonoBehaviour {
 		}
 		
 		//final cameraposition
-		mainCam.transform.position = camPos;
+		transform.position = camPos;
 	}
-	*/
+	
 }
