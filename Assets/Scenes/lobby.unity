@@ -308,12 +308,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0c5a8e20fb72534a983b218175f9979, type: 3}
   m_Name: 
-  playerPrefab: {fileID: 100036, guid: 64d089de238a8fe40be173320016f897, type: 2}
   levels:
   - Johannes_funland
   - Robins_funland
   maxPlayers: 4
   isServer: 0
+  playerPrefab: {fileID: 100036, guid: 64d089de238a8fe40be173320016f897, type: 2}
 --- !u!148 &1179571108
 NetworkView:
   m_ObjectHideFlags: 0
@@ -367,3 +367,4 @@ Prefab:
   m_RootGameObject: {fileID: 1090946031}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+
