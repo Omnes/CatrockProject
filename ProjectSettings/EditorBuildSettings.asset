@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/lobby.unity
   - enabled: 0
     path: Assets/Scenes/Scene_1.unity
-  - enabled: 1
-    path: Assets/Scenes/Robins_funland.unity
   - enabled: 0
+    path: Assets/Scenes/Robins_funland.unity
+  - enabled: 1
     path: Assets/Scenes/Johannes_funland.unity
   - enabled: 1
     path: Assets/Scenes/Scene_1_seans_SECOND_fantasy.unity

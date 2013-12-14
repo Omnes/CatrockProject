@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour {
 	public float jumpForce = 5;
 	public Vector2 gravity = new Vector2(0f, 9.82f);
 	public bool grounded;
-
+	public float extendedRayDistance = 0.1f;
 	public bool playerControl = true;
 	
 	//network stuff
@@ -114,7 +114,7 @@ public class Movement : MonoBehaviour {
 	}
 	
 	bool isGrounded(){
-		float rayDist = collider.bounds.extents.y + 0.1f;
+		float rayDist = collider.bounds.extents.y + extendedRayDistance;
 		RaycastHit hit;
 		Vector3 pos = rigidbody.position;
 		//Behöver specifiera layermasks så det funkar korrect
@@ -123,7 +123,9 @@ public class Movement : MonoBehaviour {
 		if(Physics.SphereCast(pos,radius,-Vector3.up,out hit,rayDist)){ 
 			return true;
 		}*/
-		if(Physics.Raycast(pos,-Vector3.up,out hit,rayDist)){
+		Debug.DrawLine(collider.bounds.center, collider.bounds.center + rayDist * -Vector3.up);
+
+		if(Physics.Raycast(collider.bounds.center,-Vector3.up,out hit,rayDist)){
 			return true;
 		}
 		return false;
