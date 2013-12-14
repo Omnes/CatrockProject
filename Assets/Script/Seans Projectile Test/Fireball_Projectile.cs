@@ -11,14 +11,16 @@ public class Fireball_Projectile : MonoBehaviour {
 	
 	public float ignorePlayerTime = 0.5f;	//ignore player for this long. Will not work in this script
 	private float currentTime;
-
+	public AudioSource fireSound;
 	
 	// Use this for initialization
 	void Start () {
 		//start movement
 		rigidbody.AddForce(dirVec * Speed);
-		
 		currentTime = Time.time;
+				
+		//test
+		fireSound.Play();
 	}
 	
 	// Update is called once per frame
