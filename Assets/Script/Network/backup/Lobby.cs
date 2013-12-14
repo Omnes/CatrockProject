@@ -2,20 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Lobby : MonoBehaviour {
-
+public class Lobbybackup : MonoBehaviour {
+	
+	private bool connected = false;
+	private int defaultPort = 7777;
+	public int maxPlayers = 4;
+	public bool isServer = false;
+	
+	private Player localPlayer = new Player();
+	private List<Player> connectedPlayers = new List<Player>();
+	public string[] levels = {"Johannes_funland", "Robins_funland"};
 	public int levelToLoad = 0;
 	private RobNet robNet;
-	bool connected = false;
-	private int defaultPort = 7777;
 
 	// Use this for initialization
 	void Start () {
 		robNet = GetComponent<RobNet>();
-	}
-	
-	void setConnected(bool con){
-		connected = con;
+		localPlayer = robNet.localPlayer;
+		DontDestroyOnLoad(gameObject);
+		
 	}
 	
 	string tempPlayerName = "Player";
@@ -25,7 +30,7 @@ public class Lobby : MonoBehaviour {
 			//set player name
 			tempPlayerName = GUI.TextField(new Rect(500, 100, 200, 20), tempPlayerName);
 			if(GUI.Button(new Rect(500, 130, 40, 40), "Ok")){
-				SendMessage("setLocalPlayerName",tempPlayerName);
+				robNet.localPlayer.playerName = tempPlayerName;
 			}
 			
 			GUILayout.BeginArea(new Rect(50,30,200,Screen.height - 30));
@@ -33,29 +38,28 @@ public class Lobby : MonoBehaviour {
 
 			
 			if(GUILayout.Button("Host game")){
-				robNet.StartServer();
+				StartServer();
 			}
 			string fieldIP = GUILayout.TextField("localhost");
 			if(GUILayout.Button("Join lobby")){
-				robNet.ConnectToServer(fieldIP,defaultPort);
+				ConnectToServer(fieldIP,defaultPort);
 			}
 			if(GUILayout.Button("localhost")){
-				robNet.ConnectToServer("127.0.0.1",defaultPort);
+				ConnectToServer("127.0.0.1",defaultPort);
 			}
 			if(GUILayout.Button("Sean")){
-				robNet.ConnectToServer("192.168.0.106",defaultPort);
+				ConnectToServer("192.168.0.106",defaultPort);
 			}
 			if(GUILayout.Button("Robin")){
-				robNet.ConnectToServer("193.11.160.242",defaultPort);
+				ConnectToServer("193.11.160.242",defaultPort);
 			}
 			GUILayout.FlexibleSpace();
 			GUILayout.EndVertical();
 			GUILayout.EndArea();
-		}else if( Application.loadedLevelName == "lobby"){
+		}else{
 			drawConnectedPlayers();
 			levelChooser();
 			
-			string[] levels = robNet.levels;
 			GUI.Label(new Rect(400,370, 200,30),levels[levelToLoad]);
 			if(GUI.Button(new Rect(400,400, 100,50), "Start Game")){
 				Network.RemoveRPCsInGroup(0);
@@ -67,7 +71,6 @@ public class Lobby : MonoBehaviour {
 	}
 	
 	private void drawConnectedPlayers(){
-		List<Player> connectedPlayers = robNet.connectedPlayers;
 		
 		GUILayout.BeginArea(new Rect(50,30,250,Screen.height - 30));
 		GUILayout.BeginVertical();
@@ -90,7 +93,6 @@ public class Lobby : MonoBehaviour {
 	}
 	
 	private void levelChooser(){
-		string[] levels = robNet.levels;
 		GUILayout.BeginArea(new Rect(400,30,250,Screen.height - 30));
 		GUILayout.BeginVertical();
 		for(int i = 0;i < levels.Length; i++){
@@ -105,7 +107,60 @@ public class Lobby : MonoBehaviour {
 		GUILayout.EndArea();
 	}
 	
+	private void StartServer(){
+		bool useNAT = !Network.HavePublicAddress();
+		Network.InitializeServer(maxPlayers, defaultPort, useNAT);
+		Debug.Log("Server initializing");
+		isServer = true;
+		OnConnectedToServer();
+		
+	}
 	
+	private void ConnectToServer(string ip,int port){
+		Debug.Log("Connecting to " + ip + ":" + port);
+		Network.Connect(ip, port);
+	}
+	
+	void OnFailedToConnect(){
+		Debug.Log("Failed Connection");
+	}
+	
+	void OnConnectedToServer(){
+		//startServer kallar denaa också, glöm ej!
+		Debug.Log ("Connection sucess!");
+		connected = true;
+		robNet.localPlayer.viewID = Network.AllocateViewID();
+		connectedPlayers.Add(localPlayer);
+		robNet.addPlayer(localPlayer);
+		
+		networkView.RPC("NewPlayer",RPCMode.OthersBuffered,localPlayer.playerName,localPlayer.viewID,localPlayer.netPlayer);
+	}
+	
+	[RPC]
+	private void NewPlayer(string name,NetworkViewID id, NetworkPlayer netplayer){
+		Debug.Log("new Player!");
+		Player newPlayer = new Player();
+		newPlayer.playerName = name;
+		newPlayer.viewID = id;
+		newPlayer.netPlayer = netplayer;
+		newPlayer.local = false;
+		
+		connectedPlayers.Add(newPlayer);
+		robNet.addPlayer(newPlayer);
+	}
+	
+	[RPC]
+	private void StartGame(int levelNr){
+		Network.SetSendingEnabled(0,false);
+		Network.isMessageQueueRunning = false;
+		Network.SetLevelPrefix(levelToLoad);
+		
+		Application.LoadLevel(levels[levelNr]);
+		Network.isMessageQueueRunning = true;
+		Network.SetSendingEnabled(0,true);
+		this.enabled = false;
+		
+	}
 	
 	
 	
