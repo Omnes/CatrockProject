@@ -4,15 +4,19 @@ using System.Collections;
 public class Fireball_Explosion : MonoBehaviour {
 	
 	private Vector3 dirVec;					//the direction that other objects will travel if hit	
-	public float exploLifeTime = 0.2f;
+	public float exploLifeTime = 0.1f;
 	public float exploForce = 5.0f;
 	public float exploDamage = 1.0f;
 
 	public GameObject playerPrefab;
 	
+	public AudioSource exploSound;
+	
+	bool haveCollided = false;
+	
 	// Use this for initialization
 	void Start () {
-		
+		exploSound.Play();
 	}
 	
 	// Update is called once per frame
@@ -23,7 +27,7 @@ public class Fireball_Explosion : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision collisions){
 		
-		if(collisions.rigidbody){
+		if(collisions.rigidbody && !haveCollided){
 			//itterates over all collisionspoints for the different collisions
 			foreach(ContactPoint collision in collisions){
 				//creates directionvector for objects
@@ -36,7 +40,8 @@ public class Fireball_Explosion : MonoBehaviour {
 				collisions.gameObject.SendMessage("TryDoDamage", exploDamage);
 			}
 		}
-		Destroy(gameObject);
+		haveCollided = true;
+		Destroy(gameObject, exploLifeTime);
 	}
 	
 }

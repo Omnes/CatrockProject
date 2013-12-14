@@ -10,10 +10,10 @@ public class PlayerHealth : MonoBehaviour {
     public float playerHealth = 100.0f;
 	public float maxHealth = 100.0f;
 	public Texture healthTexture;
-	private Vector2 healthPos;
+	private Vector3 healthPos;
 	
 	//                                                          hårdkodat!!!
-    public Vector2 healthPosOffset = new Vector2(-50.0f, -15.0f);
+    public Vector2 healthPosOffset = new Vector2(-50.0f, 15.0f);
     //public Vector2 healthPosOffset = new Vector2(0.0f, 0.0f);
 	public Vector2 healthBarSize = new Vector2(1.0f,20.0f);
 
@@ -31,13 +31,17 @@ public class PlayerHealth : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 		//show Health
-		healthPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, -transform.position.y, 0.0f));
+		//Vector3 playerPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+		healthPos = Camera.main.WorldToScreenPoint(transform.position);
+		healthPos = Vec.XY(healthPos) + healthPosOffset;
+		healthPos.z = 0.0f;
+		
 		
 		//Kill player
 		if(playerHealth <= 0 && isDisabled == false){
-			Debug.Log("trying to kill");
+			OurDebug.Log("trying to kill");
 			TryDisablePlayer();
 		}
 		
@@ -78,13 +82,16 @@ public class PlayerHealth : MonoBehaviour {
 	//tries to enable player. gameObject.SetActive(true)
 	void TryEnablePlayer(){
 		networkView.RPC("Resurrect", RPCMode.Others);
-		if(Application.isEditor){
-			Debug.Log("Trying to resurrect");
-		}
+		OurDebug.Log("Trying to resurrect");
+		
 	}
 	
+	
+	//new Rect(screenpos.x - 10, Screen.height - (screenpos.y + 10), 20, 20)
+	
+	
 	void OnGUI() {
-		GUI.DrawTexture(new Rect(healthPos.x,healthPos.y, playerHealth, healthBarSize.y), healthTexture); //playerHealth as WIDTH IS A BAD THING: CHANGE THIS LATER
+		GUI.DrawTexture(new Rect(healthPos.x, Screen.height - healthPos.y, playerHealth, healthBarSize.y), healthTexture); //playerHealth as WIDTH IS A BAD THING: CHANGE THIS LATER
 	}
 
 	//do damage to playerHealth
@@ -100,9 +107,7 @@ public class PlayerHealth : MonoBehaviour {
 		locationOfDeath = transform.position;
 		gameObject.SetActive(false);
 		
-		if(Application.isEditor){
-			Debug.Log("RPC : Killing");
-		}
+		OurDebug.Log("RPC : Killing");
 	}
 	
 	//enable Player
@@ -114,9 +119,8 @@ public class PlayerHealth : MonoBehaviour {
 				g.networkView.RPC("WakeUp", RPCMode.All);
 			}
 		}
-		if(Application.isEditor){
-			Debug.Log("RPC : Resurrecting");
-		}
+		OurDebug.Log("RPC : Resurrecting");
+		
 	}
 	
 	//Måste detta vara ett RPC ?
@@ -127,8 +131,6 @@ public class PlayerHealth : MonoBehaviour {
 		playerHealth = maxHealth;
 		transform.position = locationOfDeath;
 		
-		if(Application.isEditor){
-			Debug.Log("IMALIVE");
-		}
+		OurDebug.Log("IMALIVE");
     }
 }
