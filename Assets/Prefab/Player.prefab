@@ -640,6 +640,8 @@ MonoBehaviour:
   isLocal: 1
   startSyncPosition: {x: 0, y: 0, z: 0}
   endSyncPosition: {x: 0, y: 0, z: 0}
+  syncRotation: {x: 0, y: 0, z: 0, w: 0}
+  fromSyncRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -669,6 +671,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9213e89ca44fd428fcbb89f2a7cbc9, type: 3}
   m_Name: 
   rotSpeed: .0500000007
+  airRotate: 0
+  deltaRotSyncLimit: 2
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
