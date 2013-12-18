@@ -8,27 +8,38 @@ public class Lobby : MonoBehaviour {
 	private RobNet robNet;
 	bool connected = false;
 	private int defaultPort = 7777;
+	private int padding = 32;
+	string tempPlayerName = "Player";
+	private float columWidth;
 
 	// Use this for initialization
 	void Start () {
 		robNet = GetComponent<RobNet>();
+		columWidth = Screen.width/3 - padding * 2;
 	}
 	
 	void setConnected(bool con){
 		connected = con;
 	}
-	
-	string tempPlayerName = "Player";
+
 	void OnGUI(){
 
-		if(!connected){
-			//set player name
-			tempPlayerName = GUI.TextField(new Rect(500, 100, 200, 20), tempPlayerName);
-			if(GUI.Button(new Rect(500, 130, 40, 40), "Ok")){
+		if(robNet.netState == RobNet.State.Meny){		//bör ligga i andra menyscript igentligen
+
+			GUILayout.BeginArea(new Rect(Screen.width/3*2 + padding, padding, columWidth ,Screen.height/3 - padding * 2));
+			GUILayout.BeginVertical();
+
+			tempPlayerName = GUILayout.TextField(tempPlayerName);
+			if(GUILayout.Button("Ok")){
 				SendMessage("setLocalPlayerName",tempPlayerName);
 			}
+
+			GUILayout.FlexibleSpace();
+			GUILayout.EndVertical();
+			GUILayout.EndArea();
+
 			
-			GUILayout.BeginArea(new Rect(50,30,200,Screen.height - 30));
+			GUILayout.BeginArea(new Rect(padding, padding, columWidth, Screen.height - padding * 2));
 			GUILayout.BeginVertical();
 
 			
@@ -51,16 +62,23 @@ public class Lobby : MonoBehaviour {
 			GUILayout.FlexibleSpace();
 			GUILayout.EndVertical();
 			GUILayout.EndArea();
-		}else if( Application.loadedLevelName == "lobby"){
+		}else if(robNet.netState == RobNet.State.Lobby){
 			drawConnectedPlayers();
 			levelChooser();
 			
 			string[] levels = robNet.levels;
-			GUI.Label(new Rect(400,370, 200,30),levels[levelToLoad]);
-			if(GUI.Button(new Rect(400,400, 100,50), "Start Game")){
+			GUILayout.BeginArea(new Rect(Screen.width/3*1 + padding, Screen.height/3*2 + padding, columWidth, Screen.height/3 - padding * 2));
+			GUILayout.BeginVertical();
+
+			GUILayout.Label(levels[levelToLoad]);
+			if(GUILayout.Button("Start Game")){
 				Network.RemoveRPCsInGroup(0);
 				networkView.RPC("StartGame",RPCMode.All,levelToLoad);
 			}
+
+			GUILayout.FlexibleSpace();
+			GUILayout.EndVertical();
+			GUILayout.EndArea();
 			
 		}
 
@@ -69,7 +87,7 @@ public class Lobby : MonoBehaviour {
 	private void drawConnectedPlayers(){
 		List<Player> connectedPlayers = robNet.connectedPlayers;
 		
-		GUILayout.BeginArea(new Rect(50,30,250,Screen.height - 30));
+		GUILayout.BeginArea(new Rect(padding, padding, columWidth, Screen.height - 30));
 		GUILayout.BeginVertical();
 		for(int i = 0;i < connectedPlayers.Count; i++){
 				
@@ -91,7 +109,7 @@ public class Lobby : MonoBehaviour {
 	
 	private void levelChooser(){
 		string[] levels = robNet.levels;
-		GUILayout.BeginArea(new Rect(400,30,250,Screen.height - 30));
+		GUILayout.BeginArea(new Rect(Screen.width/3*2 + padding, padding, columWidth, Screen.height - padding * 2));
 		GUILayout.BeginVertical();
 		for(int i = 0;i < levels.Length; i++){
 	

@@ -12,6 +12,11 @@ public class RobNet : MonoBehaviour {
 	private int defaultPort = 7777;
 	public int maxPlayers = 4;
 	public bool isServer = false;
+	private int levelPrefix = 0;
+
+	public enum State{Meny,Lobby,Ingame};
+	public State netState = State.Meny;
+
 	
 	
 	//new
@@ -21,7 +26,6 @@ public class RobNet : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("starting robnet");
 		localPlayer.playerName = "Player";
 		localPlayer.netPlayer = Network.player;
 		localPlayer.local = true;
@@ -30,33 +34,16 @@ public class RobNet : MonoBehaviour {
 	}
 
 	void OnLevelWasLoaded(){
+		//spawn the local player when the level is loaded
 		var spawnObject = GameObject.Find("Spawnpoint");
 		if(spawnObject == null) {
-			Debug.Log ("could not find a spawnpoint in the level " + Application.loadedLevelName);
+			Debug.Log ("Could not find a spawnpoint in the level " + Application.loadedLevelName);
 		} else {
 			spawnPoint = spawnObject.transform;
 			netviewID = getLocalID();
-			Debug.Log("ID OF THIS IS " + netviewID);
 			localPlayer.Instantiate(playerPrefab, spawnPoint.position);
 		}
 		
-	}
-	
-	
-	/*
-	[RPC]
-	void SpawnPlayer(NetworkViewID id){
-		Debug.Log ("Player spawned"); //does this ever happen?
-		
-		foreach(Player p in connectedPlayers){
-			if(p.viewID == id){
-				p.Instantiate(playerPrefab,spawnPoint.position);
-			}
-		}
-	}
-	*/
-	public void addPlayer(Player p){
-		connectedPlayers.Add(p);
 	}
 	
 	public List<Player> getPlayers(){
@@ -78,28 +65,27 @@ public class RobNet : MonoBehaviour {
 	
 	
 	[RPC]
-	private void NewPlayer(string name,NetworkViewID id, NetworkPlayer netplayer){
-		Debug.Log("new Player!");
+	private void NewPlayer(string name, NetworkViewID id, NetworkPlayer netplayer){
+		Debug.Log("New Player!");
 		Player newPlayer = new Player();
 		newPlayer.playerName = name;
 		newPlayer.viewID = id;
 		newPlayer.netPlayer = netplayer;
 		newPlayer.local = false;
-		
 		connectedPlayers.Add(newPlayer);
-		addPlayer(newPlayer);
 	}
 	
 	[RPC]
 	private void StartGame(int levelNr){
+		// disable rpcs -> change prefix for rpcs -> loadlevel -> enable rpcs
 		Network.SetSendingEnabled(0,false);
 		Network.isMessageQueueRunning = false;
-		Network.SetLevelPrefix(0); ////_----------------------------------------------------- Fix dis pls      ska vara ny för varje level för att se till att rpcs inte ligger och skräpar
-		
+		Network.SetLevelPrefix(levelPrefix);
+		levelPrefix++;
+		netState = State.Ingame;
 		Application.LoadLevel(levels[levelNr]);
 		Network.isMessageQueueRunning = true;
 		Network.SetSendingEnabled(0,true);
-		this.enabled = false;
 		
 	}
 	
@@ -154,7 +140,7 @@ public class RobNet : MonoBehaviour {
 		SendMessage("setConnected",true);
 		localPlayer.viewID = Network.AllocateViewID();
 		connectedPlayers.Add(localPlayer);
-		addPlayer(localPlayer);
+		netState = State.Lobby;
 		
 		networkView.RPC("NewPlayer",RPCMode.OthersBuffered,localPlayer.playerName,localPlayer.viewID,localPlayer.netPlayer);
 	}

@@ -44,8 +44,11 @@ MonoBehaviour:
   levels:
   - Johannes_funland
   - Robins_funland
+  - Scene_1_seans_fantasy
+  - Scene_1_seans_SECOND_fantasy
   maxPlayers: 4
   isServer: 0
+  netState: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
