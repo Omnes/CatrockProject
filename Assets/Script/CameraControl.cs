@@ -19,7 +19,14 @@ public class CameraControl : MonoBehaviour {
 	public float cameraHeight = 15;
 
 	//player.					 MasterMind should assign the correct player to the camera
-	public Transform player;
+	private Transform mainCamera;
+
+	void Start(){
+		mainCamera = Camera.main.transform;
+		if(!networkView.isMine){
+			this.enabled = false;
+		}
+	}
 	 
 	void Update(){
 		HandleCamera();
@@ -27,8 +34,8 @@ public class CameraControl : MonoBehaviour {
 	
 	void HandleCamera(){
 		//player - camera
-		Vector2 dirVec = (((cameraHeight * Vector3.up) + player.position)-transform.position)/2;
-		Vector3 camPos = transform.position;
+		Vector2 dirVec = (((cameraHeight * Vector3.up) + transform.position)-mainCamera.position)/2;
+		Vector3 camPos = mainCamera.position;
 		
 		if(isShaking){
 			//shakeTime starts
@@ -53,7 +60,7 @@ public class CameraControl : MonoBehaviour {
 		}
 		
 		//final cameraposition
-		transform.position = camPos;
+		mainCamera.position = camPos;
 	}
 	
 }

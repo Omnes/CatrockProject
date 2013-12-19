@@ -163,7 +163,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   alertState: 0
-  aggroDistance: 3
+  aggroDistance: 10
   checkForEnemesInterval: 30
   currentTarget: {fileID: 0}
   playerArray: []
