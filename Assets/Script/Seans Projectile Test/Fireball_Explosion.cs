@@ -27,7 +27,7 @@ public class Fireball_Explosion : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision collisions){
 		
-		if(collisions.rigidbody && !haveCollided){
+		if(collisions.rigidbody && !haveCollided/* && collisions.gameObject.layer != LayerMask.NameToLayer("Projectile")*/){
 			//itterates over all collisionspoints for the different collisions
 			foreach(ContactPoint collision in collisions){
 				//creates directionvector for objects
@@ -36,8 +36,7 @@ public class Fireball_Explosion : MonoBehaviour {
 				
 				//if object is an enityt
 				//change this to fit for only entities
-				//collisions.gameObject.GetComponent<Script>().SendMessage("DoDamage", exploDamage);
-				collisions.gameObject.SendMessage("TryDoDamage", exploDamage);
+				collisions.gameObject.SendMessage("TryDoDamage", exploDamage, SendMessageOptions.DontRequireReceiver);
 			}
 		}
 		haveCollided = true;

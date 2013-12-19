@@ -4,7 +4,7 @@ using System.Collections;
 public class Fireball_Projectile : MonoBehaviour {
 	
 	public Vector3 dirVec;					//directionvektor from player
-	public GameObject playerPrefab;			//must get creator from creator to not collide with creator
+	public GameObject player;			//must get creator from creator to not collide with creator
 	public GameObject exploPrefab;
 	public float Speed = 800.0f;
 	public float lifeTime = 2.5f;
@@ -30,21 +30,21 @@ public class Fireball_Projectile : MonoBehaviour {
 	}
 	
 	
-	void OnTriggerEnter(Collider collisions){
-		
-	//instanite explosion if object is not a player
-		if(collisions.gameObject != playerPrefab){
-			//instansiate explosion
-			Instantiate(exploPrefab, transform.position, transform.rotation);
-			//destroy projectile
-			Destroy(gameObject);
-	//instantiate explosion on playerObject if ignorePlayerTime is over
-		}else if(ignorePlayerTime + currentTime < Time.time){
-			Debug.Log("Player is hit");
-			//instansiate explosion
-			Instantiate(exploPrefab, transform.position, transform.rotation);
-			//destroy projectile
-			Destroy(gameObject);
+	void OnTriggerEnter(Collider other){
+	
+		//ignore specific layermask
+		if(other.gameObject.layer != LayerMask.NameToLayer("Explosion")){
+		//instanite explosion if object is not a player
+			if(other.gameObject != player){
+				//instansiate explosion
+				Instantiate(exploPrefab, transform.position, transform.rotation);
+				Destroy(gameObject);
+		//instantiate explosion on playerObject if ignorePlayerTime is over
+			}else if(ignorePlayerTime + currentTime < Time.time){
+				OurDebug.Log("Player is hit");
+				Instantiate(exploPrefab, transform.position, transform.rotation);
+				Destroy(gameObject);
+			}
 		}
 	}
 }

@@ -287,6 +287,7 @@ GameObject:
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400006}
   - 136: {fileID: 13600000}
+  - 81: {fileID: 8100000}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -536,6 +537,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
+--- !u!81 &8100000
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100036}
+  m_Enabled: 0
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
@@ -617,7 +625,7 @@ MonoBehaviour:
   items:
   - {fileID: 11400000, guid: fc0e2317fdfa1f94a8ed2f2603316c63, type: 2}
   - {fileID: 11400000, guid: 5490a3f506479384faa3884b6d870274, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 8f65348b94b75c640b86232889332432, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -635,11 +643,12 @@ MonoBehaviour:
   jumpForce: 12
   gravity: {x: 0, y: 9.81999969}
   grounded: 1
-  extendedRayDistance: .100000001
+  extendedRayDistance: .349999994
   playerControl: 1
   isLocal: 1
   startSyncPosition: {x: 0, y: 0, z: 0}
   endSyncPosition: {x: 0, y: 0, z: 0}
+  syncDelay: 0
   syncRotation: {x: 0, y: 0, z: 0, w: 0}
   fromSyncRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11400004
@@ -656,7 +665,7 @@ MonoBehaviour:
   playerHealth: 100
   maxHealth: 100
   healthTexture: {fileID: 2800000, guid: 0e8e9c251d43d974089c4e2014d1ad91, type: 3}
-  healthPosOffset: {x: -50, y: 15}
+  healthPosOffset: {x: -50, y: 200}
   healthBarSize: {x: 1, y: 20}
   isDisabled: 0
   playerArray: []
