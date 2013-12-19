@@ -10,23 +10,40 @@ public class Lobby : MonoBehaviour {
 	private int defaultPort = 7777;
 	private int padding = 32;
 	string tempPlayerName = "Player";
-	private float columWidth;
+	//private float columWidth;
+	private Vector2 gridSize = new Vector2(3,3); 
 
 	// Use this for initialization
 	void Start () {
 		robNet = GetComponent<RobNet>();
-		columWidth = Screen.width/3 - padding * 2;
+		//columWidth = Screen.width/gridSize.x - padding * 2;
 	}
 	
 	void setConnected(bool con){
 		connected = con;
+	}
+	
+	float getColum(int n){
+		return Screen.width/gridSize.x*n + padding;
+	}
+	float getRow(int n){
+		return Screen.height/gridSize.y*n + padding;
+	}
+	float getColumWidth(int n){
+		return Screen.width/gridSize.x * n - padding * 2;
+	}
+	float getRowHeigth(int n){
+		return Screen.height/gridSize.y * n - padding * 2;
+	}
+	Rect makeRect(int columNr,int rowNr,int colWidth,int rowHeight){
+		return new Rect(getColum(columNr), getRow(rowNr), getColumWidth(colWidth),getRowHeigth(rowHeight));
 	}
 
 	void OnGUI(){
 
 		if(robNet.netState == RobNet.State.Meny){		//bör ligga i andra menyscript igentligen
 
-			GUILayout.BeginArea(new Rect(Screen.width/3*2 + padding, padding, columWidth ,Screen.height/3 - padding * 2));
+			GUILayout.BeginArea(makeRect(2,0,1,1));
 			GUILayout.BeginVertical();
 
 			tempPlayerName = GUILayout.TextField(tempPlayerName);
@@ -39,7 +56,7 @@ public class Lobby : MonoBehaviour {
 			GUILayout.EndArea();
 
 			
-			GUILayout.BeginArea(new Rect(padding, padding, columWidth, Screen.height - padding * 2));
+			GUILayout.BeginArea(makeRect(0,0,1,3));
 			GUILayout.BeginVertical();
 
 			
@@ -67,14 +84,23 @@ public class Lobby : MonoBehaviour {
 			levelChooser();
 			
 			string[] levels = robNet.levels;
-			GUILayout.BeginArea(new Rect(Screen.width/3*1 + padding, Screen.height/3*2 + padding, columWidth, Screen.height/3 - padding * 2));
+			GUILayout.BeginArea(makeRect(1,2,1,1));
 			GUILayout.BeginVertical();
-
+			
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace();
 			GUILayout.Label(levels[levelToLoad]);
+			GUILayout.FlexibleSpace();
+			GUILayout.EndHorizontal();
+			
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace();
 			if(GUILayout.Button("Start Game")){
 				Network.RemoveRPCsInGroup(0);
-				networkView.RPC("StartGame",RPCMode.All,levelToLoad);
+				SendMessage("LoadLevel",levelToLoad);
 			}
+			GUILayout.FlexibleSpace();
+			GUILayout.EndHorizontal();
 
 			GUILayout.FlexibleSpace();
 			GUILayout.EndVertical();
@@ -87,14 +113,15 @@ public class Lobby : MonoBehaviour {
 	private void drawConnectedPlayers(){
 		List<Player> connectedPlayers = robNet.connectedPlayers;
 		
-		GUILayout.BeginArea(new Rect(padding, padding, columWidth, Screen.height - 30));
+		GUILayout.BeginArea(makeRect(0,0,1,3));
 		GUILayout.BeginVertical();
 		for(int i = 0;i < connectedPlayers.Count; i++){
 				
 			GUILayout.BeginHorizontal();
 			GUILayout.Box(connectedPlayers[i].playerName);
-			int ping = Network.GetAveragePing(connectedPlayers[i].netPlayer);
-			GUILayout.Label("ping: " + ping);
+			//int ping = Network.GetAveragePing(Network.connectedPlayers[i].netPlayer);
+			//GUILayout.Label("ping: " + ping);
+			GUILayout.FlexibleSpace();
 			GUILayout.EndHorizontal();
 		}
 		GUILayout.FlexibleSpace();
@@ -109,7 +136,7 @@ public class Lobby : MonoBehaviour {
 	
 	private void levelChooser(){
 		string[] levels = robNet.levels;
-		GUILayout.BeginArea(new Rect(Screen.width/3*2 + padding, padding, columWidth, Screen.height - padding * 2));
+		GUILayout.BeginArea(makeRect(2,0,1,3));
 		GUILayout.BeginVertical();
 		for(int i = 0;i < levels.Length; i++){
 	

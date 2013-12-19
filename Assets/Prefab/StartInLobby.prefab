@@ -37,6 +37,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 299233b7f17623c4e8bddb6323ab6876, type: 3}
   m_Name: 
+  mastermindPrefab: {fileID: 100000, guid: 1872dedd54688634892eb67328d70791, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

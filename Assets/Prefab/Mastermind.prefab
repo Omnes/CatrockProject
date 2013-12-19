@@ -42,10 +42,11 @@ MonoBehaviour:
   m_Name: 
   playerPrefab: {fileID: 100036, guid: 64d089de238a8fe40be173320016f897, type: 2}
   levels:
-  - Johannes_funland
+  - lobby
   - Robins_funland
   - Scene_1_seans_fantasy
   - Scene_1_seans_SECOND_fantasy
+  - Johannes_funland
   maxPlayers: 4
   isServer: 0
   netState: 0

@@ -7,7 +7,7 @@ public class RobNet : MonoBehaviour {
 	public GameObject playerPrefab;
 	private Transform spawnPoint;
 	
-	public string[] levels = {"Johannes_funland", "Robins_funland"};
+	public string[] levels = {"lobby","Johannes_funland", "Robins_funland"};
 	private bool connected = false;
 	private int defaultPort = 7777;
 	public int maxPlayers = 4;
@@ -31,6 +31,19 @@ public class RobNet : MonoBehaviour {
 		localPlayer.local = true;
 		DontDestroyOnLoad(gameObject);
 	
+	}
+	
+	void Update(){
+		if(Input.GetKeyUp(KeyCode.Escape)){
+			int lobbynr = 0;
+			SendMessage("LoadLevel",lobbynr);
+			netState = State.Lobby;
+		}
+		
+	}
+	
+	void LoadLevel(int levelnr){
+		networkView.RPC("LoadLevelRpc",RPCMode.All,levelnr);
 	}
 
 	void OnLevelWasLoaded(){
@@ -76,7 +89,7 @@ public class RobNet : MonoBehaviour {
 	}
 	
 	[RPC]
-	private void StartGame(int levelNr){
+	private void LoadLevelRpc(int levelNr){
 		// disable rpcs -> change prefix for rpcs -> loadlevel -> enable rpcs
 		Network.SetSendingEnabled(0,false);
 		Network.isMessageQueueRunning = false;
