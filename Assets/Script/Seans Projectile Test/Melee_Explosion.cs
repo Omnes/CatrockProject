@@ -8,12 +8,12 @@ public class Melee_Explosion : MonoBehaviour {
 	public float exploForce = 5.0f;
 	public float exploDamage = 1.0f;
 	
-	public GameObject playerPrefab;
+	public GameObject player;
 	
 	// Use this for initialization
 	void Start () {
-		if(playerPrefab != null){
-			Physics.IgnoreCollision(this.collider, playerPrefab.collider);
+		if(player != null){
+			Physics.IgnoreCollision(this.collider, player.collider);
 		}else{
 			Debug.Log("ERROR: Melee_Explosion, PlayerPrefab not initialized");
 		}
@@ -27,21 +27,22 @@ public class Melee_Explosion : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision collisions){
 		
-		if(collisions.gameObject == playerPrefab){
+		if(collisions.gameObject == player){
 			Debug.Log("ERROR: Melee_Explosion, Player not supposed to get hit");
 		}
 		
+		if(collisions.gameObject.layer != LayerMask.NameToLayer("Projectile")){
 			//itterates over all collisionspoints for the different collisions
 			foreach(ContactPoint collision in collisions){
 				//creates directionvector for objects
-				dirVec = Vector3.Normalize(collision.point - (collider as SphereCollider).center);
+				dirVec = Vector3.Normalize(collision.point - (collider as BoxCollider).center);
 				collision.otherCollider.rigidbody.AddForce(dirVec * exploForce, ForceMode.VelocityChange);
 				
 				//if object is an enityt
 				//change this to fit for only entities
-				//collisions.gameObject.GetComponent<Script>().SendMessage("DoDamage", exploDamage);
+				collisions.gameObject.SendMessage("TryDoDamage", exploDamage, SendMessageOptions.DontRequireReceiver);
 			}
-		//}
+		}
 		Destroy(gameObject);
 	}
 	

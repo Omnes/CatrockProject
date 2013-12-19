@@ -5,8 +5,16 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: SpelarController
+  m_Name: PlayerController
   m_AnimatorEvents:
+  - m_Name: AbsSpeed
+    m_Type: 1
+    m_Min: -1
+    m_Max: 1
+    m_DefaultVector: {x: 0, y: 0, z: 0}
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
   - m_Name: Speed
     m_Type: 1
     m_Min: -1
@@ -25,7 +33,42 @@ AnimatorController:
     m_SyncedLayerIndex: -1
     m_StateMachineMotionSetIndex: 0
     m_IKPass: 0
+--- !u!206 &20600000
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Blend Tree
+  m_Childs: []
+  m_BlendEvent: Speed
+  m_BlendEventY: Speed
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_BlendType: 0
 --- !u!1101 &110100000
+Transition:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Walk_To_Idle1
+  m_SrcState: {fileID: 110230232}
+  m_DstState: {fileID: 110200000}
+  m_TransitionDuration: .1373308
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 4
+    m_ConditionEvent: AbsSpeed
+    m_EventTreshold: 1
+    m_ExitTime: .793103456
+  - m_ConditionMode: 5
+    m_ConditionEvent: AbsSpeed
+    m_EventTreshold: .100000001
+    m_ExitTime: .280000001
+  m_Atomic: 0
+  m_Solo: 0
+  m_Mute: 0
+--- !u!1101 &110127358
 Transition:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
@@ -33,31 +76,39 @@ Transition:
   m_Name: 
   m_SrcState: {fileID: 110200000}
   m_DstState: {fileID: 110230232}
-  m_TransitionDuration: 1
+  m_TransitionDuration: .784057736
   m_TransitionOffset: 0
   m_Conditions:
   - m_ConditionMode: 3
-    m_ConditionEvent: Speed
+    m_ConditionEvent: AbsSpeed
+    m_EventTreshold: 1
+    m_ExitTime: .25
+  - m_ConditionMode: 5
+    m_ConditionEvent: AbsSpeed
     m_EventTreshold: .100000001
-    m_ExitTime: 0
-  m_Atomic: 1
+    m_ExitTime: .219999999
+  m_Atomic: 0
   m_Solo: 0
   m_Mute: 0
---- !u!1101 &110132151
+--- !u!1101 &110176403
 Transition:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 
+  m_Name: Walk_To_Idle2
   m_SrcState: {fileID: 110230232}
   m_DstState: {fileID: 110200000}
-  m_TransitionDuration: .206896544
+  m_TransitionDuration: .137997583
   m_TransitionOffset: 0
   m_Conditions:
+  - m_ConditionMode: 5
+    m_ConditionEvent: 
+    m_EventTreshold: 0
+    m_ExitTime: .75
   - m_ConditionMode: 4
-    m_ConditionEvent: Speed
-    m_EventTreshold: .100000001
-    m_ExitTime: .793103456
+    m_ConditionEvent: AbsSpeed
+    m_EventTreshold: 1
+    m_ExitTime: .75
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -87,7 +138,7 @@ State:
   m_Motions:
   - {fileID: 7400000, guid: 8fd1906aac7af3c4d9c7b7f5d7a1b8d4, type: 3}
   m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 348, y: 60, z: 0}
+  m_Position: {x: 348, y: 120, z: 0}
   m_IKOnFeet: 1
   m_Mirror: 0
   m_Tag: 
@@ -98,7 +149,7 @@ StateMachine:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Base Layer
-  m_DefaultState: {fileID: 110200000}
+  m_DefaultState: {fileID: 110230232}
   m_States:
   - {fileID: 110200000}
   - {fileID: 110230232}
@@ -108,11 +159,12 @@ StateMachine:
     data:
       first: {fileID: 110200000}
       second:
-      - {fileID: 110100000}
+      - {fileID: 110127358}
     data:
       first: {fileID: 110230232}
       second:
-      - {fileID: 110132151}
+      - {fileID: 110100000}
+      - {fileID: 110176403}
   m_OrderedTransitions:
     data:
       first: {fileID: 0}
@@ -120,11 +172,12 @@ StateMachine:
     data:
       first: {fileID: 110200000}
       second:
-      - {fileID: 110100000}
+      - {fileID: 110127358}
     data:
       first: {fileID: 110230232}
       second:
-      - {fileID: 110132151}
+      - {fileID: 110100000}
+      - {fileID: 110176403}
   m_MotionSetCount: 1
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_AnyStatePosition: {x: 48, y: 24, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}

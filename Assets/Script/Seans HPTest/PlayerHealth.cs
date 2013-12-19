@@ -11,7 +11,6 @@ public class PlayerHealth : MonoBehaviour {
 	public float maxHealth = 100.0f;
 	public Texture healthTexture;
 	private Vector3 healthPos;
-	
 	//                                                          hårdkodat!!!
     public Vector2 healthPosOffset = new Vector2(-50.0f, 15.0f);
     //public Vector2 healthPosOffset = new Vector2(0.0f, 0.0f);
@@ -59,7 +58,10 @@ public class PlayerHealth : MonoBehaviour {
 				}
 				//activate player on other clients
 				TryEnablePlayer();
-			}	
+			}
+			if(Input.GetKey(KeyCode.LeftAlt)){
+				playerHealth = -1f;
+			}
 		}
 		
 	}
@@ -104,7 +106,7 @@ public class PlayerHealth : MonoBehaviour {
 	[RPC]
 	void Kill(){
 		isDisabled = true;
-		locationOfDeath = transform.position;
+		locationOfDeath = GameObject.Find("Spawnpoint").transform.position;
 		gameObject.SetActive(false);
 		
 		OurDebug.Log("RPC : Killing");

@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour {
 	public float jumpForce = 5;
 	public Vector2 gravity = new Vector2(0f, 9.82f);
 	public bool grounded;
-
+	public float extendedRayDistance = 0.1f;
 	public bool playerControl = true;
 	
 	//network stuff
@@ -21,7 +21,7 @@ public class Movement : MonoBehaviour {
 	private float lastSyncTime = 0f;
 	public Vector3 startSyncPosition = Vector3.zero;
 	public Vector3 endSyncPosition = Vector3.zero;
-	private float syncDelay = 0f;
+	public float syncDelay = 0f;
 	private float syncTime = 0f;
 	
 	//public int nrSavedStates = 2;
@@ -33,6 +33,9 @@ public class Movement : MonoBehaviour {
 	private Vector3 syncPosition = Vector3.zero;
 	private Vector3 syncVelocity = Vector3.zero;
 	
+	//rotation
+	public Quaternion syncRotation;
+	public Quaternion fromSyncRotation;
 
 	[System.Serializable]
 	public class State{
@@ -40,11 +43,13 @@ public class Movement : MonoBehaviour {
 		public float timestamp;
 		public Vector3 pos;
 		public Vector3 velocity;
+		public Quaternion rotation; //is this needed? Can't see State used anywhere really.
 		
 		public void copy(State s){
 			this.timestamp = s.timestamp;
 			this.pos = s.pos;
 			this.velocity = s.velocity;
+			this.rotation = s.rotation;
 		}
 
 	};
@@ -52,6 +57,10 @@ public class Movement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//rotation
+		syncRotation = transform.rotation;
+		fromSyncRotation = transform.rotation;
+
 		rigidbody.useGravity = false;
 		isLocal = networkView.isMine;
 		rigidbody.isKinematic = !isLocal;
@@ -114,7 +123,7 @@ public class Movement : MonoBehaviour {
 	}
 	
 	bool isGrounded(){
-		float rayDist = collider.bounds.extents.y + 0.1f;
+		float rayDist = collider.bounds.extents.y + extendedRayDistance;
 		RaycastHit hit;
 		Vector3 pos = rigidbody.position;
 		//Behöver specifiera layermasks så det funkar korrect
@@ -123,7 +132,9 @@ public class Movement : MonoBehaviour {
 		if(Physics.SphereCast(pos,radius,-Vector3.up,out hit,rayDist)){ 
 			return true;
 		}*/
-		if(Physics.Raycast(pos,-Vector3.up,out hit,rayDist)){
+		Debug.DrawLine(collider.bounds.center, collider.bounds.center + rayDist * -Vector3.up);
+
+		if(Physics.Raycast(collider.bounds.center,-Vector3.up,out hit,rayDist)){
 			return true;
 		}
 		return false;
@@ -138,7 +149,9 @@ public class Movement : MonoBehaviour {
 		syncTime = Time.time - currentState.timestamp;
 
 		Vector3 newPosition = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
+		
 		rigidbody.position = newPosition;
+		
 		if(Input.GetKeyUp(KeyCode.Z)){
 			Debug.Log ("ST " + syncTime + "SD " + syncDelay + "ST/SD " + syncTime/syncDelay);
 		}
@@ -153,18 +166,24 @@ public class Movement : MonoBehaviour {
 			
 			syncPosition = rigidbody.position;
 			syncVelocity = rigidbody.velocity;
+			syncRotation = rigidbody.rotation;
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
+			stream.Serialize(ref syncRotation);
 		}else{
-			
+			//current and synced rotation is enough to predict rotation animation
+			fromSyncRotation = rigidbody.rotation;
+
 			stream.Serialize(ref syncPosition);
 			stream.Serialize(ref syncVelocity);
+			stream.Serialize(ref syncRotation);
 
 			lastState.copy (currentState); //save the previous state
 
 			currentState.pos = syncPosition;
 			currentState.velocity = syncVelocity;
 			currentState.timestamp = Time.time;
+			currentState.rotation = syncRotation;
 
 			//if(prevSyncs.Count > nrSavedStates){
 			//	prevSyncs.RemoveAt(0);
@@ -185,6 +204,7 @@ public class Movement : MonoBehaviour {
 				endSyncPosition = startSyncPosition;
 			}
 			
+
 		}
 		
 	}

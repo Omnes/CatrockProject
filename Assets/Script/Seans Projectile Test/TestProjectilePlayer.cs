@@ -33,7 +33,7 @@ public class TestProjectilePlayer : MonoBehaviour {
 					GameObject newProj = (GameObject) Instantiate(fireballProjectile, transform.position, transform.rotation);
 					Fireball_Projectile proj = newProj.GetComponent<Fireball_Projectile>();
 					proj.dirVec = dirVector.normalized;
-					proj.playerPrefab = gameObject;
+					proj.player = gameObject;
 					proj.Speed = 1200.0f;
 					
 				}
@@ -78,7 +78,7 @@ public class TestProjectilePlayer : MonoBehaviour {
 					GameObject newProj = (GameObject) Instantiate(meleeProjectile, transform.position, transform.rotation);
 					Melee_Projectile proj = newProj.GetComponent<Melee_Projectile>();
 					proj.dirVec = dirVector.normalized;
-					proj.playerPrefab = gameObject;
+					proj.player = gameObject;
 					
 				}
 				currentTime = Time.time;

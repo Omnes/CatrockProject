@@ -206,8 +206,6 @@ MonoBehaviour:
   pickupPrefab: {fileID: 224360760}
   type: 0
   spell: {fileID: 224360762}
-  apperance: Watersword
-  castAnimation: Waterspin
   id: 3
 --- !u!114 &224360762
 MonoBehaviour:
@@ -300,8 +298,6 @@ MonoBehaviour:
   pickupPrefab: {fileID: 268117877}
   type: 0
   spell: {fileID: 268117879}
-  apperance: IceBracelet
-  castAnimation: ChillyPrayer
   id: 1
 --- !u!114 &268117879
 MonoBehaviour:
@@ -1532,8 +1528,6 @@ MonoBehaviour:
   pickupPrefab: {fileID: 2061851714}
   type: 0
   spell: {fileID: 2061851716}
-  apperance: Thunderarmor
-  castAnimation: Lightningthrow
   id: 2
 --- !u!114 &2061851716
 MonoBehaviour:
@@ -1732,8 +1726,6 @@ MonoBehaviour:
   pickupPrefab: {fileID: 2108820358}
   type: 0
   spell: {fileID: 2108820360}
-  apperance: FireCape
-  castAnimation: InfernoPunch
   id: 0
 --- !u!114 &2108820360
 MonoBehaviour:

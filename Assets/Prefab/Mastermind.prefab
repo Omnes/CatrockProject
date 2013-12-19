@@ -40,8 +40,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0c5a8e20fb72534a983b218175f9979, type: 3}
   m_Name: 
-  playerPrefab: {fileID: 100000, guid: e380dfe711dba3a44b257665c8aa4fd2, type: 2}
-  spawnPoint: {fileID: 0}
+  playerPrefab: {fileID: 100036, guid: 64d089de238a8fe40be173320016f897, type: 2}
+  levels:
+  - lobby
+  - Robins_funland
+  - Scene_1_seans_fantasy
+  - Scene_1_seans_SECOND_fantasy
+  - Johannes_funland
+  maxPlayers: 4
+  isServer: 0
+  netState: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -52,11 +60,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 380ab45cc61f09048b051b2a66e308d9, type: 3}
   m_Name: 
-  maxPlayers: 4
-  isServer: 0
-  levels:
-  - Johannes_funland
-  - Robins_funland
   levelToLoad: 0
 --- !u!114 &11400004
 MonoBehaviour:
