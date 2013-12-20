@@ -6,8 +6,8 @@ public class AnimatePlayer : MonoBehaviour {
 	private Animator animator;
 
 	private float prevVelocity;
-	private Quaternion rightRot;
-	private Quaternion leftRot;
+	private Quaternion rightFacingRot;
+	private Quaternion leftFacingRot;
 	private Quaternion leftRotStep;
 	
 	
@@ -30,10 +30,10 @@ public class AnimatePlayer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator>();
-		leftRot = new Quaternion();
-		leftRot.eulerAngles = Vector3.up * 90;
-		rightRot = new Quaternion();
-		rightRot.eulerAngles = Vector3.up * -90;
+		leftFacingRot = new Quaternion();
+		leftFacingRot.eulerAngles = Vector3.up * 269; //rotate 270 -> 180 -> 90, not 270 -> 0 -> 90
+		rightFacingRot = new Quaternion();
+		rightFacingRot.eulerAngles = Vector3.up * 91;
 		leftRotStep = new Quaternion();
 		leftRotStep.eulerAngles = Vector3.up * -rotSpeed;
 		prevVelocity = 0f;
@@ -43,10 +43,10 @@ public class AnimatePlayer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 		if(movement.isLocal) {
 			setAnimatorSpeed(rigidbody.velocity.x);
 
+			//dir is direction to face
 			var dir = 	Input.GetAxis("Horizontal") < 0 ? -1 :
 					Input.GetAxis("Horizontal") > 0 ? 1 : 0;
 
@@ -58,17 +58,17 @@ public class AnimatePlayer : MonoBehaviour {
 			if(dir != 0 && (movement.grounded || airRotate != AirRotateBehavior.RotateAsIfNoInput)) {
 				lastDir = dir;
 			}
-			
 			rotationInDir(lastDir);
 		} else {
 			var vel = ((movement.endSyncPosition.x - movement.startSyncPosition.x) / movement.syncDelay);
 			setAnimatorSpeed(vel);
 			
 
-			var from = deNormalizeRot(movement.fromSyncRotation.eulerAngles);
-			var to = deNormalizeRot(movement.syncRotation.eulerAngles);
+			var from = movement.fromSyncRotation.eulerAngles.y;
+			var to = movement.syncRotation.eulerAngles.y;
 
-			//try to predict direction to rotate based on previous rotation change. 
+
+			//from-to > 0 means try to face left 
 			var dir = 	to - from > 0.1 ? -1 :
 					to - from < 0.1 ? 1 : 0;
 			
@@ -80,19 +80,10 @@ public class AnimatePlayer : MonoBehaviour {
 	}
 
 	void rotationInDir(float dir) {
-		//go from left facing to right facing or vice versa, depending on last input direction.
+		//low normRot means rotate to leftFacing (dir is -1 if leftFacing)
+		//-1 to 0 to 1
 		normRot = (Mathf.Clamp(normRot + dir * rotSpeed, -1, 1));
-		//Debug.Log("normRot " + normRot + " lastDir " + lastDir);
-		rigidbody.rotation = Quaternion.Slerp(leftRot, rightRot, (normRot + 1)/2);
-	}
-
-	//left rotation becomes negative(0 to -90 to -180) instead of (0 to 270 to 180)
-	float deNormalizeRot(Vector3 rot) {
-		if(rot.y >= 180) {
-			return -(360 - rot.y);
-		} else {
-			return rot.y;
-		}
+		rigidbody.rotation = Quaternion.Slerp(leftFacingRot, rightFacingRot, (normRot + 1)/2);
 	}
 
 	void setAnimatorSpeed(float vel) {
