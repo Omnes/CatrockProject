@@ -8,17 +8,30 @@ public class ManageItems : MonoBehaviour {
 	public Item[] items;
 	
 	void Start() {
-		var g = GameObject.Find("Mastermind");
-		if(g == null)
-			Debug.Log ("could not find gameobject NetworkItems");
-		networkItems = g.GetComponent<NetworkItems>();
-		if(networkItems == null)
-			Debug.Log ("could not find component NetworkItems on gameobject NetworkItems");
+	
 	}
 	
+	bool tryToGetNetworkItems() {
+		if(networkItems != null) {
+			return true;
+		}
+
+		var g = GameObject.Find("Mastermind");
+		if(g == null) {
+			return false;
+		}
+
+		networkItems = g.GetComponent<NetworkItems>();
+		if(networkItems == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	void Update () {
 		
-		if(networkView.isMine) {
+		if(networkView.isMine && tryToGetNetworkItems() == true) {
 			if(Input.GetButtonDown("Weapon0")) {
 				OurDebug.Log("use weapon 0");
 				useItem(Slot.Weapon0);
