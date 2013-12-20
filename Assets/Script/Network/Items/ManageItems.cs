@@ -16,8 +16,9 @@ public class ManageItems : MonoBehaviour {
 			return true;
 		}
 
-		var g = GameObject.Find("Mastermind");
+		var g = GameObject.FindWithTag("Mastermind");
 		if(g == null) {
+			OurDebug.Log("Could not find Mastermind");
 			return false;
 		}
 
@@ -115,6 +116,7 @@ public class ManageItems : MonoBehaviour {
 	//takes mouse collision point
 	[RPC]
 	void useItemRPC(int slot, Vector3 colMousePos) {
+		OurDebug.Log("using item " + slot + colMousePos);
 		items[slot].use(gameObject, colMousePos);
 	}
 }
