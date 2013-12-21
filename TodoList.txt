@@ -1,0 +1,64 @@
+Add shit to this! would be nice if we could maintain it
+Needs to be done:
+
+	Change game to iso view
+		-change how spells are casted (stop movement whiel spell is casting and face that direction the mouse is at?) || (always cast in the direction you are facing)
+		-change the movement script to topdown ish movements (bastion?)
+		-fix the animations so they match the new controlls
+		-camera controlls
+		-Parts of enemy Ai needs to be rewritten
+
+	Fix the hp script	
+		-Add invurnability for a short time after getting hit (only from same spell?)
+		-make one for enemies or make the existing one work for them
+
+	Make items display on character
+
+	Fix animations
+		-Spell cast animations
+		-get hit animation? -knockback?
+		-Dodge stuff?
+	
+	Add "cast points" for spells (spell is cast when animation is at right stage)
+
+	Add more spells! MORE! MOOOOOORE!
+		-aoe attack for bushmonster
+
+	Improve the enemy AI
+
+	Ddd bosses!
+		-fat gripphon
+
+
+	Diffrent hitzones for bosses (ex more damage on head/weakzone) (for some regular enemies aswell?)
+	
+	Proper meny-system needs to be implemented (animated stuff looks professional)
+		
+	Save items and allow them to be chosen at the start
+
+	
+	
+
+
+
+
+
+low prio (at the moment):
+	level layout generation (might need to rediscuss this since iso change)
+	
+	?replace the lobby with a "homebase" (see dungeon defenders tarvern)?
+
+	?hitboxes for melee attacks to match animation?
+	?Add dodge movement?
+
+
+
+
+Inprogress:
+
+
+
+
+
+
+Done:
