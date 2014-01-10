@@ -6,7 +6,25 @@ using Utility;
 public class ManageItems : MonoBehaviour {
 	
 	public Item[] items;
+	public float rotSpeed;
+
+	private float schedTime;
 	
+	private NetworkItems networkItems;
+	
+	private Slot schedSlot;
+	private Quaternion schedBegRot;
+	private Quaternion schedEndRot;
+	public bool schedDone = true;
+	private float schedCurTime = 0;
+
+	private enum Slot {
+		Weapon0 = 0,
+		Weapon1,
+		Hat,
+		NoSlot
+	}
+
 	void Start() {
 	
 	}
@@ -32,18 +50,26 @@ public class ManageItems : MonoBehaviour {
 
 	void Update () {
 		
+		if(schedDone == false) {
+			schedCurTime += Time.deltaTime;
+			transform.rotation = Quaternion.Lerp(schedBegRot, schedEndRot, Mathf.Clamp(schedCurTime / schedTime, 0, 1));
+			if(schedCurTime >= schedTime) {
+			  	SendMessage("itemAnimationEnd");
+			}
+		}
+
 		if(networkView.isMine && tryToGetNetworkItems() == true) {
 			if(Input.GetButtonDown("Weapon0")) {
 				OurDebug.Log("use weapon 0");
-				useItem(Slot.Weapon0);
+				scheduleUseItem(Slot.Weapon0);
 			}
 			if(Input.GetButtonDown("Weapon1")) {
 				OurDebug.Log("use weapon 1");
-				useItem(Slot.Weapon1);
+				scheduleUseItem(Slot.Weapon1);
 			}
 			if(Input.GetButtonDown ("Hat")) {
 				OurDebug.Log("use hat");
-				useItem(Slot.Hat);
+				scheduleUseItem(Slot.Hat);
 			}
 		}
 	}
@@ -83,15 +109,6 @@ public class ManageItems : MonoBehaviour {
 		}
 	}
 	
-	private NetworkItems networkItems;
-	
-	private enum Slot {
-		Weapon0 = 0,
-		Weapon1,
-		Hat,
-		NoSlot
-	}
-	
 	Item getItem(Slot slot) {
 		return items[(int)slot];
 	}
@@ -100,18 +117,38 @@ public class ManageItems : MonoBehaviour {
 		networkView.RPC("assignNewItemRPC", RPCMode.All, i.id, (int)slot);
 	}
 	
-	void useItem(Slot slot) {
-		/*//old
-		RaycastHit hit;
+	void scheduleUseItem(Slot slot) {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		if(Physics.Raycast(ray, out hit)) {
-			networkView.RPC("useItemRPC", RPCMode.All, (int)slot, hit.point);
-		}*/
-		float directionInRad = (transform.eulerAngles.y + 90) * Mathf.Deg2Rad;
-		Vector3 directionVector = new Vector3(Mathf.Cos(directionInRad + 180*Mathf.Deg2Rad),0,Mathf.Sin(directionInRad));
-		networkView.RPC("useItemRPC", RPCMode.All, (int)slot, directionVector);
+		RaycastHit hit;
+            	if (Physics.Raycast(ray.origin, ray.direction, out hit)) {
+			var xzdir = hit.point.XZ() - transform.position.XZ();
+			var dir = new Vector3(xzdir.x, 0, xzdir.y).normalized;
+			
+			rigidbody.velocity = new Vector3(0, 0, 0);
+			schedSlot = slot;
+			schedBegRot = transform.rotation;
+			schedEndRot = Quaternion.Euler(0, Mathf.Rad2Deg * Mathf.Atan2(dir.x, dir.z), 0);
+
+			var deltaEuler = Quaternion.Angle(schedBegRot, schedEndRot);
+			schedTime = deltaEuler / rotSpeed;
+			schedCurTime = 0;
+			SendMessage("itemAnimationBegin");
+		}
 	}
-	
+
+	void useItem(Slot slot) {
+		networkView.RPC("useItemRPC", RPCMode.All, (int)slot, transform.forward);
+	}
+
+	void itemAnimationBegin() {
+		schedDone = false;
+	}
+
+	void itemAnimationEnd() {
+		schedDone = true;
+		useItem(schedSlot);
+	}
+
 	[RPC]
 	void assignNewItemRPC(int t, int slot) {
 		items[slot] = networkItems.getItem(t);
@@ -119,8 +156,8 @@ public class ManageItems : MonoBehaviour {
 	
 	//takes mouse collision point
 	[RPC]
-	void useItemRPC(int slot, Vector3 colMousePos) {
-		OurDebug.Log("using item " + slot + colMousePos);
-		items[slot].use(gameObject, colMousePos);
+	void useItemRPC(int slot, Vector3 worldDir) {
+		OurDebug.Log("using item " + slot + worldDir);
+		items[slot].use(gameObject, worldDir);
 	}
 }

@@ -36,6 +36,8 @@ public class Movement : MonoBehaviour {
 	public Quaternion syncRotation;
 	public Quaternion fromSyncRotation;
 
+	private bool movementEnabled = true;
+
 	[System.Serializable]
 	public class State{
 		
@@ -53,6 +55,13 @@ public class Movement : MonoBehaviour {
 
 	};
 
+	void itemAnimationBegin(Vector3 targetDir) {
+	  movementEnabled = true;
+	}
+
+	void itemAnimationEnd() {
+	  movementEnabled = true;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -63,7 +72,8 @@ public class Movement : MonoBehaviour {
 		rigidbody.useGravity = false;
 		isLocal = networkView.isMine;
 		rigidbody.isKinematic = !isLocal;
-
+		
+		movementEnabled = true;
 		//State state = new State();
 		//state.pos = rigidbody.position;
 		//state.velocity = rigidbody.velocity;
@@ -72,6 +82,9 @@ public class Movement : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
+		if(movementEnabled == false) {
+			return;
+		}
 		
 		if(isLocal){
 			grounded = isGrounded();
@@ -188,7 +201,8 @@ public class Movement : MonoBehaviour {
 			Debug.Log ("ST " + syncTime + "SD " + syncDelay + "ST/SD " + syncTime/syncDelay);
 		}
 		
-
+		Quaternion newRotation = Quaternion.Lerp(fromSyncRotation, syncRotation, syncTime/syncDelay);
+		rigidbody.rotation = newRotation;
 	}
 	
 	
@@ -210,12 +224,14 @@ public class Movement : MonoBehaviour {
 			stream.Serialize(ref syncVelocity);
 			stream.Serialize(ref syncRotation);
 
-			lastState.copy (currentState); //save the previous state
+		lastState.copy (currentState); //save the previous state
 
 			currentState.pos = syncPosition;
 			currentState.velocity = syncVelocity;
 			currentState.timestamp = Time.time;
 			currentState.rotation = syncRotation;
+
+			SendMessage("newVelocity", syncVelocity);
 
 			//if(prevSyncs.Count > nrSavedStates){
 			//	prevSyncs.RemoveAt(0);
@@ -240,7 +256,9 @@ public class Movement : MonoBehaviour {
 		}
 		
 	}
-	
+	void castSpell(Vector3 direction) {
+		
+	}
 	/*
 	void SlideCheck(){
 		raycastCounter++;

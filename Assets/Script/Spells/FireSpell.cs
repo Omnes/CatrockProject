@@ -9,33 +9,16 @@ public class FireSpell : Spell {
 	private const int distMul = 2;
 	
 	public GameObject projectilePrefab;
-	
-/*<<<<<<<OVERHEAD
-	public override void cast(GameObject g) {
-		RaycastHit hit;
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		if(Physics.Raycast(ray, out hit)) {
-			var posXY = g.transform.position.XY();
-			var dirVector = new Vector2(-1.0f, 0.0f);
-			//fireProjectile(Vec.vector3(posXY + dirVector * distMul), dirVector);
-			fireProjectile(g, new Vector3(-1.0f, 0.0f, 0.0f));
-		}
-*/
-	
-	//colMousePos is the position in the world that a ray cast from casters mouse position hits
-	public override void cast(GameObject g, Vector3 direction) {
-		/*var posXYZ = g.transform.position;
-		var posXY = g.transform.position.XY();
-		var dirVector = (colMousePos.XY() - posXY).normalized;
 
-		fireProjectile(g, Vec.vector3(dirVector));
-		*/
+	public override void cast(GameObject g, Vector3 direction) {
 		fireProjectile(g,direction);
-		//fireProjectile(g, new Vector3(-1.0f, 0.0f, 0.0f));
 	}
 	
 	void fireProjectile(GameObject player, Vector3 direction) {
-		var g = (GameObject)Instantiate(projectilePrefab, player.transform.position, transform.rotation);
+
+		var pos = player.transform.position;
+		var projPos = new Vector3(pos.x, pos.y+5, pos.z) + direction * distMul;
+		var g = (GameObject)Instantiate(projectilePrefab, projPos, transform.rotation);
 		var proj = g.GetComponent<Fireball_Projectile>();
 		proj.dirVec = direction;
 		proj.player = player;
