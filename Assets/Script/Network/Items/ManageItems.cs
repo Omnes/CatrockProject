@@ -101,11 +101,15 @@ public class ManageItems : MonoBehaviour {
 	}
 	
 	void useItem(Slot slot) {
+		/*//old
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		if(Physics.Raycast(ray, out hit)) {
 			networkView.RPC("useItemRPC", RPCMode.All, (int)slot, hit.point);
-		}
+		}*/
+		float directionInRad = (transform.eulerAngles.y + 90) * Mathf.Deg2Rad;
+		Vector3 directionVector = new Vector3(Mathf.Cos(directionInRad + 180*Mathf.Deg2Rad),0,Mathf.Sin(directionInRad));
+		networkView.RPC("useItemRPC", RPCMode.All, (int)slot, directionVector);
 	}
 	
 	[RPC]

@@ -13,16 +13,17 @@ public class CameraControl : MonoBehaviour {
 	
 	private bool isShaking = false;
 	public float camSpeed = 5;
-	
-	//camera from screen
-	public float cameraDepth = -45;
-	public float cameraHeight = 15;
 
-	//player.					 MasterMind should assign the correct player to the camera
+	public float cameraHeight = 15;
+	public float zOffset = 5;
+	public float cameraAngle = 70;
+
+	//player
 	private Transform mainCamera;
 
 	void Start(){
 		mainCamera = Camera.main.transform;
+		mainCamera.rotation = Quaternion.Euler(cameraAngle,0,0);
 		if(!networkView.isMine){
 			this.enabled = false;
 		}
@@ -34,9 +35,11 @@ public class CameraControl : MonoBehaviour {
 	
 	void HandleCamera(){
 		//player - camera
-		Vector2 dirVec = (((cameraHeight * Vector3.up) + transform.position)-mainCamera.position)/2;
+		Vector3 targetPosition = (cameraHeight * Vector3.up) + transform.position - zOffset*Vector3.forward;
+		Vector3 dirVec = (targetPosition - mainCamera.position)/2;
 		Vector3 camPos = mainCamera.position;
-		
+
+		/* disabled for now
 		if(isShaking){
 			//shakeTime starts
 			shakeCount++;
@@ -49,14 +52,14 @@ public class CameraControl : MonoBehaviour {
 				isShaking = false;
 				shakeCount = 0;
 			}
-		}
+		}*/
 		
 		if(dirVec.magnitude > 0.1){
 			//bestämmer riktningen och hastigheten
 			dirVec = dirVec.normalized * camSpeed * dirVec.magnitude * Time.deltaTime;
 			//sätter grundvärden för kameran så som höjd och djup
-			camPos = new Vector3(camPos.x, camPos.y, cameraDepth);
-			camPos += new Vector3(dirVec.x, dirVec.y, 0);
+			camPos = new Vector3(camPos.x, cameraHeight, camPos.z);
+			camPos += new Vector3(dirVec.x,0, dirVec.z);
 		}
 		
 		//final cameraposition

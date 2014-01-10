@@ -23,11 +23,14 @@ public class FireSpell : Spell {
 */
 	
 	//colMousePos is the position in the world that a ray cast from casters mouse position hits
-	public override void cast(GameObject g, Vector3 colMousePos) {
-		var posXYZ = g.transform.position;
+	public override void cast(GameObject g, Vector3 direction) {
+		/*var posXYZ = g.transform.position;
 		var posXY = g.transform.position.XY();
 		var dirVector = (colMousePos.XY() - posXY).normalized;
+
 		fireProjectile(g, Vec.vector3(dirVector));
+		*/
+		fireProjectile(g,direction);
 		//fireProjectile(g, new Vector3(-1.0f, 0.0f, 0.0f));
 	}
 	

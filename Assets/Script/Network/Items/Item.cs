@@ -18,7 +18,7 @@ public class Item : MonoBehaviour {
 	public void onPickup(GameObject owner) {
 	}
 	
-	public void use(GameObject owner, Vector3 colMousePos) {
-		spell.cast(owner, colMousePos);
+	public void use(GameObject owner, Vector3 direction) {
+		spell.cast(owner, direction);
 	}
 }

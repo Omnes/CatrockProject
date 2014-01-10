@@ -497,7 +497,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   alertState: 0
-  aggroDistance: 3
+  aggroDistance: 10
   checkForEnemesInterval: 30
   currentTarget: {fileID: 0}
   playerArray: []
@@ -719,8 +719,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1813858148}
-  m_LocalRotation: {x: .0390821472, y: 0, z: 0, w: .999235988}
-  m_LocalPosition: {x: -.453287125, y: 6.83162785, z: -32.9156418}
+  m_LocalRotation: {x: .519109249, y: 0, z: 0, w: .854707956}
+  m_LocalPosition: {x: 3.06986046, y: 25.3810043, z: -33.8649216}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -751,6 +751,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 299233b7f17623c4e8bddb6323ab6876, type: 3}
   m_Name: 
+  mastermindPrefab: {fileID: 100000, guid: 1872dedd54688634892eb67328d70791, type: 2}
 --- !u!4 &1833413769
 Transform:
   m_ObjectHideFlags: 0
