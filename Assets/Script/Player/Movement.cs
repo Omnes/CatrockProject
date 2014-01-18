@@ -55,7 +55,7 @@ public class Movement : MonoBehaviour {
 
 	};
 
-	void itemAnimationBegin(Vector3 targetDir) {
+	void itemAnimationBegin() {
 	  movementEnabled = true;
 	}
 
