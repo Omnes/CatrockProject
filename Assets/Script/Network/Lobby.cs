@@ -6,12 +6,13 @@ public class Lobby : MonoBehaviour {
 
 	public int levelToLoad = 0;
 	private RobNet robNet;
-	bool connected = false;
+	private bool connected = false;
 	private int defaultPort = 7777;
 	private int padding = 32;
 	string tempPlayerName = "Player";
 	//private float columWidth;
-	private Vector2 gridSize = new Vector2(3,3); 
+	private Vector2 gridSize = new Vector2(3,3);
+	string fieldIP = "localhost";
 
 	// Use this for initialization
 	void Start () {
@@ -63,7 +64,7 @@ public class Lobby : MonoBehaviour {
 			if(GUILayout.Button("Host game")){
 				robNet.StartServer();
 			}
-			string fieldIP = GUILayout.TextField("localhost");
+			fieldIP = GUILayout.TextField(fieldIP);
 			if(GUILayout.Button("Join lobby")){
 				robNet.ConnectToServer(fieldIP,defaultPort);
 			}
@@ -115,6 +116,7 @@ public class Lobby : MonoBehaviour {
 		
 		GUILayout.BeginArea(makeRect(0,0,1,3));
 		GUILayout.BeginVertical();
+		GUILayout.Label("your ip: " + Network.player.ipAddress);
 		for(int i = 0;i < connectedPlayers.Count; i++){
 				
 			GUILayout.BeginHorizontal();
