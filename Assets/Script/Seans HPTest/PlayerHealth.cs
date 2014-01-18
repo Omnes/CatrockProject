@@ -89,6 +89,12 @@ public class PlayerHealth : MonoBehaviour {
 	}
 	
 	
+	//try to addforce on target
+	void TryDoPush(Vector3 dirVec){
+		//																	#lägg in ifsats som frågar om du har invis eller inte
+		rigidbody.AddForce(dirVec, ForceMode.VelocityChange);
+	}
+	
 	//new Rect(screenpos.x - 10, Screen.height - (screenpos.y + 10), 20, 20)
 	
 	
