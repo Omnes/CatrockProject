@@ -627,7 +627,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fc0e2317fdfa1f94a8ed2f2603316c63, type: 2}
   - {fileID: 11400000, guid: 5490a3f506479384faa3884b6d870274, type: 2}
   - {fileID: 11400000, guid: 8f65348b94b75c640b86232889332432, type: 2}
-  rotSpeed: 400
+  rotSpeed: 0
   schedDone: 1
 --- !u!114 &11400002
 MonoBehaviour:
@@ -697,9 +697,9 @@ MonoBehaviour:
   shakeMultiplier: 10
   shakeStrenght: 200
   camSpeed: 5
-  cameraHeight: 15
-  zOffset: 5
-  cameraAngle: 70
+  cameraHeight: 35
+  zOffset: 25
+  cameraAngle: 65
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

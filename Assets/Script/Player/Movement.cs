@@ -44,7 +44,7 @@ public class Movement : MonoBehaviour {
 		public float timestamp;
 		public Vector3 pos;
 		public Vector3 velocity;
-		public Quaternion rotation; //is this needed? Can't see State used anywhere really. / it is see OnSerializeNetworkView
+		public Quaternion rotation; 
 		
 		public void copy(State s){
 			this.timestamp = s.timestamp;
@@ -74,11 +74,7 @@ public class Movement : MonoBehaviour {
 		rigidbody.isKinematic = !isLocal;
 		
 		movementEnabled = true;
-		//State state = new State();
-		//state.pos = rigidbody.position;
-		//state.velocity = rigidbody.velocity;
-		//state.timestamp = Time.time;
-		//prevSyncs.Add(state);
+
 	}
 
 	void FixedUpdate () {
@@ -104,7 +100,6 @@ public class Movement : MonoBehaviour {
 					if(deltaDir > 180){
 						deltaDir -= 360;
 					}
-					Debug.Log ("delta " + deltaDir);
 					if (Mathf.Abs (deltaDir) > turningSpeed){
 						currentDirection += turningSpeed*getSign(deltaDir);
 					} else{
@@ -170,14 +165,6 @@ public class Movement : MonoBehaviour {
 		float rayDist = collider.bounds.extents.y + extendedRayDistance;
 		RaycastHit hit;
 		Vector3 pos = rigidbody.position;
-		//Behöver specifiera layermasks så det funkar korrect
-		/* //håll kvar den här ifall vi behöver byta cast om raycast inte duger
-		float radius = collider.bounds.size.x/3f*2f;
-		if(Physics.SphereCast(pos,radius,-Vector3.up,out hit,rayDist)){ 
-			return true;
-		}*/
-
-		//Debug.DrawLine(collider.bounds.center, collider.bounds.center + rayDist * -Vector3.up); //debug
 
 		if(Physics.Raycast(collider.bounds.center,-Vector3.up,out hit,rayDist)){
 			return true;
@@ -232,10 +219,6 @@ public class Movement : MonoBehaviour {
 			currentState.rotation = syncRotation;
 
 			SendMessage("newVelocity", syncVelocity);
-
-			//if(prevSyncs.Count > nrSavedStates){
-			//	prevSyncs.RemoveAt(0);
-			//}
 			
 			syncDelay = Time.time - lastState.timestamp;
 			syncTime = 0f;   				//reset the value, used for interpolation
@@ -259,28 +242,7 @@ public class Movement : MonoBehaviour {
 	void castSpell(Vector3 direction) {
 		
 	}
-	/*
-	void SlideCheck(){
-		raycastCounter++;
-		if(raycastCounter % 10 == 0){
-			slide = false;
-			RaycastHit hit;
-			float rayDist = (transform.localScale.y/2f)+0.1f; //ändras beroende på hur modellerna blir sen
-			if(Physics.Raycast(transform.position,-Vector3.up,out hit,rayDist)){
-				if(Vector3.Angle(hit.normal,Vector3.up) > slideLimit){
-					slide = true;
-					playerControl = false;
-				}
-			}
-			if(slide){
-				Vector3 hitNormal = hit.normal;
-				velocityChange += new Vector3(hitNormal.x,-hitNormal.y,hitNormal.z)*slideSpeed;
-			}else{
-				playerControl = true; //får ändra detta sen
-			}
-		}
-	}
-	*/
+
 }
 
 
