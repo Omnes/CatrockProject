@@ -114,8 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7200209d45913e54a9ef478fea110b60, type: 3}
   m_Name: 
   exploLifeTime: .550000012
-  exploForce: 5
-  exploDamage: 14
+  exploForce: 50
+  exploDamage: 25
   playerPrefab: {fileID: 0}
   exploSound: {fileID: 8200000}
 --- !u!135 &13500000
