@@ -10,7 +10,7 @@ public class PickupItemHolder : MonoBehaviour {
 		networkView.RPC("assignNewItemRPC", RPCMode.All, item.id);
 	}
 	
-	private NetworkItems networkItems;
+	public NetworkItems networkItems;
 	
 	void Start() {
 		tryToFindNetworkItems();

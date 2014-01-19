@@ -112,7 +112,7 @@ public class ManageItems : MonoBehaviour {
 				if(slot != Slot.NoSlot) {
 					var oldItem = getItem(slot);
 					assignNewItem(item, slot);
-					//hack, because for whatever reason, GameObject.FindWithTag doesn't work inside PickupItemHoldee.
+					//hack, because pih can't find networkItems on its own.
 					pih.networkItems = networkItems;
 					pih.assignNewItem(oldItem);
 				}
