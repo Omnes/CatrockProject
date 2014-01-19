@@ -13,18 +13,48 @@ public class PickupItemHolder : MonoBehaviour {
 	private NetworkItems networkItems;
 	
 	void Start() {
-		var g = GameObject.Find("Mastermind");
-		if(g == null) {
-			Debug.Log("could not find Mastermind");
-		} else {
+		tryToFindNetworkItems();
+	}
+
+	void Update() {
+		tryToFindNetworkItems();
+	}
+
+	void onLevelWasLoaded() {
+		//mastermind is dead, try to bring it back
+		networkItems = null;
+		tryToFindNetworkItems();
+	}
+
+	GameObject findMastermindHack() {
+		GameObject g;
+		g = GameObject.Find("Mastermind");
+		if(g == null)
+			g = GameObject.Find("Mastermind(Clone)");
+		return g;
+	}
+
+	void tryToFindNetworkItems() {
+		if(networkItems == null) {
+			var g = GameObject.FindWithTag("Mastermind");
+			if(g == null); {
+				return;
+			}
 			networkItems = g.GetComponent<NetworkItems>();
-			if(networkItems == null)
-				Debug.Log ("could not find component NetworkItems on gameobject NetworkItems");
+			if(networkItems == null) {
+			}
 		}
 	}
-	
+
 	[RPC]
 	private void assignNewItemRPC(int t) {
+		tryToFindNetworkItems();
+		if(networkItems == null) {
+			OurDebug.Log("could not find networkItems when assignNewItemRPC needed them");
+			//shouldn't ever happen, because of hack solution in ManageItems.
+			Debug.Break();
+			return;
+		}
 		item = networkItems.getItem(t);
 	}
 }

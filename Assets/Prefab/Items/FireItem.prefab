@@ -39,10 +39,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb65330432f928344a4fe7271679e0a5, type: 3}
   m_Name: 
   pickupPrefab: {fileID: 100000}
+  handObject: {fileID: 400000, guid: 5c21a857591084c4285c95fd243cb661, type: 2}
   type: 0
   spell: {fileID: 11400002}
-  apperance: FireCape
-  castAnimation: InfernoPunch
   id: 0
 --- !u!114 &11400002
 MonoBehaviour:

@@ -49,10 +49,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb65330432f928344a4fe7271679e0a5, type: 3}
   m_Name: 
   pickupPrefab: {fileID: 100000}
+  handObject: {fileID: 400000, guid: f9e17e9da99f243988a33f5a5f7040a5, type: 2}
   type: 0
   spell: {fileID: 11400000}
-  apperance: Watersword
-  castAnimation: Waterspin
   id: 3
 --- !u!1001 &100100000
 Prefab:
