@@ -63,7 +63,7 @@ public class SpellcasterAI : MonoBehaviour {
 		}
 		
 		Debug.Log(gameObject.name + " casts " + spellToCast.name);
-		spellToCast.spell.cast(gameObject, target.transform.position);
+		spellToCast.spell.cast(gameObject, (target.transform.position - transform.position).normalized);
 		//spela animationen
 		//spela ljudet
 		

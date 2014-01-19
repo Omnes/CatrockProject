@@ -52,7 +52,7 @@ public class controlAI : MonoBehaviour {
 		}
 	
 	}
-
+	//aggro if a player is close
 	void lookForEnemies(){
 		Vector3 position = transform.position;
 		playerArray = GameObject.FindGameObjectsWithTag("Player");
@@ -66,7 +66,7 @@ public class controlAI : MonoBehaviour {
 		}
 	}
 
-	
+	//chose a target from those we can see
 	void chooseTarget(){
 		playerArray = GameObject.FindGameObjectsWithTag("Player");
 		List<GameObject> players = inLoS(playerArray);
@@ -88,7 +88,7 @@ public class controlAI : MonoBehaviour {
 		}
 
 	}
-
+	//return the players the ai can see
 	List<GameObject> inLoS(GameObject[] players){
 		List<GameObject> playersInLoS = new List<GameObject>();
 		if(ignoreLineOfSight){
