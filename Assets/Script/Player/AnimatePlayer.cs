@@ -16,7 +16,7 @@ public class AnimatePlayer : MonoBehaviour {
 
 	void Update() {
 		var speed = networkView.isMine ? rigidbody.velocity.XZ().magnitude : syncSpeed;
-		if(networkView.isMine == false) {
+		if(networkView.isMine == false && Input.GetKey(KeyCode.Z)) {
 			OurDebug.Log("speed " + speed);
 		}
 		animator.SetFloat("AbsSpeed", speed);

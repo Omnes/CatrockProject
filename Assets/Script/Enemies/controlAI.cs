@@ -12,12 +12,13 @@ public class controlAI : MonoBehaviour {
 	public AlertState alertState = AlertState.idle;
 	public float aggroDistance = 3;
 	public int checkForEnemesInterval = 30;
+	public float spellcastCooldown = 2;
 
 	public GameObject currentTarget;
 
 	public GameObject[] playerArray;
 	//temp spelldelay
-	private int tempSpellDelayCounter  = 0;
+	private float lastCastTime  = 0;
 	private int counter = 0;
 
 	// Use this for initialization
@@ -30,7 +31,7 @@ public class controlAI : MonoBehaviour {
 
 		Vector3 position = transform.position;
 		if(alertState == AlertState.idle){
-			if(counter % 30 == 0){
+			if(counter % checkForEnemesInterval == 0){
 				lookForEnemies();
 			}
 			//do idle stuff
@@ -44,9 +45,8 @@ public class controlAI : MonoBehaviour {
 			}
 
 			//lazy spellcast to see if this works
-			tempSpellDelayCounter++;
-			if(tempSpellDelayCounter >= 100){
-				tempSpellDelayCounter = 0;
+			if(Time.time > lastCastTime + spellcastCooldown){
+				lastCastTime = Time.time;
 				SendMessage("castSpell",currentTarget);
 			}
 		}

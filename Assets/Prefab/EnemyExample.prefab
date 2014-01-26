@@ -53,6 +53,9 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
 --- !u!33 &3300000
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -97,10 +100,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b3ced4ba864f8c4992aebf165551587, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   acceleration: 1
   maxSpeed: 10
   minDistance: 5
   maxDistance: 20
+  turningSpeed: 5
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -111,6 +116,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0b5bff98a470a847bf1fe6555078591, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   avaliableSpells:
   - spell: {fileID: 11400004}
     minDistance: 0
@@ -136,6 +142,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ae0d28ee7915b344b8a4fa5a7273c1f, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,6 +153,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd4363b4ae087ce43a6794e1e36c1865, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 100000, guid: f0ac3d1a7f353354e8f0d915700ff1f0, type: 2}
 --- !u!114 &11400008
 MonoBehaviour:
@@ -157,6 +165,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13d26cf9aef0a454699e589c137d6fc1, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   targetMode: 0
   ignoreLineOfSight: 0
   losLayerMask:
@@ -165,6 +174,7 @@ MonoBehaviour:
   alertState: 0
   aggroDistance: 10
   checkForEnemesInterval: 30
+  spellcastCooldown: .100000001
   currentTarget: {fileID: 0}
   playerArray: []
 --- !u!1001 &100100000
