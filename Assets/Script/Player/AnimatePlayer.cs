@@ -9,6 +9,9 @@ public class AnimatePlayer : MonoBehaviour {
 	
 	void Start() {
 		animator = GetComponent<Animator>();
+		if(animator == null) {
+			OurDebug.Log("animator could not be found");
+		}
 	}
 
 	void Update() {

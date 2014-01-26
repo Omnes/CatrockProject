@@ -673,7 +673,8 @@ MonoBehaviour:
   healthPosOffset: {x: -50, y: 61}
   healthBarSize: {x: 1, y: 20}
   isDisabled: 0
-  playerArray: []
+  playerList: []
+  mastermind: {fileID: 0}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
