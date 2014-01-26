@@ -22,12 +22,9 @@ public class Movement : MonoBehaviour {
 	public Vector3 endSyncPosition = Vector3.zero; //predicted position at next sync
 	public float syncDelay = 0f;
 	private float syncTime = 0f;
-	
-	//public int nrSavedStates = 2;
-	//public List<State> prevSyncs = new List<State>();
+
 	private State currentState = new State();
 	private State lastState = new State();
-	//private Vector3 lastVelocity = Vector3.zero;
 	
 	private Vector3 syncPosition = Vector3.zero;
 	private Vector3 syncVelocity = Vector3.zero;
@@ -231,9 +228,9 @@ public class Movement : MonoBehaviour {
 			endSyncPosition = syncPosition + syncVelocity * syncDelay + 0.5f*accelerationVector*Mathf.Pow(syncDelay,2f); // Pt = P0+V0*T + 1/2*A*T^2
 			startSyncPosition = rigidbody.position;
 
-			if(syncVelocity.magnitude < 0.05f){
+			/*if(syncVelocity.magnitude < 0.05f){		//this does for some reason cause problems when there are more than 2 players
 				endSyncPosition = startSyncPosition;
-			}
+			}*/
 			
 
 		}

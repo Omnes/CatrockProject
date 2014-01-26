@@ -4,13 +4,12 @@
 SceneSettings:
   m_ObjectHideFlags: 0
   m_PVSData: 
-  m_QueryMode: 1
   m_PVSObjectsArray: []
   m_PVSPortalsArray: []
   m_OcclusionBakeSettings:
-    viewCellSize: 1
-    bakeMode: 2
-    memoryUsage: 10485760
+    smallestOccluder: 5
+    smallestHole: .25
+    backfaceThreshold: 100
 --- !u!104 &2
 RenderSettings:
   m_Fog: 0
@@ -23,6 +22,7 @@ RenderSettings:
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: .5
   m_FlareStrength: 1
+  m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 0}
   m_ObjectHideFlags: 0
@@ -109,6 +109,9 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
 --- !u!33 &169891850
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -207,6 +210,9 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
 --- !u!64 &318887271
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -383,6 +389,9 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
 --- !u!65 &1017310437
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -442,6 +451,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0b5bff98a470a847bf1fe6555078591, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   avaliableSpells:
   - spell: {fileID: 1017310442}
     minDistance: 0
@@ -468,6 +478,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ae0d28ee7915b344b8a4fa5a7273c1f, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1017310443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +490,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd4363b4ae087ce43a6794e1e36c1865, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 100000, guid: f0ac3d1a7f353354e8f0d915700ff1f0, type: 2}
 --- !u!114 &1017310444
 MonoBehaviour:
@@ -491,6 +503,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13d26cf9aef0a454699e589c137d6fc1, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   targetMode: 0
   ignoreLineOfSight: 0
   losLayerMask:
@@ -499,6 +512,7 @@ MonoBehaviour:
   alertState: 0
   aggroDistance: 10
   checkForEnemesInterval: 30
+  spellcastCooldown: .100000001
   currentTarget: {fileID: 0}
   playerArray: []
 --- !u!114 &1017310445
@@ -512,6 +526,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b3ced4ba864f8c4992aebf165551587, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   acceleration: 1
   maxSpeed: 10
   minDistance: 5
@@ -647,6 +662,7 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_HDR: 0
+  m_OcclusionCulling: 1
 --- !u!4 &1813858153
 Transform:
   m_ObjectHideFlags: 0
@@ -685,6 +701,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 299233b7f17623c4e8bddb6323ab6876, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   mastermindPrefab: {fileID: 100000, guid: 1872dedd54688634892eb67328d70791, type: 2}
 --- !u!4 &1833413769
 Transform:
