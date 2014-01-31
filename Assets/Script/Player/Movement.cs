@@ -5,12 +5,12 @@ using System.Collections.Generic;
 public class Movement : MonoBehaviour {
 	
 	public float acceleration = 1;
-	public float maxMovementSpeed = 6;
-	public float maxMovSpeedChange = 1;
-	public float jumpForce = 5;
+	public float maxMovementSpeed = 8;
+	public float maxMovSpeedChange = 1.5f;
+	public float jumpForce = 12;
 	public float gravity =  9.82f;
-	public bool grounded;
-	public float extendedRayDistance = 0.1f;
+	public bool grounded = true;
+	public float extendedRayDistance = 0.35f;
 	public bool playerControl = true;
 	public float direction = 0f;
 
@@ -18,8 +18,8 @@ public class Movement : MonoBehaviour {
 	
 	//network stuff
 	public bool isLocal = true;
-	public Vector3 startSyncPosition = Vector3.zero; //position entity is at at the start of the sync
-	public Vector3 endSyncPosition = Vector3.zero; //predicted position at next sync
+	private Vector3 startSyncPosition = Vector3.zero; //position entity is at at the start of the sync
+	private Vector3 endSyncPosition = Vector3.zero; //predicted position at next sync
 	public float syncDelay = 0f;
 	private float syncTime = 0f;
 
@@ -30,8 +30,8 @@ public class Movement : MonoBehaviour {
 	private Vector3 syncVelocity = Vector3.zero;
 	
 	//rotation
-	public Quaternion syncRotation;
-	public Quaternion fromSyncRotation;
+	private Quaternion syncRotation;
+	private Quaternion fromSyncRotation;
 
 	private bool movementEnabled = true;
 

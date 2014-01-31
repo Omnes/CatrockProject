@@ -14,9 +14,9 @@ public class CameraControl : MonoBehaviour {
 	private bool isShaking = false;
 	public float camSpeed = 5;
 
-	public float cameraHeight = 15;
-	public float zOffset = 5;
-	public float cameraAngle = 70;
+	public float cameraHeight = 35;
+	public float zOffset = 25;
+	public float cameraAngle = 65;
 
 	//player
 	private Transform mainCamera;

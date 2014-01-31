@@ -6,7 +6,7 @@ using Utility;
 public class ManageItems : MonoBehaviour {
 	
 	public Item[] items;
-	public float rotSpeed;
+	public float rotSpeed = 400;
 
 	private float schedTime;
 	
@@ -17,7 +17,7 @@ public class ManageItems : MonoBehaviour {
 	private Quaternion schedEndRot;
 	public bool schedDone = true;
 	private float schedCurTime = 0;
-	public Transform[] itemHandObject;
+	private Transform[] itemHandObject;
 	private string[] itemHandObjectJointName;
 
 	private enum Slot {
