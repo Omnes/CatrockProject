@@ -83,6 +83,7 @@ public class Lobby : MonoBehaviour {
 		}else if(robNet.netState == RobNet.State.Lobby){
 			drawConnectedPlayers();
 			levelChooser();
+			chooseEquips();
 			
 			string[] levels = robNet.levels;
 			GUILayout.BeginArea(makeRect(1,2,1,1));
@@ -123,6 +124,30 @@ public class Lobby : MonoBehaviour {
 			GUILayout.Box(connectedPlayers[i].playerName);
 			//int ping = Network.GetAveragePing(Network.connectedPlayers[i].netPlayer);
 			//GUILayout.Label("ping: " + ping);
+			GUILayout.FlexibleSpace();
+			GUILayout.EndHorizontal();
+		}
+		GUILayout.FlexibleSpace();
+		GUILayout.EndVertical();
+		GUILayout.EndArea();
+	}
+
+	private void chooseEquips(){
+		NetworkItems netItems = GetComponent<NetworkItems>();
+		GUILayout.BeginArea(makeRect(1,0,1,3));
+		GUILayout.BeginVertical();
+		for(int i = 0;i < netItems.prefabs.Length; i++){
+
+			GUILayout.BeginHorizontal();
+			if(GUILayout.Button(""+i)){
+				robNet.localPlayer.leftWeaponID = i;
+			}
+			if(GUILayout.Button(""+i)){
+				robNet.localPlayer.hatID = i;
+			}
+			if(GUILayout.Button(""+i)){
+				robNet.localPlayer.rightWeaponID = i;
+			}
 			GUILayout.FlexibleSpace();
 			GUILayout.EndHorizontal();
 		}

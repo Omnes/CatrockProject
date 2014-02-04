@@ -566,6 +566,8 @@ AudioSource:
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -603,6 +605,7 @@ AudioSource:
     m_PostInfinity: 2
 --- !u!95 &9500000
 Animator:
+  serializedVersion: 2
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -613,6 +616,7 @@ Animator:
   m_CullingMode: 1
   m_ApplyRootMotion: 0
   m_AnimatePhysics: 1
+  m_HasTransformHierarchy: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -623,13 +627,17 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ce7b6bb1a9af634894a7ee46b8db14c, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   items:
   - {fileID: 11400000, guid: fc0e2317fdfa1f94a8ed2f2603316c63, type: 2}
+  - {fileID: 11400000, guid: a14e41fb6f4535d46901513f740173c8, type: 2}
   - {fileID: 11400000, guid: 5490a3f506479384faa3884b6d870274, type: 2}
-  - {fileID: 0}
   rotSpeed: 400
   schedDone: 1
-  itemHandObject: []
+  itemHandObject:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -640,6 +648,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 970bebad3eae1b148bc49b8b051f9834, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   acceleration: 1
   maxMovementSpeed: 8
   maxMovSpeedChange: 1.5
@@ -666,6 +675,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69b3ed2daa0b20847a870291c28701eb, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   isLocal: 1
   playerHealth: 100
   maxHealth: 100
@@ -685,6 +695,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f9213e89ca44fd428fcbb89f2a7cbc9, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -695,6 +706,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e8f7b4511852344e8dda18d6c7dce56, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   shakeTime: 100
   shakeMultiplier: 10
   shakeStrenght: 200
@@ -733,6 +745,9 @@ SkinnedMeshRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
@@ -753,6 +768,7 @@ SkinnedMeshRenderer:
   - {fileID: 400002}
   - {fileID: 400008}
   - {fileID: 400000}
+  m_BlendShapeWeights: []
   m_RootBone: {fileID: 400030}
   m_AABB:
     m_Center: {x: .499170542, y: .156933665, z: -1.988693}

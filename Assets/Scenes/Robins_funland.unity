@@ -169,6 +169,10 @@ Prefab:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1706e612665b97f449815175c8a99cff, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1706e612665b97f449815175c8a99cff, type: 2}
   m_RootGameObject: {fileID: 1017310435}
@@ -369,7 +373,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1017310436
 Renderer:
   m_ObjectHideFlags: 0
