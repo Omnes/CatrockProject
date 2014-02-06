@@ -513,9 +513,8 @@ GameObject:
   - 54: {fileID: 5400000}
   - 148: {fileID: 14800000}
   - 136: {fileID: 13600000}
-  - 81: {fileID: 8100000}
   m_Layer: 0
-  m_Name: NewPlayer2
+  m_Name: Player3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -943,13 +942,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!81 &8100000
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100066}
-  m_Enabled: 0
 --- !u!95 &9500000
 Animator:
   serializedVersion: 2
@@ -1082,8 +1074,8 @@ SkinnedMeshRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: bd0a68b4c6e3ca141b5fde1d6146f963, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 5260eed39e983ce45889b55229650211, type: 2}
+  - {fileID: 2100000, guid: eff943f4d3a77b7429ae5ca6963b6795, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
