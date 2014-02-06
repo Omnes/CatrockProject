@@ -515,8 +515,8 @@ GameObject:
   - 136: {fileID: 13600000}
   - 81: {fileID: 8100000}
   m_Layer: 0
-  m_Name: NewPlayer
-  m_TagString: Player
+  m_Name: NewPlayer2
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -921,8 +921,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100066}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: -1.62920685e-07}
-  m_LocalPosition: {x: -9.25445938, y: -4.36671591, z: -7.03131914}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400064}
@@ -1078,8 +1078,8 @@ SkinnedMeshRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 84267b0f382f74efa9da8a75b7f6f0f6, type: 2}
-  - {fileID: 2100000, guid: 259372c3352b6468fbacc53c27098326, type: 2}
+  - {fileID: 2100000, guid: 5260eed39e983ce45889b55229650211, type: 2}
+  - {fileID: 2100000, guid: eff943f4d3a77b7429ae5ca6963b6795, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -1111,8 +1111,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 400052}
   m_AABB:
-    m_Center: {x: -.0188799948, y: .00634596311, z: -.00381992478}
-    m_Extent: {x: .0433675721, y: .0259645898, z: .0327207558}
+    m_Center: {x: -.0188799948, y: .00634596311, z: -.00381992571}
+    m_Extent: {x: .0433675721, y: .0259645898, z: .0327207521}
   m_DirtyAABB: 0
 --- !u!148 &14800000
 NetworkView:
