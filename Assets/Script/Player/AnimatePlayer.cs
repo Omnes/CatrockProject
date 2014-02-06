@@ -6,7 +6,19 @@ using Utility;
 public class AnimatePlayer : MonoBehaviour {
 	Animator animator;
 	float syncSpeed = 0;
-	
+
+	void airBegin() {
+		if(animator.GetBool("EndJump") == false) {
+			animator.SetTrigger("BeginJump");
+		}
+	}
+
+	void airEnd() {
+		if(animator.GetBool("BeginJump") == false) {
+			animator.SetTrigger("EndJump");
+		}
+	}
+
 	void Start() {
 		animator = GetComponent<Animator>();
 		if(animator == null) {

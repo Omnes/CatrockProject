@@ -80,7 +80,13 @@ public class Movement : MonoBehaviour {
 		}
 		
 		if(isLocal){
+			var wasGrounded = grounded;
 			grounded = isGrounded();
+
+			if(wasGrounded == false && grounded) {
+				SendMessage("airEnd");
+			}
+
 			bool control = isPlayerInControl();
 			Vector3 targetVelocity = Vector3.zero;
 			if(control){
@@ -113,7 +119,7 @@ public class Movement : MonoBehaviour {
 				targetVelocity.z = Mathf.Clamp(targetVelocity.z,-maxMovementSpeed,maxMovementSpeed);
 				
 				if(Input.GetButton("Jump") && grounded){
-					
+					SendMessage ("airBegin");
 					rigidbody.velocity = new Vector3(velocity.x,jumpForce,velocity.z);
 					grounded = false;
 				}

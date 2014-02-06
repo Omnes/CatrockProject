@@ -81,7 +81,10 @@ ModelImporter:
     7400012: Idle_jump
     7400014: Hit
     7400016: Run0
-    7400018: Run_jump0
+    7400018: Run_jump_start
+    7400020: Run_jump_air
+    7400022: Idle_jump_start
+    7400024: Idle_jump_air
     9500000: //RootNode
     13700000: Main_Mesh
   materials:
@@ -99,100 +102,6 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     clipAnimations:
-    - serializedVersion: 16
-      name: Run_jump0
-      takeName: Run_jump
-      firstFrame: 0
-      lastFrame: 45
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      loopTime: 1
-      loopBlend: 1
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: full_body_ctrl
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_ctrl_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint/L_foot_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint/R_foot_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_ctrl
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_ctrl
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_ctrl
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_ctrl
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_ctrl
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint/L_hand_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_ctrl
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint
-        weight: 1
-      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint/R_hand_joint
-        weight: 1
-      - path: full_body_ctrl/ikHandle1
-        weight: 1
-      - path: full_body_ctrl/ikHandle2
-        weight: 1
-      - path: Main_Mesh
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
     - serializedVersion: 16
       name: Take 001
       takeName: Take 001
@@ -579,8 +488,109 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: .234761611
+        functionName: JumpMovementStart
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: full_body_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_ctrl_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint/L_foot_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint/R_foot_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint/L_hand_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint/R_hand_joint
+        weight: 1
+      - path: full_body_ctrl/ikHandle1
+        weight: 1
+      - path: full_body_ctrl/ikHandle2
+        weight: 1
+      - path: Main_Mesh
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle_jump
+      takeName: Idle_jump
+      firstFrame: 0
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -664,10 +674,10 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: Idle_jump
-      takeName: Idle_jump
+      name: Hit
+      takeName: Hit
       firstFrame: 0
-      lastFrame: 50
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -758,10 +768,386 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: Hit
-      takeName: Hit
+      name: Fireball_right
+      takeName: Fireball_right
       firstFrame: 0
       lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: full_body_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_ctrl_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint/L_foot_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint/R_foot_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint/L_hand_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint/R_hand_joint
+        weight: 1
+      - path: full_body_ctrl/ikHandle1
+        weight: 1
+      - path: full_body_ctrl/ikHandle2
+        weight: 1
+      - path: Main_Mesh
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run_jump_start
+      takeName: Run_jump
+      firstFrame: 0
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: full_body_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_ctrl_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint/L_foot_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint/R_foot_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint/L_hand_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint/R_hand_joint
+        weight: 1
+      - path: full_body_ctrl/ikHandle1
+        weight: 1
+      - path: full_body_ctrl/ikHandle2
+        weight: 1
+      - path: Main_Mesh
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run_jump_air
+      takeName: Run_jump
+      firstFrame: 16
+      lastFrame: 16.1000004
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: full_body_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_ctrl_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint/L_foot_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint/R_foot_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint/L_hand_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint/R_hand_joint
+        weight: 1
+      - path: full_body_ctrl/ikHandle1
+        weight: 1
+      - path: full_body_ctrl/ikHandle2
+        weight: 1
+      - path: Main_Mesh
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle_jump_start
+      takeName: Idle_jump
+      firstFrame: 0
+      lastFrame: 15
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: full_body_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_ctrl_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/L_leg_joint/L_knee_joint/L_foot_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/R_leg_joint/R_knee_joint/R_foot_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/head_ctrl_group/head_joint/jaw_ctrl_group/jaw_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/L_shoulder_ctrl_group/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_joint/L_hand_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_ctrl
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/hip_ctrl_group/hip_joint/spine_ctrl_group/spine_joint/R_shoulder_ctrl_group/R_shoulder_joint/R_hand_joint
+        weight: 1
+      - path: full_body_ctrl/ikHandle1
+        weight: 1
+      - path: full_body_ctrl/ikHandle2
+        weight: 1
+      - path: Main_Mesh
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle_jump_air
+      takeName: Idle_jump
+      firstFrame: 15
+      lastFrame: 15.1000004
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
