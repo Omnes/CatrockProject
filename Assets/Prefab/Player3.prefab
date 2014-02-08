@@ -513,9 +513,10 @@ GameObject:
   - 54: {fileID: 5400000}
   - 148: {fileID: 14800000}
   - 136: {fileID: 13600000}
+  - 114: {fileID: 11400010}
   m_Layer: 0
   m_Name: Player3
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -978,7 +979,6 @@ MonoBehaviour:
   direction: 0
   turningSpeed: 5
   isLocal: 1
-  syncDelay: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1049,6 +1049,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9213e89ca44fd428fcbb89f2a7cbc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11400010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e00bb97ed9f7564db45cc63d6a7255c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLocal: 0
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1118,7 +1130,7 @@ NetworkView:
   m_GameObject: {fileID: 100066}
   m_Enabled: 1
   m_StateSynchronization: 2
-  m_Observed: {fileID: 11400000}
+  m_Observed: {fileID: 11400010}
   m_ViewID:
     m_ID: 0
     m_Type: 0
