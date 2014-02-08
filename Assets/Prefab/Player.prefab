@@ -289,6 +289,7 @@ GameObject:
   - 81: {fileID: 8100000}
   - 114: {fileID: 11400008}
   - 114: {fileID: 11400006}
+  - 114: {fileID: 11400010}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -660,11 +661,6 @@ MonoBehaviour:
   direction: 0
   turningSpeed: 5
   isLocal: 1
-  startSyncPosition: {x: 0, y: 0, z: 0}
-  endSyncPosition: {x: 0, y: 0, z: 0}
-  syncDelay: 0
-  syncRotation: {x: 0, y: 0, z: 0, w: 0}
-  fromSyncRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -714,6 +710,23 @@ MonoBehaviour:
   cameraHeight: 35
   zOffset: 25
   cameraAngle: 65
+--- !u!114 &11400010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e00bb97ed9f7564db45cc63d6a7255c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLocal: 0
+  startSyncPosition: {x: 0, y: 0, z: 0}
+  endSyncPosition: {x: 0, y: 0, z: 0}
+  syncDelay: 0
+  syncRotation: {x: 0, y: 0, z: 0, w: 0}
+  fromSyncRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -782,7 +795,7 @@ NetworkView:
   m_GameObject: {fileID: 100036}
   m_Enabled: 1
   m_StateSynchronization: 2
-  m_Observed: {fileID: 11400002}
+  m_Observed: {fileID: 11400010}
   m_ViewID:
     m_ID: 0
     m_Type: 0

@@ -14,6 +14,7 @@ public class controlAI : MonoBehaviour {
 	public int checkForEnemesInterval = 30;
 	public float spellcastCooldown = 2;
 
+
 	public GameObject currentTarget;
 
 	public GameObject[] playerArray;
@@ -24,11 +25,11 @@ public class controlAI : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		playerArray = GameObject.FindGameObjectsWithTag("Player");
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
 		Vector3 position = transform.position;
 		if(alertState == AlertState.idle){
 			if(counter % checkForEnemesInterval == 0){
@@ -50,8 +51,8 @@ public class controlAI : MonoBehaviour {
 				SendMessage("castSpell",currentTarget);
 			}
 		}
-	
 	}
+
 	//aggro if a player is close
 	void lookForEnemies(){
 		Vector3 position = transform.position;
@@ -88,6 +89,7 @@ public class controlAI : MonoBehaviour {
 		}
 
 	}
+
 	//return the players the ai can see
 	List<GameObject> inLoS(GameObject[] players){
 		List<GameObject> playersInLoS = new List<GameObject>();
@@ -126,4 +128,6 @@ public class controlAI : MonoBehaviour {
 	void setTarget(GameObject target){
 		currentTarget = target;
 	}
+
+
 }
