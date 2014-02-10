@@ -55,14 +55,14 @@ public class SpellcasterAI : MonoBehaviour {
 	}
 	
 	public void castSpell(GameObject target){
-		float dist = Vector3.Distance(transform.position,target.rigidbody.position);
+		float dist = Vector3.Distance(transform.position,target.transform.position);
 		spellBehaviour spellToCast = chooseSpell(dist);
 		
 		if(spellToCast == null){
 			return;
 		}
 		
-		Debug.Log(gameObject.name + " casts " + spellToCast.name);
+		//Debug.Log(gameObject.name + " casts " + spellToCast.name);
 		spellToCast.spell.cast(gameObject, (target.transform.position - transform.position).normalized);
 		//spela animationen
 		//spela ljudet

@@ -14,7 +14,7 @@ public class PlayerHealth : MonoBehaviour {
 	public Texture healthTexture;
 	private Vector3 healthPos;
 	//                                                          hårdkodat!!!
-    public Vector2 healthPosOffset = new Vector2(-50.0f, 15.0f);
+    public Vector2 healthPosOffset = new Vector2(-50.0f, 61);
 	public Vector2 healthBarSize = new Vector2(1.0f,20.0f);
 
     //### kill and resurrect player ###

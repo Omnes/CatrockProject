@@ -5,39 +5,21 @@ using System.Collections.Generic;
 public class Movement : MonoBehaviour {
 	
 	public float acceleration = 1;
-	public float maxMovementSpeed = 6;
-	public float maxMovSpeedChange = 1;
-	public float jumpForce = 5;
+	public float maxMovementSpeed = 8;
+	public float maxMovSpeedChange = 1.5f;
+	public float jumpForce = 12;
 	public float gravity =  9.82f;
-	public bool grounded;
-	public float extendedRayDistance = 0.1f;
+	public bool grounded = true;
+	public float extendedRayDistance = 0.35f;
 	public bool playerControl = true;
 	public float direction = 0f;
 
 	public float turningSpeed = 5f;
-	
-	//network stuff
+
 	public bool isLocal = true;
-	public Vector3 startSyncPosition = Vector3.zero; //position entity is at at the start of the sync
-	public Vector3 endSyncPosition = Vector3.zero; //predicted position at next sync
-	public float syncDelay = 0f;
-	private float syncTime = 0f;
-	
-	//public int nrSavedStates = 2;
-	//public List<State> prevSyncs = new List<State>();
-	private State currentState = new State();
-	private State lastState = new State();
-	//private Vector3 lastVelocity = Vector3.zero;
-	
-	private Vector3 syncPosition = Vector3.zero;
-	private Vector3 syncVelocity = Vector3.zero;
-	
-	//rotation
-	public Quaternion syncRotation;
-	public Quaternion fromSyncRotation;
-
 	private bool movementEnabled = true;
-
+/*
+<<<<<<< HEAD
 
 	private float testTime = 0; 
 	private int sendcounter = 0;
@@ -60,6 +42,9 @@ public class Movement : MonoBehaviour {
 
 	};
 
+=======
+>>>>>>> master
+ */
 	void itemAnimationBegin() {
 	  movementEnabled = true;
 	}
@@ -70,10 +55,6 @@ public class Movement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//rotation
-		syncRotation = transform.rotation;
-		fromSyncRotation = transform.rotation;
-
 		rigidbody.useGravity = false;
 		isLocal = networkView.isMine;
 		rigidbody.isKinematic = !isLocal;
@@ -94,16 +75,25 @@ public class Movement : MonoBehaviour {
 		}
 		
 		if(isLocal){
+			var wasGrounded = grounded;
 			grounded = isGrounded();
+
+			if(wasGrounded == false && grounded) {
+				SendMessage("airEnd");
+			}
+
 			bool control = isPlayerInControl();
 			Vector3 targetVelocity = Vector3.zero;
 			if(control){
+				//get the input
+				float horizontal = Input.GetAxis("Horizontal");
+				float vertical = Input.GetAxis("Vertical");
+
+				//rotation stuff
 				float currentDirection = transform.eulerAngles.y;
 				if(currentDirection > 179){
 					currentDirection -= 360;
 				}
-				float horizontal = Input.GetAxis("Horizontal");
-				float vertical = Input.GetAxis("Vertical");
 
 				if(!fEqual(horizontal,0) || !fEqual(vertical,0)){ // if we have a new inputvector do rotation stuff
 					float targetDirection = Mathf.Atan2(horizontal,vertical) * Mathf.Rad2Deg;
@@ -127,7 +117,7 @@ public class Movement : MonoBehaviour {
 				targetVelocity.z = Mathf.Clamp(targetVelocity.z,-maxMovementSpeed,maxMovementSpeed);
 				
 				if(Input.GetButton("Jump") && grounded){
-					
+					SendMessage ("airBegin");
 					rigidbody.velocity = new Vector3(velocity.x,jumpForce,velocity.z);
 					grounded = false;
 				}
@@ -145,8 +135,6 @@ public class Movement : MonoBehaviour {
 			//if(!grounded){ // might be a good idea to add this back when grounded is working correctly
 			rigidbody.AddForce(new Vector3(0,-gravity*rigidbody.mass,0));
 			//}
-		}else{
-			nonLocalUpdate();
 		}
 		
 		
@@ -187,10 +175,8 @@ public class Movement : MonoBehaviour {
 		//gör kollar om tex spelaren är stunnad osv
 		return playerControl; //&& !slide;
 	}
-	
-	void nonLocalUpdate(){
-		syncTime = Time.time - currentState.timestamp;
 
+/*<<<<<<< HEAD
 		Vector3 newPosition = Vector3.Lerp(startSyncPosition,endSyncPosition, syncTime/syncDelay);
 		
 		rigidbody.position = newPosition;
@@ -250,6 +236,8 @@ public class Movement : MonoBehaviour {
 		}
 		
 	}
+=======
+>>>>>>> master*/
 	void castSpell(Vector3 direction) {
 		
 	}
