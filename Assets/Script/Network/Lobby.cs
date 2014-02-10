@@ -8,7 +8,7 @@ public class Lobby : MonoBehaviour {
 	private RobNet robNet;
 	private bool connected = false;
 	private int defaultPort = 7777;
-	private int padding = 32;
+	private float padding = 0.01f;
 	string tempPlayerName = "Player";
 	//private float columWidth;
 	private Vector2 gridSize = new Vector2(3,3);
@@ -25,16 +25,16 @@ public class Lobby : MonoBehaviour {
 	}
 	
 	float getColum(int n){
-		return Screen.width/gridSize.x*n + padding;
+		return Screen.width/gridSize.x*n + Screen.width*padding;
 	}
 	float getRow(int n){
-		return Screen.height/gridSize.y*n + padding;
+		return Screen.height/gridSize.y*n + Screen.height*padding;
 	}
 	float getColumWidth(int n){
-		return Screen.width/gridSize.x * n - padding * 2;
+		return Screen.width/gridSize.x * n - Screen.width*padding*2;
 	}
 	float getRowHeigth(int n){
-		return Screen.height/gridSize.y * n - padding * 2;
+		return Screen.height/gridSize.y * n - Screen.height*padding*2;
 	}
 	Rect makeRect(int columNr,int rowNr,int colWidth,int rowHeight){
 		return new Rect(getColum(columNr), getRow(rowNr), getColumWidth(colWidth),getRowHeigth(rowHeight));
@@ -44,11 +44,11 @@ public class Lobby : MonoBehaviour {
 
 		if(robNet.netState == RobNet.State.Meny){		//bör ligga i andra menyscript igentligen
 
-			GUILayout.BeginArea(makeRect(2,0,1,1));
+			GUILayout.BeginArea(makeRect(2,0,1,2));
 			GUILayout.BeginVertical();
 
 			tempPlayerName = GUILayout.TextField(tempPlayerName);
-			if(GUILayout.Button("Ok")){
+			if(GUILayout.Button("Ok",GUILayout.ExpandWidth(false))){
 				SendMessage("setLocalPlayerName",tempPlayerName);
 			}
 
@@ -88,23 +88,24 @@ public class Lobby : MonoBehaviour {
 			string[] levels = robNet.levels;
 			GUILayout.BeginArea(makeRect(1,2,1,1));
 			GUILayout.BeginVertical();
-			
-			GUILayout.BeginHorizontal();
-			GUILayout.FlexibleSpace();
-			GUILayout.Label(levels[levelToLoad]);
-			GUILayout.FlexibleSpace();
-			GUILayout.EndHorizontal();
-			
-			GUILayout.BeginHorizontal();
-			GUILayout.FlexibleSpace();
-			if(GUILayout.Button("Start Game")){
-				Network.RemoveRPCsInGroup(0);
-				SendMessage("LoadLevel",levelToLoad);
-			}
-			GUILayout.FlexibleSpace();
-			GUILayout.EndHorizontal();
+				GUILayout.FlexibleSpace();
 
-			GUILayout.FlexibleSpace();
+				GUILayout.BeginHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.Label(levels[levelToLoad]);
+					GUILayout.FlexibleSpace();
+				GUILayout.EndHorizontal();
+				
+				GUILayout.BeginHorizontal();
+					GUILayout.FlexibleSpace();
+					if(GUILayout.Button("Start Game")){
+						Network.RemoveRPCsInGroup(0);
+						SendMessage("LoadLevel",levelToLoad);
+					}
+					GUILayout.FlexibleSpace();
+				GUILayout.EndHorizontal();
+
+				//GUILayout.FlexibleSpace();
 			GUILayout.EndVertical();
 			GUILayout.EndArea();
 			
