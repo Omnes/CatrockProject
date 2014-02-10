@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 using Utility;
 
 public class ManageItems : MonoBehaviour {
@@ -18,7 +18,7 @@ public class ManageItems : MonoBehaviour {
 	public bool schedDone = true;
 	private float schedCurTime = 0;
 	public Transform[] itemHandObject = new Transform[3];
-	private string[] itemHandObjectJointName = new string[3]{"joint1/joint8/joint9/joint10/joint11", "joint1/joint8/joint12/joint13", "joint1"};
+	public string[] itemHandObjectJointName = new string[3]{"R_hand_joint","L_hand_joint","head_joint"};
 
 	private enum Slot {
 		Weapon0 = 0,
@@ -37,6 +37,20 @@ public class ManageItems : MonoBehaviour {
 				attachItem(i, items[i]);
 			}
 		}*/
+	}
+
+	//rekursive search for child name
+	Transform findChild(Transform parent,string target){
+		if(parent.name == target){
+			return parent;
+		}
+		foreach(Transform child in parent){
+			Transform res = findChild(child,target);
+			if(res != null){
+				return res;
+			}
+		}
+		return null;
 	}
 		
 	
@@ -197,7 +211,7 @@ public class ManageItems : MonoBehaviour {
 			OurDebug.Log("got item.handObject " + item.handObject + " in slot " + slot);
 
 		var t = ((Transform)Instantiate(item.handObject));
-		t.parent = transform.Find(itemHandObjectJointName[slot]);
+		t.parent = findChild(transform,itemHandObjectJointName[slot]);
 		t.localPosition = new Vector3(0, 0, 0);
 		itemHandObject[slot] = t;
 		items[slot] = item;

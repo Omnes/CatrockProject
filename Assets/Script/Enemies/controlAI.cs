@@ -129,5 +129,9 @@ public class controlAI : MonoBehaviour {
 		currentTarget = target;
 	}
 
+	void OnDrawGizmosSelected(){
+		Gizmos.DrawWireSphere(transform.position,aggroDistance);
+	}
+
 
 }

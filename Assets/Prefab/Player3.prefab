@@ -1000,6 +1000,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  itemHandObjectJointName:
+  - R_hand_joint
+  - L_hand_joint
+  - head_joint
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
