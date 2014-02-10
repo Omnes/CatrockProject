@@ -116,7 +116,9 @@ public class Lobby : MonoBehaviour {
 		
 		GUILayout.BeginArea(makeRect(0,0,1,3));
 		GUILayout.BeginVertical();
-		GUILayout.Label("your ip: " + Network.player.ipAddress);
+		if(robNet.isServer){
+			GUILayout.Label("Lobby ip: " + Network.player.ipAddress);
+		}
 		for(int i = 0;i < connectedPlayers.Count; i++){
 				
 			GUILayout.BeginHorizontal();
