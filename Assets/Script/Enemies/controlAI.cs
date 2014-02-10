@@ -12,25 +12,27 @@ public class controlAI : MonoBehaviour {
 	public AlertState alertState = AlertState.idle;
 	public float aggroDistance = 3;
 	public int checkForEnemesInterval = 30;
+	public float spellcastCooldown = 2;
+
 
 	public GameObject currentTarget;
 
 	public GameObject[] playerArray;
 	//temp spelldelay
-	private int tempSpellDelayCounter  = 0;
+	private float lastCastTime  = 0;
 	private int counter = 0;
 
 	// Use this for initialization
 	void Awake () {
 		playerArray = GameObject.FindGameObjectsWithTag("Player");
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
 		Vector3 position = transform.position;
 		if(alertState == AlertState.idle){
-			if(counter % 30 == 0){
+			if(counter % checkForEnemesInterval == 0){
 				lookForEnemies();
 			}
 			//do idle stuff
@@ -44,15 +46,14 @@ public class controlAI : MonoBehaviour {
 			}
 
 			//lazy spellcast to see if this works
-			tempSpellDelayCounter++;
-			if(tempSpellDelayCounter >= 100){
-				tempSpellDelayCounter = 0;
+			if(Time.time > lastCastTime + spellcastCooldown){
+				lastCastTime = Time.time;
 				SendMessage("castSpell",currentTarget);
 			}
 		}
-	
 	}
 
+	//aggro if a player is close
 	void lookForEnemies(){
 		Vector3 position = transform.position;
 		playerArray = GameObject.FindGameObjectsWithTag("Player");
@@ -66,7 +67,7 @@ public class controlAI : MonoBehaviour {
 		}
 	}
 
-	
+	//chose a target from those we can see
 	void chooseTarget(){
 		playerArray = GameObject.FindGameObjectsWithTag("Player");
 		List<GameObject> players = inLoS(playerArray);
@@ -89,6 +90,7 @@ public class controlAI : MonoBehaviour {
 
 	}
 
+	//return the players the ai can see
 	List<GameObject> inLoS(GameObject[] players){
 		List<GameObject> playersInLoS = new List<GameObject>();
 		if(ignoreLineOfSight){
@@ -126,4 +128,10 @@ public class controlAI : MonoBehaviour {
 	void setTarget(GameObject target){
 		currentTarget = target;
 	}
+
+	void OnDrawGizmosSelected(){
+		Gizmos.DrawWireSphere(transform.position,aggroDistance);
+	}
+
+
 }

@@ -6,14 +6,29 @@ using Utility;
 public class AnimatePlayer : MonoBehaviour {
 	Animator animator;
 	float syncSpeed = 0;
-	
+
+	void airBegin() {
+		if(animator.GetBool("EndJump") == false) {
+			animator.SetTrigger("BeginJump");
+		}
+	}
+
+	void airEnd() {
+		if(animator.GetBool("BeginJump") == false) {
+			animator.SetTrigger("EndJump");
+		}
+	}
+
 	void Start() {
 		animator = GetComponent<Animator>();
+		if(animator == null) {
+			OurDebug.Log("animator could not be found");
+		}
 	}
 
 	void Update() {
 		var speed = networkView.isMine ? rigidbody.velocity.XZ().magnitude : syncSpeed;
-		if(networkView.isMine == false) {
+		if(networkView.isMine == false && Input.GetKey(KeyCode.Z)) {
 			OurDebug.Log("speed " + speed);
 		}
 		animator.SetFloat("AbsSpeed", speed);

@@ -1,31 +1,42 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 using Utility;
 
 public class PlayerHealth : MonoBehaviour {
 	
 	public bool isLocal = true;
+
     //### healthbar ###
     public float playerHealth = 100.0f;
 	public float maxHealth = 100.0f;
 	public Texture healthTexture;
 	private Vector3 healthPos;
 	//                                                          hårdkodat!!!
-    public Vector2 healthPosOffset = new Vector2(-50.0f, 15.0f);
-    //public Vector2 healthPosOffset = new Vector2(0.0f, 0.0f);
+    public Vector2 healthPosOffset = new Vector2(-50.0f, 61);
 	public Vector2 healthBarSize = new Vector2(1.0f,20.0f);
 
     //### kill and resurrect player ###
 	public bool isDisabled = false;
-    public GameObject[] playerArray;
+    //public List<GameObject> playerList;
+    public GameObject[] playerList;
+    public GameObject mastermind;
+
 	//		                                            this will get changed later on. fastfix!!!
 	private Vector3 locationOfDeath;
+    //
+    private bool isInvulnerable = false;
+    private float currentTime;
+    private float invulnerDelay = 0.5f;
+
+
 	
 	// Use this for initialization
 	void Start () {
 		isLocal = networkView.isMine;
-        //playerArray = GameObject.FindGameObjectsWithTag("Player");
+        mastermind = GameObject.FindGameObjectWithTag("Mastermind");
+        currentTime = Time.time;
 	}
 	
 	// Update is called once per frame
@@ -43,18 +54,23 @@ public class PlayerHealth : MonoBehaviour {
 			OurDebug.Log("trying to kill");
 			TryDisablePlayer();
 		}
-		
-		//                                                      hårdkodat!!!
-		if(playerArray.Length < 2){
-			playerArray = GameObject.FindGameObjectsWithTag("Player");
-		}
-			
-		//														resurrect all players atm, need to fix this later
+
+        //sätt delay på dennna
+        //denna gillar inte att vara local. fråga om detta.
+        int connectedPlayers = mastermind.GetComponent<RobNet>().connectedPlayers.Count;
+        if (connectedPlayers != playerList.Length)
+        {
+            playerList = GameObject.FindGameObjectsWithTag("Player");
+        }
+       
+
+
 		if(isLocal){
 			if(Input.GetKey(KeyCode.LeftControl)){
 				//activate players on this client
-				foreach (GameObject g in playerArray){
-					g.SetActive(true);
+                foreach (GameObject g in playerList)
+                {
+                    g.SetActive(true);
 				}
 				//activate player on other clients
 				TryEnablePlayer();
@@ -63,6 +79,14 @@ public class PlayerHealth : MonoBehaviour {
 				playerHealth = -1f;
 			}
 		}
+
+        //doesn't need to be local?
+        if (isInvulnerable) {
+            if (invulnerDelay + currentTime < Time.time) {
+                OurDebug.Log("NOT INVULNERABLE ANYMOAR");
+                isInvulnerable = false;
+            }
+        }
 		
 	}
 	
@@ -70,7 +94,12 @@ public class PlayerHealth : MonoBehaviour {
 	//This function will be executed from elsewhere by SendMessage()
 	void TryDoDamage(float damage){
 		if(isLocal){
-			networkView.RPC("DoDmg", RPCMode.All, damage);
+            if (!isInvulnerable){
+                networkView.RPC("DoDmg", RPCMode.All, damage);
+                //both these for invulnerability                    unsure if this needs to be in trydopush aswell
+                isInvulnerable = true;
+                currentTime = Time.time;
+            }
 		}
 	}
 	
@@ -88,6 +117,18 @@ public class PlayerHealth : MonoBehaviour {
 		
 	}
 	
+	
+	//try to addforce on target
+	void TryDoPush(Vector3 dirVec){
+        //                                                  #does this need to be local ?
+       // if (isLocal){
+            if (!isInvulnerable)
+            {
+                OurDebug.Log("HIT");
+                rigidbody.AddForce(dirVec, ForceMode.VelocityChange);
+            }
+       // }
+	}
 	
 	//new Rect(screenpos.x - 10, Screen.height - (screenpos.y + 10), 20, 20)
 	
@@ -115,14 +156,14 @@ public class PlayerHealth : MonoBehaviour {
 	//enable Player
 	[RPC]
 	void Resurrect(){
-		foreach(GameObject g in playerArray){	
-			g.SetActive(true);
-			if(g.GetComponent<PlayerHealth>().isDisabled){
-				g.networkView.RPC("WakeUp", RPCMode.All);
+		foreach(GameObject g in playerList){
+            g.SetActive(true);
+            if (g.GetComponent<PlayerHealth>().isDisabled)
+            {
+                g.networkView.RPC("WakeUp", RPCMode.All);
 			}
 		}
 		OurDebug.Log("RPC : Resurrecting");
-		
 	}
 	
 	//Måste detta vara ett RPC ?

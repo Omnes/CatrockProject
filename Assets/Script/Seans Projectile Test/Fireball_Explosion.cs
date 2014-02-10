@@ -32,8 +32,9 @@ public class Fireball_Explosion : MonoBehaviour {
 			foreach(ContactPoint collision in collisions){
 				//creates directionvector for objects
 				dirVec = Vector3.Normalize(collision.point - (collider as SphereCollider).center);
-				collision.otherCollider.rigidbody.AddForce(dirVec * exploForce, ForceMode.Impulse);
-				
+                dirVec *= exploForce;
+
+                collisions.gameObject.SendMessage("TryDoPush", dirVec, SendMessageOptions.DontRequireReceiver);
 				//if object is an enityt
 				//change this to fit for only entities
 				collisions.gameObject.SendMessage("TryDoDamage", exploDamage, SendMessageOptions.DontRequireReceiver);

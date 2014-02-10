@@ -17,6 +17,8 @@ GameObject:
   - 114: {fileID: 11400006}
   - 114: {fileID: 11400008}
   - 114: {fileID: 11400000}
+  - 148: {fileID: 14800000}
+  - 114: {fileID: 11400010}
   m_Layer: 0
   m_Name: EnemyExample
   m_TagString: Untagged
@@ -31,8 +33,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.52605152, y: 1.43232727, z: -6.99466944}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1.55255127, y: 3.54999995, z: -15.8099518}
+  m_LocalScale: {x: 3, y: 7.0999999, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!23 &2300000
@@ -53,6 +55,9 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
 --- !u!33 &3300000
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -73,7 +78,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &6500000
 BoxCollider:
@@ -97,10 +102,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b3ced4ba864f8c4992aebf165551587, type: 3}
   m_Name: 
-  acceleration: .100000001
-  maxSpeed: 10
+  m_EditorClassIdentifier: 
+  acceleration: 1
+  maxSpeed: 5
   minDistance: 5
   maxDistance: 20
+  turningSpeed: 5
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -111,6 +118,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0b5bff98a470a847bf1fe6555078591, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   avaliableSpells:
   - spell: {fileID: 11400004}
     minDistance: 0
@@ -136,6 +144,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ae0d28ee7915b344b8a4fa5a7273c1f, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,6 +155,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd4363b4ae087ce43a6794e1e36c1865, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 100000, guid: f0ac3d1a7f353354e8f0d915700ff1f0, type: 2}
 --- !u!114 &11400008
 MonoBehaviour:
@@ -157,6 +167,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13d26cf9aef0a454699e589c137d6fc1, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   targetMode: 0
   ignoreLineOfSight: 0
   losLayerMask:
@@ -165,8 +176,33 @@ MonoBehaviour:
   alertState: 0
   aggroDistance: 10
   checkForEnemesInterval: 30
+  spellcastCooldown: 3
   currentTarget: {fileID: 0}
   playerArray: []
+--- !u!114 &11400010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e00bb97ed9f7564db45cc63d6a7255c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLocal: 0
+--- !u!148 &14800000
+NetworkView:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_StateSynchronization: 2
+  m_Observed: {fileID: 11400010}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 using Utility;
 
 public class ManageItems : MonoBehaviour {
@@ -17,6 +17,8 @@ public class ManageItems : MonoBehaviour {
 	private Quaternion schedEndRot;
 	public bool schedDone = true;
 	private float schedCurTime = 0;
+	public Transform[] itemHandObject = new Transform[3];
+	public string[] itemHandObjectJointName = new string[3]{"R_hand_joint","L_hand_joint","head_joint"};
 
 	private enum Slot {
 		Weapon0 = 0,
@@ -24,10 +26,33 @@ public class ManageItems : MonoBehaviour {
 		Hat,
 		NoSlot
 	}
-
+	//items kan nu bli equipade innan Start() körts så var tvungen att flytta upp sakerna. Lämnade sakerna utkommenterade eftersom det inte är min kod
 	void Start() {
-	
+		/*
+		itemHandObject = new Transform[3];
+		itemHandObjectJointName = new string[3]{"joint1/joint8/joint9/joint10/joint11", "joint1/joint8/joint12/joint13", "joint1"};
+		for(int i = 0; i < 3; ++i) {
+			if(items[i] != null) {
+				OurDebug.Log("gonna put on start item");
+				attachItem(i, items[i]);
+			}
+		}*/
 	}
+
+	//rekursive search for child name
+	Transform findChild(Transform parent,string target){
+		if(parent.name == target){
+			return parent;
+		}
+		foreach(Transform child in parent){
+			Transform res = findChild(child,target);
+			if(res != null){
+				return res;
+			}
+		}
+		return null;
+	}
+		
 	
 	bool tryToGetNetworkItems() {
 		if(networkItems != null) {
@@ -102,6 +127,8 @@ public class ManageItems : MonoBehaviour {
 				if(slot != Slot.NoSlot) {
 					var oldItem = getItem(slot);
 					assignNewItem(item, slot);
+					//hack, because pih can't find networkItems on its own.
+					pih.networkItems = networkItems;
 					pih.assignNewItem(oldItem);
 				}
 			}
@@ -111,6 +138,10 @@ public class ManageItems : MonoBehaviour {
 	
 	Item getItem(Slot slot) {
 		return items[(int)slot];
+	}
+
+	public void setEquips(int leftWeapon,int rightWeapon,int hat){
+		networkView.RPC("setEquipsRPC", RPCMode.All, leftWeapon, rightWeapon, hat);
 	}
 	
 	void assignNewItem(Item i, Slot slot) {
@@ -151,7 +182,39 @@ public class ManageItems : MonoBehaviour {
 
 	[RPC]
 	void assignNewItemRPC(int t, int slot) {
-		items[slot] = networkItems.getItem(t);
+		var item = networkItems.getItem(t);
+		detachItem(slot);
+		attachItem(slot, item);
+	}
+
+	[RPC]
+	void setEquipsRPC(int w1,int w2,int h) {
+		tryToGetNetworkItems(); //behöver göra detta innan eftersom rpct körs innan start()
+		//detachItem(0);
+		attachItem(0, networkItems.getItem(w1));
+		//detachItem(1);
+		attachItem(1, networkItems.getItem(w2));
+		//detachItem(2);
+		attachItem(2, networkItems.getItem(h));
+	}
+	
+	void detachItem(int slot) {
+		Destroy(itemHandObject[slot].gameObject);
+		itemHandObject[slot] = null;
+		items[slot] = null;
+	}
+
+	void attachItem(int slot, Item item) {
+		if(item.handObject == null)
+			OurDebug.Log("could not attach null handobject to slot " + slot);
+		else
+			OurDebug.Log("got item.handObject " + item.handObject + " in slot " + slot);
+
+		var t = ((Transform)Instantiate(item.handObject));
+		t.parent = findChild(transform,itemHandObjectJointName[slot]);
+		t.localPosition = new Vector3(0, 0, 0);
+		itemHandObject[slot] = t;
+		items[slot] = item;
 	}
 	
 	//takes mouse collision point

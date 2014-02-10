@@ -39,6 +39,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb65330432f928344a4fe7271679e0a5, type: 3}
   m_Name: 
   pickupPrefab: {fileID: 100000}
+  handObject: {fileID: 400000, guid: 37de61e99cc964b18bc1674dc7814868, type: 2}
   type: 0
   spell: {fileID: 11400002}
   id: 2
