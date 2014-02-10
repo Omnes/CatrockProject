@@ -38,6 +38,11 @@ public class Movement : MonoBehaviour {
 
 	private bool movementEnabled = true;
 
+
+	private float testTime = 0; 
+	private int sendcounter = 0;
+	private int reciveCounter = 0;
+
 	[System.Serializable]
 	public class State{
 		
@@ -80,6 +85,12 @@ public class Movement : MonoBehaviour {
 	void FixedUpdate () {
 		if(movementEnabled == false) {
 			return;
+		}
+		if(testTime + 1 < Time.time){
+			testTime = Time.time;
+			OurDebug.Log("Sent this second: " + sendcounter + " recived counter: " + reciveCounter );
+			sendcounter = 0;
+			reciveCounter = 0;
 		}
 		
 		if(isLocal){
@@ -194,9 +205,8 @@ public class Movement : MonoBehaviour {
 	
 	
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info){
-
 		if(stream.isWriting){
-			
+			sendcounter++;
 			syncPosition = rigidbody.position;
 			syncVelocity = rigidbody.velocity;
 			syncRotation = rigidbody.rotation;
@@ -204,6 +214,7 @@ public class Movement : MonoBehaviour {
 			stream.Serialize(ref syncVelocity);
 			stream.Serialize(ref syncRotation);
 		}else{
+			reciveCounter++;
 			//current and synced rotation is enough to predict rotation animation
 			fromSyncRotation = rigidbody.rotation;
 
@@ -231,9 +242,9 @@ public class Movement : MonoBehaviour {
 			endSyncPosition = syncPosition + syncVelocity * syncDelay + 0.5f*accelerationVector*Mathf.Pow(syncDelay,2f); // Pt = P0+V0*T + 1/2*A*T^2
 			startSyncPosition = rigidbody.position;
 
-			if(syncVelocity.magnitude < 0.05f){
-				endSyncPosition = startSyncPosition;
-			}
+			//if(syncVelocity.magnitude < 0.05f){
+			//	endSyncPosition = startSyncPosition;
+			//}
 			
 
 		}
