@@ -4,7 +4,8 @@ using System.Collections;
 public class Item : MonoBehaviour {
 	
 	public GameObject pickupPrefab;
-	
+	public Transform handObject;	
+
 	public enum SlotType {
 		Weapon,
 		Hat

@@ -39,10 +39,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb65330432f928344a4fe7271679e0a5, type: 3}
   m_Name: 
   pickupPrefab: {fileID: 100000}
+  handObject: {fileID: 400000, guid: d642b7afbfc15497e9f37b33fe8d66c2, type: 2}
   type: 0
   spell: {fileID: 11400002}
-  apperance: IceBracelet
-  castAnimation: ChillyPrayer
   id: 1
 --- !u!114 &11400002
 MonoBehaviour:
