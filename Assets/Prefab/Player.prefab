@@ -515,7 +515,7 @@ GameObject:
   - 136: {fileID: 13600000}
   - 114: {fileID: 11400010}
   m_Layer: 0
-  m_Name: Player3
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -968,17 +968,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 970bebad3eae1b148bc49b8b051f9834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 1
-  maxMovementSpeed: 8
-  maxMovSpeedChange: 1.5
-  jumpForce: 12
-  gravity: 9.81999969
-  grounded: 1
+  movementAcceleration: 1
   extendedRayDistance: .349999994
-  playerControl: 1
-  direction: 0
+  gravity: 9.81999969
+  jumpForce: 12
+  maxMovementSpeed: 8
+  maxMovementSpeedChange: 1.5
   turningSpeed: 5
+  grounded: 1
   isLocal: 1
+  inJumpAnimation: 0
+  playerControl: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

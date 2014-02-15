@@ -77,14 +77,14 @@ ModelImporter:
     7400004: Fireball_left
     7400006: Run
     7400008: Idle
-    7400010: Run_jump
-    7400012: Idle_jump
+    7400010: RunJumping
+    7400012: IdleJumping
     7400014: Hit
     7400016: Run0
     7400018: Run_jump_start
-    7400020: Run_jump_air
+    7400020: RunFalling
     7400022: Idle_jump_start
-    7400024: Idle_jump_air
+    7400024: IdleFalling
     9500000: //RootNode
     13700000: Main_Mesh
   materials:
@@ -479,7 +479,7 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: Run_jump
+      name: RunJumping
       takeName: Run_jump
       firstFrame: 0
       lastFrame: 45
@@ -500,14 +500,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: .234761611
-        functionName: JumpMovementStart
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask:
       - path: 
         weight: 1
@@ -580,7 +573,7 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: Idle_jump
+      name: IdleJumping
       takeName: Idle_jump
       firstFrame: 0
       lastFrame: 50
@@ -956,7 +949,7 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: Run_jump_air
+      name: RunFalling
       takeName: Run_jump
       firstFrame: 16
       lastFrame: 16.1000004
@@ -1144,7 +1137,7 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: Idle_jump_air
+      name: IdleFalling
       takeName: Idle_jump
       firstFrame: 15
       lastFrame: 15.1000004
