@@ -37,7 +37,7 @@ public class PickupItemHolder : MonoBehaviour {
 	void tryToFindNetworkItems() {
 		if(networkItems == null) {
 			var g = GameObject.FindWithTag("Mastermind");
-			if(g == null); {
+			if(g == null) {
 				return;
 			}
 			networkItems = g.GetComponent<NetworkItems>();

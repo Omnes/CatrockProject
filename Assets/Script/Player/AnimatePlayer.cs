@@ -22,9 +22,20 @@ public class AnimatePlayer : MonoBehaviour {
 		var speed = networkView.isMine ? rigidbody.velocity.XZ().magnitude : syncSpeed;
 		animator.SetFloat("AbsSpeed", speed);
 
-		updateCurrentAnimationClip();
-		if(isAnimationClipEnd("Base Layer.IdleJumping") || isAnimationClipEnd("Base Layer.RunJumping")) {
-			SendMessage("jumpEnd");
+		if(networkView.isMine) {
+			updateCurrentAnimationClip();
+			if(hasAnimationClipChanged()) {
+				nonLocalPlayCurrentAnimation();
+				if(isAnimationClipEnding("Base.IdleJumping") || isAnimationClipEnding("Base.RunJumping")) {
+					SendMessage("jumpEnd");
+				} else if(isAnimationClipEnding("Base.UsingItemLeft")) {
+					OurDebug.Log("using left in movement");
+					SendMessage("useItemLeftEnd");
+				} else if(isAnimationClipEnding("Base.UsingItemRight")) {
+					OurDebug.Log("using right in movement");
+					SendMessage("useItemRightEnd");
+				}
+			}
 		}
 	}
 
@@ -45,26 +56,55 @@ public class AnimatePlayer : MonoBehaviour {
 	}
 
 	public void jumpEnd() {
-		OurDebug.Log("pls work");
 		animator.SetTrigger("AirEnd");
 		animator.SetBool("JumpBegin", false);
 		animator.SetBool("AirBegin", false);
 	}
 
-	bool isAnimationClipBegin(string s) {
+	public void useItemLeftBegin() {
+		animator.SetTrigger("UseItemLeftBegin");
+	}
+
+	public void useItemLeftEnd() {
+		animator.SetBool("UseItemLeftBegin", false);
+	}
+	
+	public void useItemRightBegin() {
+		animator.SetTrigger("UseItemRightBegin");
+	}
+
+	public void useItemRightEnd() {
+		animator.SetBool("UseItemRightBegin", false);
+	}
+	
+	public void nonLocalPlayCurrentAnimation() {
+		networkView.RPC("nonLocalPlayCurrentAnimationRPC", RPCMode.Others, curState.nameHash);
+	}
+
+
+	bool hasAnimationClipChanged() {
+		return curState.nameHash != prevState.nameHash;
+	}
+	bool isAnimationClipBeginning(string s) {
 		return curState.IsName(s) && prevState.IsName(s) == false;
 	}
 	
-	bool isAnimationClipEnd(string s) {
+	bool isAnimationClipEnding(string s) {
 		return prevState.IsName(s) && curState.IsName(s) == false;
 	}
-
-	public void newVelocity(Vector3 velocity) {
+	
+	void newVelocity(Vector3 velocity) {
 		syncSpeed = velocity.XZ().magnitude;
 	}
-
+	
 	void updateCurrentAnimationClip() {
 		prevState = curState;
 		curState = animator.GetCurrentAnimatorStateInfo(0);
+	}
+
+	[RPC]
+	void nonLocalPlayCurrentAnimationRPC(int nameHash) {
+		OurDebug.Log("Playing anim");
+		animator.Play(nameHash);
 	}
 }
