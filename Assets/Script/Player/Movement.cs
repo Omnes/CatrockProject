@@ -17,6 +17,8 @@ public class Movement : MonoBehaviour {
 	public bool isLocal;
 	public bool inJumpAnimation = false;
 	public bool playerControl = true;
+	public LayerMask layerMask;
+
 
 	// Use this for initialization
 	void Start () {
@@ -85,7 +87,7 @@ public class Movement : MonoBehaviour {
 	bool isGrounded(){
 		float rayDist = collider.bounds.extents.y + extendedRayDistance;
 		RaycastHit hit;
-		return Physics.Raycast(collider.bounds.center, -Vector3.up, out hit, rayDist);
+		return Physics.Raycast(collider.bounds.center, -Vector3.up, out hit, rayDist,layerMask.value);
 	}
 
 	//Callbacks
