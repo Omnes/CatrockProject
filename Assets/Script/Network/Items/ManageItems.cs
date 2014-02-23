@@ -19,6 +19,7 @@ public class ManageItems : MonoBehaviour {
 	private float schedCurTime = 0;
 	public Transform[] itemHandObject = new Transform[3];
 	public string[] itemHandObjectJointName = new string[3]{"R_hand_joint","L_hand_joint","head_joint"};
+	private bool nextItemSwap = false;	//toggles between picking up to left or right
 
 	private enum Slot {
 		Weapon0 = 0,
@@ -110,18 +111,21 @@ public class ManageItems : MonoBehaviour {
 				var item = pih.item;
 				
 				var slot = Slot.NoSlot;
-				
-				if(item.type == Item.SlotType.Weapon && Input.GetButtonDown("PickUpWeapon0")) {
-					OurDebug.Log("attach weapon 0");
-					slot = Slot.Weapon0;
-				} else if(item.type == Item.SlotType.Weapon && Input.GetButtonDown("PickUpWeapon1")) {
-					OurDebug.Log("attach weapon 1");
-					slot = Slot.Weapon1;
-				}
-				
-				if(item.type == Item.SlotType.Hat && Input.GetButtonDown("PickUpHat")) {
-					OurDebug.Log("attach hat");
-					slot = Slot.Hat;
+				if(Input.GetButtonDown("PickUpItem")){
+					if(item.type == Item.SlotType.Hat) {
+						OurDebug.Log("attach hat");
+						slot = Slot.Hat;
+					}
+					if(item.type == Item.SlotType.Weapon) {
+						OurDebug.Log("attach weapon " + (nextItemSwap ? "right":"left"));
+						if(nextItemSwap){
+							slot = Slot.Weapon0;
+						}else{
+							slot = Slot.Weapon1;
+						}
+						nextItemSwap = !nextItemSwap;
+					}
+
 				}
 				
 				if(slot != Slot.NoSlot) {

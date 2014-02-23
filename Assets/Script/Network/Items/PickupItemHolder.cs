@@ -5,13 +5,12 @@ using System.Collections;
 public class PickupItemHolder : MonoBehaviour {
 	
 	public Item item;
-	
+	public NetworkItems networkItems;
+
 	public void assignNewItem(Item item) {
 		networkView.RPC("assignNewItemRPC", RPCMode.All, item.id);
 	}
-	
-	public NetworkItems networkItems;
-	
+
 	void Start() {
 		tryToFindNetworkItems();
 	}
@@ -26,6 +25,7 @@ public class PickupItemHolder : MonoBehaviour {
 		tryToFindNetworkItems();
 	}
 
+	//is this function used?
 	GameObject findMastermindHack() {
 		GameObject g;
 		g = GameObject.Find("Mastermind");

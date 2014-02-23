@@ -38,6 +38,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb65330432f928344a4fe7271679e0a5, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
+  name: Fireball
   pickupPrefab: {fileID: 100000}
   handObject: {fileID: 400000, guid: 5c21a857591084c4285c95fd243cb661, type: 2}
   type: 0
@@ -53,6 +55,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd4363b4ae087ce43a6794e1e36c1865, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 100000, guid: f0ac3d1a7f353354e8f0d915700ff1f0, type: 2}
 --- !u!1001 &100100000
 Prefab:

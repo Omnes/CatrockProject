@@ -13,11 +13,13 @@ public class Lobby : MonoBehaviour {
 	//private float columWidth;
 	private Vector2 gridSize = new Vector2(3,3);
 	string fieldIP = "localhost";
+	private List<Item> itemList = null;
 
 	// Use this for initialization
 	void Start () {
 		robNet = GetComponent<RobNet>();
 		//columWidth = Screen.width/gridSize.x - padding * 2;
+		itemList = getItemList();
 	}
 	
 	void setConnected(bool con){
@@ -135,27 +137,43 @@ public class Lobby : MonoBehaviour {
 		GUILayout.EndArea();
 	}
 
+	private List<Item> getItemList(){
+		NetworkItems netItems = GetComponent<NetworkItems>();
+		List<Item> items = new List<Item>();
+		for(int i = 0; i < netItems.prefabs.Length;i++){
+			items.Add(netItems.prefabs[i].GetComponent<Item>());
+		}
+		return items;
+	}
+
 	private void chooseEquips(){
 		NetworkItems netItems = GetComponent<NetworkItems>();
 		GUILayout.BeginArea(makeRect(1,0,1,3));
-		GUILayout.BeginVertical();
-		for(int i = 0;i < netItems.prefabs.Length; i++){
+		GUILayout.BeginHorizontal();
+		//3 colums, 1 for each slot
+		for(int i = 0; i < 3;i++){
+			GUILayout.BeginVertical();
+			//iterate and only show those who match the slottype
+			for(int j = 0;j < itemList.Count; j++){
+				Item.SlotType currentType = Item.SlotType.Weapon;
+				if(i == 0 || i == 1){
+					currentType = Item.SlotType.Weapon;
+				}else{
+					currentType = Item.SlotType.Hat;
+				}
+				if(itemList[j].type == currentType){
+					if(GUILayout.Button(itemList[j].name)){
+						robNet.localPlayer.items[i] =j;
+					}
+				}
 
-			GUILayout.BeginHorizontal();
-			if(GUILayout.Button(""+i)){
-				robNet.localPlayer.leftWeaponID = i;
-			}
-			if(GUILayout.Button(""+i)){
-				robNet.localPlayer.hatID = i;
-			}
-			if(GUILayout.Button(""+i)){
-				robNet.localPlayer.rightWeaponID = i;
 			}
 			GUILayout.FlexibleSpace();
-			GUILayout.EndHorizontal();
+			GUILayout.EndVertical();
 		}
 		GUILayout.FlexibleSpace();
-		GUILayout.EndVertical();
+		GUILayout.EndHorizontal();
+
 		GUILayout.EndArea();
 	}
 	
