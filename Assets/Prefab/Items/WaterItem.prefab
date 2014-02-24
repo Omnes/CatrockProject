@@ -38,6 +38,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6da2dc352b47edd4ca798e067801b86d, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -48,6 +49,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb65330432f928344a4fe7271679e0a5, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
+  name: Waterblast
   pickupPrefab: {fileID: 100000}
   handObject: {fileID: 400000, guid: f9e17e9da99f243988a33f5a5f7040a5, type: 2}
   type: 0

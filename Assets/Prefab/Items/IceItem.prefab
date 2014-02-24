@@ -38,9 +38,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb65330432f928344a4fe7271679e0a5, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
+  name: Frost hat
   pickupPrefab: {fileID: 100000}
   handObject: {fileID: 400000, guid: d642b7afbfc15497e9f37b33fe8d66c2, type: 2}
-  type: 0
+  type: 1
   spell: {fileID: 11400002}
   id: 1
 --- !u!114 &11400002
@@ -53,6 +55,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ae0d28ee7915b344b8a4fa5a7273c1f, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

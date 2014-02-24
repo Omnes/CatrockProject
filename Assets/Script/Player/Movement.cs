@@ -39,8 +39,8 @@ public class Movement : MonoBehaviour {
 		grounded = isGrounded();
 		var becameGrounded = wasGrounded == false && grounded;
 		var becameUnGrounded = wasGrounded && grounded == false;
-		var beganUseItemRight = Input.GetButton("UseItemLeft");
-		var beganUseItemLeft = Input.GetButton("UseItemRight");
+		var beganUseItemLeft = Input.GetButton("UseItemLeft");
+		var beganUseItemRight = Input.GetButton("UseItemRight");
 		var beganJumping = grounded && Input.GetButton("Jump");
 
 		var fi = calculateForce(horizontal, vertical);

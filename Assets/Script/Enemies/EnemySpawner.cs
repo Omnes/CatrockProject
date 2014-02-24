@@ -3,6 +3,7 @@ using System.Collections;
 
 public class EnemySpawner : MonoBehaviour {
 	public Transform EnemyPrefab;
+	public GUIStyle style;
 
 	// Use this for initialization
 	void Start () {

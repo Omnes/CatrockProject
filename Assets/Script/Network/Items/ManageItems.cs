@@ -9,10 +9,11 @@ public class ManageItems : MonoBehaviour {
 	public Transform[] itemHandObject = new Transform[3];
 	public string[] itemHandObjectJointName = new string[3]{"R_hand_joint","L_hand_joint","head_joint"};
 
+	private bool nextItemSwap = false;	//toggles between picking up to left or right
 	private NetworkItems networkItems;
 
 	void OnTriggerStay(Collider other) {
-		if(networkView.isMine && other.CompareTag("PickupItem")) {
+		if(networkView.isMine && other.CompareTag("PickupItem") && Input.GetButtonDown("PickUpItem")) {
 			var pih = other.GetComponent<PickupItemHolder>();
 			var item = pih.item;
 			var slot = slotforPickUp(item);
@@ -27,6 +28,10 @@ public class ManageItems : MonoBehaviour {
 		}
 	}
 	
+	public void setEquips(int leftWeapon, int rightWeapon, int hat){
+		networkView.RPC("setEquipsRPC", RPCMode.All, leftWeapon, rightWeapon, hat);
+	}
+
 	public void useItemLeftEnd() {
 		useItem(Slot.Left);
 	}
@@ -34,11 +39,7 @@ public class ManageItems : MonoBehaviour {
 	public void useItemRightEnd() {
 		useItem(Slot.Right);
 	}
-
-	public void setEquips(int leftWeapon, int rightWeapon, int hat){
-		networkView.RPC("setEquipsRPC", RPCMode.All, leftWeapon, rightWeapon, hat);
-	}
-
+	
 	void assignNewItem(Item i, Slot slot) {
 		networkView.RPC("assignNewItemRPC", RPCMode.All, i.id, (int)slot);
 	}
@@ -88,15 +89,12 @@ public class ManageItems : MonoBehaviour {
 	}
 
 	Slot slotforPickUp(Item item) {
-		if(item.type == Item.SlotType.Weapon && Input.GetButtonDown("PickUpItemLeft")) {
-			return Slot.Left;
-		} else if(item.type == Item.SlotType.Weapon && Input.GetButtonDown("PickUpItemRight")) {
-			return Slot.Right;
-		} else if(item.type == Item.SlotType.Hat && Input.GetButtonDown("PickUpHat")) {
-			return Slot.Hat;
-		} else {
-			return Slot.NoSlot;
-		}
+			if(item.type == Item.SlotType.Hat) {
+					return Slot.Hat;
+			} else {
+					nextItemSwap = !nextItemSwap;
+					return nextItemSwap ? Slot.Left : Slot.Right;
+			}
 	}
 
 	bool tryToGetNetworkItems() {
