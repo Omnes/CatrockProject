@@ -56,6 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae0d28ee7915b344b8a4fa5a7273c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icewall_prefab: {fileID: 100016, guid: 6daffab0bb2668f47bc33d7e73b0872a, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -979,6 +979,9 @@ MonoBehaviour:
   isLocal: 1
   inJumpAnimation: 0
   playerControl: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -991,8 +994,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 11400000, guid: fc0e2317fdfa1f94a8ed2f2603316c63, type: 2}
-  - {fileID: 11400000, guid: 5490a3f506479384faa3884b6d870274, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   rotSpeed: 400
   schedDone: 1
